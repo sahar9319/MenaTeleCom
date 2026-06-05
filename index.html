@@ -1,0 +1,1090 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MenaTeleCom Research Episodes</title>
+    <style>
+      :root {
+        --bg: #e8f3ee;
+        --surface: #f1f7ef;
+        --surface-strong: #fff7e6;
+        --ink: #253333;
+        --muted: #667774;
+        --accent: #318c88;
+        --accent-2: #e07864;
+        --accent-3: #f2c66d;
+        --shadow-dark: rgba(64, 88, 84, 0.24);
+        --shadow-light: rgba(255, 255, 255, 0.92);
+        --radius: 26px;
+        --ease: cubic-bezier(0.4, 0, 0.2, 1);
+        --quick-view-ms: 5000ms;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        min-height: 100%;
+        background: var(--bg);
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        color: var(--ink);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background:
+          radial-gradient(circle at 10% 10%, rgba(242, 198, 109, 0.32), transparent 26rem),
+          radial-gradient(circle at 90% 12%, rgba(49, 140, 136, 0.18), transparent 24rem),
+          linear-gradient(135deg, #e6f4f0 0%, #f5efe1 50%, #ddece9 100%);
+        letter-spacing: 0;
+        touch-action: manipulation;
+      }
+
+      body.expanded-lock {
+        overflow: hidden;
+      }
+
+      button,
+      input,
+      audio {
+        font: inherit;
+      }
+
+      button {
+        border: 0;
+        color: inherit;
+        cursor: pointer;
+        touch-action: manipulation;
+      }
+
+      .page {
+        position: relative;
+        isolation: isolate;
+        width: min(1180px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 32px 0 56px;
+      }
+
+      .telecom-bg {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        overflow: hidden;
+        pointer-events: none;
+      }
+
+      .telecom-sign {
+        position: absolute;
+        width: clamp(120px, 18vw, 260px);
+        opacity: 0.18;
+        color: var(--accent);
+        transform: translateZ(0);
+        animation: drift 12s var(--ease) infinite alternate;
+      }
+
+      .telecom-sign.one {
+        left: -30px;
+        top: 78px;
+      }
+
+      .telecom-sign.two {
+        right: 2%;
+        top: 28%;
+        color: var(--accent-2);
+        animation-delay: -4s;
+      }
+
+      .telecom-sign.three {
+        left: 7%;
+        bottom: 2%;
+        color: var(--accent-3);
+        animation-delay: -7s;
+      }
+
+      @keyframes drift {
+        from { transform: translate3d(0, 0, 0) rotate(-2deg); }
+        to { transform: translate3d(10px, -14px, 0) rotate(2deg); }
+      }
+
+      .site-header {
+        display: grid;
+        gap: 12px;
+        margin-bottom: 28px;
+      }
+
+      .eyebrow {
+        margin: 0;
+        color: var(--accent);
+        font-size: 0.82rem;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        max-width: 820px;
+        margin: 0;
+        font-size: clamp(2.2rem, 7vw, 5.2rem);
+        line-height: 0.95;
+        letter-spacing: 0;
+      }
+
+      .intro {
+        max-width: 680px;
+        margin: 0;
+        color: var(--muted);
+        font-size: clamp(1rem, 2vw, 1.18rem);
+        line-height: 1.65;
+      }
+
+      .status {
+        display: none;
+        margin: 24px 0;
+        padding: 18px 20px;
+        border-radius: var(--radius);
+        background: var(--surface);
+        box-shadow: 12px 12px 28px var(--shadow-dark), -12px -12px 28px var(--shadow-light), inset 2px 2px 8px var(--shadow-light);
+        color: var(--muted);
+      }
+
+      .status.visible {
+        display: block;
+      }
+
+      .grid,
+      .skeleton-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 22px;
+      }
+
+      @media (min-width: 768px) {
+        .grid,
+        .skeleton-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (min-width: 1024px) {
+        .grid,
+        .skeleton-grid {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+
+      .skeleton-grid.hidden,
+      .grid.hidden {
+        display: none;
+      }
+
+      .skeleton-grid {
+        opacity: 1;
+        transition: opacity 320ms var(--ease);
+      }
+
+      .skeleton-grid.fading {
+        opacity: 0;
+      }
+
+      .skeleton-card {
+        min-height: 360px;
+        border-radius: var(--radius);
+        background: linear-gradient(110deg, rgba(255,255,255,0.24), rgba(255,255,255,0.72), rgba(255,255,255,0.24));
+        background-size: 200% 100%;
+        box-shadow: 16px 16px 34px var(--shadow-dark), -16px -16px 34px var(--shadow-light), inset 3px 3px 10px rgba(255,255,255,0.76), inset -3px -3px 10px rgba(94,117,112,0.12);
+        animation: pulse 1.4s var(--ease) infinite;
+      }
+
+      @keyframes pulse {
+        0% { opacity: 0.58; background-position: 180% 0; }
+        50% { opacity: 1; }
+        100% { opacity: 0.58; background-position: -20% 0; }
+      }
+
+      .episode-card {
+        position: relative;
+        min-height: 360px;
+        border-radius: var(--radius);
+        background: var(--surface);
+        box-shadow: 16px 16px 34px var(--shadow-dark), -16px -16px 34px var(--shadow-light), inset 3px 3px 10px rgba(255,255,255,0.82), inset -3px -3px 10px rgba(94,117,112,0.12);
+        overflow: hidden;
+        opacity: 0;
+        transform: translate3d(0, 12px, 0);
+        transition: opacity 360ms var(--ease), transform 360ms var(--ease), box-shadow 240ms var(--ease);
+      }
+
+      .episode-card.ready {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+      }
+
+      .episode-card:focus-within,
+      .episode-card:hover {
+        box-shadow: 20px 20px 42px rgba(64, 88, 84, 0.3), -18px -18px 36px var(--shadow-light), inset 3px 3px 10px rgba(255,255,255,0.9), inset -3px -3px 10px rgba(94,117,112,0.12);
+      }
+
+      .image-button {
+        display: block;
+        width: 100%;
+        height: 100%;
+        min-height: 360px;
+        padding: 0;
+        background: transparent;
+        text-align: left;
+      }
+
+      .cover {
+        position: absolute;
+        inset: 10px;
+        border-radius: calc(var(--radius) - 8px);
+        overflow: hidden;
+        background: #d6e3dd;
+      }
+
+      .cover img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transform: scale(1.01) translateZ(0);
+        transition: transform 420ms var(--ease), opacity 240ms var(--ease);
+      }
+
+      .episode-card:hover .cover img {
+        transform: scale(1.045) translateZ(0);
+      }
+
+      .image-fallback {
+        display: grid;
+        place-items: center;
+        width: 100%;
+        height: 100%;
+        padding: 24px;
+        color: var(--muted);
+        text-align: center;
+        background: repeating-linear-gradient(135deg, rgba(49,140,136,0.08), rgba(49,140,136,0.08) 14px, rgba(255,255,255,0.36) 14px, rgba(255,255,255,0.36) 28px);
+      }
+
+      .title-overlay {
+        position: absolute;
+        left: 22px;
+        right: 22px;
+        bottom: 22px;
+        padding: 16px 18px;
+        border-radius: 20px;
+        color: #fff;
+        background: linear-gradient(135deg, rgba(24, 42, 41, 0.84), rgba(24, 42, 41, 0.54));
+        backdrop-filter: blur(10px);
+      }
+
+      .title-overlay h2 {
+        margin: 0;
+        font-size: 1.22rem;
+        line-height: 1.25;
+        letter-spacing: 0;
+      }
+
+      .title-overlay time {
+        display: block;
+        margin-top: 6px;
+        font-size: 0.82rem;
+        opacity: 0.8;
+      }
+
+      .quick-view {
+        position: absolute;
+        top: 22px;
+        right: 22px;
+        z-index: 2;
+        display: grid;
+        place-items: center;
+        width: 48px;
+        height: 48px;
+        border-radius: 18px;
+        background: rgba(241, 247, 239, 0.88);
+        box-shadow: 8px 8px 18px rgba(24,42,41,0.24), -8px -8px 18px rgba(255,255,255,0.7), inset 2px 2px 6px rgba(255,255,255,0.8);
+        transition: transform 220ms var(--ease), opacity 220ms var(--ease);
+      }
+
+      .quick-view:hover,
+      .quick-view:focus-visible {
+        transform: translate3d(0, -2px, 0) scale(1.04);
+      }
+
+      .quick-view svg,
+      .round-btn svg {
+        width: 22px;
+        height: 22px;
+        stroke-width: 2.2;
+      }
+
+      .flip-layer {
+        position: fixed;
+        inset: 0;
+        z-index: 30;
+        display: none;
+        padding: 16px;
+        perspective: 1800px;
+        background: rgba(22, 34, 33, 0);
+        transition: background 400ms var(--ease);
+      }
+
+      .flip-layer.active {
+        display: block;
+      }
+
+      .flip-layer.shaded {
+        background: rgba(22, 34, 33, 0.36);
+      }
+
+      .flip-shell {
+        position: fixed;
+        border-radius: var(--radius);
+        transform-origin: top left;
+        transform-style: preserve-3d;
+        transition: transform 400ms var(--ease);
+        will-change: transform;
+      }
+
+      .flip-card {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        border-radius: var(--radius);
+        transform-style: preserve-3d;
+        transition: transform 600ms var(--ease);
+      }
+
+      .flip-card.flipped {
+        transform: rotateY(180deg);
+      }
+
+      .face {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        border-radius: var(--radius);
+        background: var(--surface);
+        backface-visibility: hidden;
+        box-shadow: 24px 24px 60px rgba(8, 26, 25, 0.34), -18px -18px 46px rgba(255,255,255,0.55), inset 4px 4px 12px rgba(255,255,255,0.88), inset -4px -4px 14px rgba(80,103,99,0.16);
+      }
+
+      .front-face img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .back-face {
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr) auto;
+        gap: 16px;
+        padding: clamp(18px, 4vw, 34px);
+        transform: rotateY(180deg);
+      }
+
+      .back-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .back-title {
+        min-width: 0;
+      }
+
+      .back-title h2 {
+        margin: 0;
+        font-size: clamp(1.5rem, 3.2vw, 2.6rem);
+        line-height: 1.05;
+        letter-spacing: 0;
+      }
+
+      .back-title time {
+        display: block;
+        margin-top: 6px;
+        color: var(--muted);
+      }
+
+      .round-btn {
+        display: grid;
+        flex: 0 0 auto;
+        place-items: center;
+        width: 48px;
+        height: 48px;
+        border-radius: 18px;
+        background: var(--surface);
+        box-shadow: 8px 8px 18px var(--shadow-dark), -8px -8px 18px var(--shadow-light), inset 2px 2px 7px rgba(255,255,255,0.86);
+        transition: transform 220ms var(--ease);
+      }
+
+      .round-btn:hover,
+      .round-btn:focus-visible {
+        transform: translate3d(0, -2px, 0);
+      }
+
+      .markdown-body {
+        overflow: auto;
+        min-height: 0;
+        padding: 18px;
+        border-radius: 22px;
+        background: rgba(255,255,255,0.34);
+        box-shadow: inset 5px 5px 14px rgba(94,117,112,0.14), inset -5px -5px 14px rgba(255,255,255,0.8);
+        line-height: 1.72;
+      }
+
+      .markdown-body h1,
+      .markdown-body h2,
+      .markdown-body h3 {
+        margin: 0 0 12px;
+        line-height: 1.15;
+        letter-spacing: 0;
+      }
+
+      .markdown-body p,
+      .markdown-body ul {
+        margin: 0 0 16px;
+      }
+
+      .markdown-body a {
+        color: var(--accent);
+        font-weight: 700;
+      }
+
+      .player {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 12px;
+        padding: 14px;
+        border-radius: 22px;
+        background: var(--surface-strong);
+        box-shadow: 10px 10px 24px rgba(64, 88, 84, 0.2), -10px -10px 24px rgba(255,255,255,0.86), inset 2px 2px 8px rgba(255,255,255,0.84);
+      }
+
+      .time {
+        color: var(--muted);
+        font-size: 0.85rem;
+        white-space: nowrap;
+      }
+
+      .ranges {
+        display: grid;
+        gap: 8px;
+        min-width: 0;
+      }
+
+      .volume-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      input[type="range"] {
+        width: 100%;
+        accent-color: var(--accent);
+      }
+
+      .lightbox {
+        position: fixed;
+        inset: 0;
+        z-index: 40;
+        display: none;
+        place-items: center;
+        padding: 24px;
+        background: rgba(13, 22, 22, 0);
+        transition: background 240ms var(--ease);
+      }
+
+      .lightbox.active {
+        display: grid;
+      }
+
+      .lightbox.visible {
+        background: rgba(13, 22, 22, 0.72);
+      }
+
+      .lightbox-panel {
+        position: relative;
+        width: min(900px, 94vw);
+        max-height: 86vh;
+        transform: translate3d(0, 16px, 0) scale(0.94);
+        opacity: 0;
+        transition: transform 300ms var(--ease), opacity 300ms var(--ease);
+      }
+
+      .lightbox.visible .lightbox-panel {
+        transform: translate3d(0, 0, 0) scale(1);
+        opacity: 1;
+      }
+
+      .lightbox img {
+        display: block;
+        width: 100%;
+        max-height: 86vh;
+        object-fit: contain;
+        border-radius: var(--radius);
+        box-shadow: 22px 22px 48px rgba(0,0,0,0.36), -14px -14px 36px rgba(255,255,255,0.12);
+        background: var(--surface);
+      }
+
+      .countdown {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -14px;
+        height: 8px;
+        overflow: hidden;
+        border-radius: 999px;
+        background: rgba(255,255,255,0.24);
+      }
+
+      .countdown::before {
+        content: "";
+        display: block;
+        width: 100%;
+        height: 100%;
+        border-radius: inherit;
+        background: var(--accent-3);
+        transform-origin: left center;
+      }
+
+      .lightbox.visible .countdown::before {
+        animation: drain var(--quick-view-ms) linear forwards;
+      }
+
+      @keyframes drain {
+        to { transform: scaleX(0); }
+      }
+
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      @media (max-width: 620px) {
+        .page {
+          width: min(100% - 24px, 1180px);
+          padding-top: 22px;
+        }
+
+        .episode-card,
+        .image-button,
+        .skeleton-card {
+          min-height: 300px;
+        }
+
+        .player {
+          grid-template-columns: auto 1fr;
+        }
+
+        .player .time {
+          grid-column: 1 / -1;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 1ms !important;
+          animation-iteration-count: 1 !important;
+          scroll-behavior: auto !important;
+          transition-duration: 1ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="telecom-bg" aria-hidden="true">
+      <svg class="telecom-sign one" viewBox="0 0 160 160" fill="none">
+        <path d="M80 138V66M52 138h56M80 66 50 30M80 66l30-36" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+        <path d="M35 48c-16 22-16 44 0 66M125 48c16 22 16 44 0 66M20 30c-28 38-28 74 0 112M140 30c28 38 28 74 0 112" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+      </svg>
+      <svg class="telecom-sign two" viewBox="0 0 180 180" fill="none">
+        <path d="M35 132c44-8 78-42 86-86 25 22 29 59 7 84s-60 28-93 2Z" stroke="currentColor" stroke-width="7" stroke-linejoin="round"/>
+        <path d="M118 48 148 18M131 35l24 24M70 128l-18 32" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+      </svg>
+      <svg class="telecom-sign three" viewBox="0 0 180 180" fill="none">
+        <path d="M42 126h96M90 126V56" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+        <path d="M67 72c13-11 33-11 46 0M51 53c22-21 56-21 78 0M35 35c31-31 79-31 110 0" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <main class="page">
+      <header class="site-header">
+        <p class="eyebrow">Research Signals</p>
+        <h1>MenaTeleCom Episodes</h1>
+        <p class="intro">Browse field notes, recordings, and visual research from each episode.</p>
+      </header>
+
+      <div id="status" class="status" role="status"></div>
+      <section id="skeleton" class="skeleton-grid" aria-label="Loading episodes">
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+      </section>
+      <section id="grid" class="grid hidden" aria-label="Research episodes"></section>
+    </main>
+
+    <div id="flipLayer" class="flip-layer" aria-hidden="true">
+      <div id="flipShell" class="flip-shell">
+        <article id="flipCard" class="flip-card" aria-modal="true" role="dialog">
+          <div class="face front-face" id="frontFace"></div>
+          <div class="face back-face">
+            <header class="back-head">
+              <div class="back-title">
+                <h2 id="expandedTitle"></h2>
+                <time id="expandedDate"></time>
+              </div>
+              <button class="round-btn" id="backBtn" aria-label="Back to episodes">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="m15 18-6-6 6-6"/><path d="M9 12h12"/></svg>
+              </button>
+            </header>
+            <div id="markdownBody" class="markdown-body"></div>
+            <div class="player" aria-label="Audio player">
+              <button class="round-btn" id="playBtn" aria-label="Play audio">
+                <svg id="playIcon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+              </button>
+              <div class="ranges">
+                <input id="progress" type="range" min="0" max="100" value="0" aria-label="Audio progress">
+                <div class="volume-row">
+                  <span aria-hidden="true">Vol</span>
+                  <input id="volume" type="range" min="0" max="1" step="0.01" value="0.85" aria-label="Volume">
+                </div>
+              </div>
+              <span class="time" id="timeDisplay">0:00 / 0:00</span>
+              <audio id="audio"></audio>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Quick image view">
+      <div class="lightbox-panel">
+        <img id="lightboxImage" alt="">
+        <div class="countdown" aria-hidden="true"></div>
+      </div>
+    </div>
+
+    <script>
+      const grid = document.querySelector("#grid");
+      const skeleton = document.querySelector("#skeleton");
+      const statusBox = document.querySelector("#status");
+      const flipLayer = document.querySelector("#flipLayer");
+      const flipShell = document.querySelector("#flipShell");
+      const flipCard = document.querySelector("#flipCard");
+      const frontFace = document.querySelector("#frontFace");
+      const markdownBody = document.querySelector("#markdownBody");
+      const expandedTitle = document.querySelector("#expandedTitle");
+      const expandedDate = document.querySelector("#expandedDate");
+      const backBtn = document.querySelector("#backBtn");
+      const audio = document.querySelector("#audio");
+      const playBtn = document.querySelector("#playBtn");
+      const playIcon = document.querySelector("#playIcon");
+      const progress = document.querySelector("#progress");
+      const volume = document.querySelector("#volume");
+      const timeDisplay = document.querySelector("#timeDisplay");
+      const lightbox = document.querySelector("#lightbox");
+      const lightboxImage = document.querySelector("#lightboxImage");
+
+      const markdownCache = new Map();
+      let episodes = [];
+      let activeEpisode = null;
+      let activeSourceCard = null;
+      let isExpanded = false;
+      let isClosing = false;
+      let closeAudioTimer = null;
+      let quickTimer = null;
+      let quickTouchY = null;
+      let flipTouchY = null;
+
+      const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+      const setStatus = (message) => {
+        statusBox.textContent = message;
+        statusBox.classList.toggle("visible", Boolean(message));
+      };
+
+      const escapeHtml = (text) => text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+      const inlineMarkdown = (text) => {
+        let html = escapeHtml(text);
+        html = html.replace(/\[([^\]]+)]\((https?:\/\/[^)\s]+|\.{0,2}\/[^)\s]+|[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+        html = html.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+        html = html.replace(/(^|[^*])\*([^*\n]+)\*/g, "$1<em>$2</em>");
+        return html;
+      };
+
+      function parseMarkdown(md) {
+        const blocks = md.replace(/\r\n/g, "\n").split(/\n{2,}/);
+        const html = [];
+
+        blocks.forEach((block) => {
+          const trimmed = block.trim();
+          if (!trimmed) return;
+
+          const lines = trimmed.split("\n");
+          if (lines.every((line) => /^-\s+/.test(line.trim()))) {
+            html.push(`<ul>${lines.map((line) => `<li>${inlineMarkdown(line.trim().replace(/^-\s+/, ""))}</li>`).join("")}</ul>`);
+            return;
+          }
+
+          const heading = trimmed.match(/^(#{1,3})\s+(.+)$/);
+          if (heading) {
+            const level = heading[1].length;
+            html.push(`<h${level}>${inlineMarkdown(heading[2])}</h${level}>`);
+            return;
+          }
+
+          html.push(`<p>${inlineMarkdown(lines.join("<br>"))}</p>`);
+        });
+
+        return html.join("");
+      }
+
+      const formatTime = (seconds) => {
+        if (!Number.isFinite(seconds)) return "0:00";
+        const minutes = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60).toString().padStart(2, "0");
+        return `${minutes}:${secs}`;
+      };
+
+      const updateTime = () => {
+        const duration = audio.duration || 0;
+        const current = audio.currentTime || 0;
+        progress.value = duration ? String((current / duration) * 100) : "0";
+        timeDisplay.textContent = `${formatTime(current)} / ${formatTime(duration)}`;
+      };
+
+      const setPlayState = () => {
+        const playing = !audio.paused;
+        playBtn.setAttribute("aria-label", playing ? "Pause audio" : "Play audio");
+        playIcon.innerHTML = playing
+          ? '<path d="M7 5h4v14H7zM13 5h4v14h-4z"/>'
+          : '<path d="M8 5v14l11-7z"/>';
+      };
+
+      const fetchMarkdownHtml = async (episode) => {
+        if (markdownCache.has(episode.id)) {
+          return markdownCache.get(episode.id);
+        }
+
+        try {
+          const response = await fetch(episode.text);
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          const text = await response.text();
+          const html = parseMarkdown(text);
+          markdownCache.set(episode.id, html);
+          return html;
+        } catch (error) {
+          const fallback = "<p>Text is not available for this episode yet.</p>";
+          markdownCache.set(episode.id, fallback);
+          return fallback;
+        }
+      };
+
+      const buildCard = (episode) => {
+        const article = document.createElement("article");
+        article.className = "episode-card";
+        article.dataset.id = episode.id;
+
+        const imageButton = document.createElement("button");
+        imageButton.className = "image-button";
+        imageButton.type = "button";
+        imageButton.setAttribute("aria-label", `Open ${episode.title}`);
+
+        const cover = document.createElement("div");
+        cover.className = "cover";
+
+        const image = document.createElement("img");
+        image.src = episode.image;
+        image.alt = `${episode.title} cover image`;
+        image.loading = "lazy";
+        image.onerror = () => {
+          cover.innerHTML = '<div class="image-fallback">Image not available</div>';
+        };
+
+        const title = document.createElement("div");
+        title.className = "title-overlay";
+        title.innerHTML = `<h2>${escapeHtml(episode.title)}</h2>${episode.date ? `<time datetime="${escapeHtml(episode.date)}">${escapeHtml(episode.date)}</time>` : ""}`;
+
+        const quick = document.createElement("button");
+        quick.className = "quick-view";
+        quick.type = "button";
+        quick.setAttribute("aria-label", `Quick view ${episode.title}`);
+        quick.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>';
+
+        cover.append(image, title);
+        imageButton.append(cover);
+        article.append(imageButton, quick);
+
+        imageButton.addEventListener("click", () => openEpisode(episode, article));
+        imageButton.addEventListener("keydown", (event) => {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            openEpisode(episode, article);
+          }
+        });
+        quick.addEventListener("click", (event) => {
+          event.stopPropagation();
+          openQuickView(episode);
+        });
+
+        return article;
+      };
+
+      const loadEpisodes = async () => {
+        try {
+          const response = await fetch("episodes.json", { cache: "no-store" });
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          episodes = await response.json();
+
+          await Promise.all(episodes.map(fetchMarkdownHtml));
+          grid.replaceChildren(...episodes.map(buildCard));
+          skeleton.classList.add("fading");
+          setTimeout(() => skeleton.classList.add("hidden"), 330);
+          grid.classList.remove("hidden");
+          requestAnimationFrame(() => {
+            document.querySelectorAll(".episode-card").forEach((card, index) => {
+              setTimeout(() => card.classList.add("ready"), index * 70);
+            });
+          });
+        } catch (error) {
+          skeleton.classList.add("hidden");
+          setStatus("Episodes could not be loaded. Check that episodes.json exists and that you are using a local server.");
+        }
+      };
+
+      const fitRect = () => {
+        const margin = window.innerWidth < 720 ? 12 : 28;
+        return {
+          left: margin,
+          top: margin,
+          width: window.innerWidth - margin * 2,
+          height: window.innerHeight - margin * 2,
+        };
+      };
+
+      const positionShell = (rect) => {
+        flipShell.style.left = `${rect.left}px`;
+        flipShell.style.top = `${rect.top}px`;
+        flipShell.style.width = `${rect.width}px`;
+        flipShell.style.height = `${rect.height}px`;
+      };
+
+      const transformBetween = (from, to) => {
+        const scaleX = to.width / from.width;
+        const scaleY = to.height / from.height;
+        const translateX = to.left - from.left;
+        const translateY = to.top - from.top;
+        return `translate3d(${translateX}px, ${translateY}px, 0) scale(${scaleX}, ${scaleY})`;
+      };
+
+      async function openEpisode(episode, sourceCard) {
+        if (isExpanded || isClosing) return;
+        isExpanded = true;
+        activeEpisode = episode;
+        activeSourceCard = sourceCard;
+        clearTimeout(closeAudioTimer);
+
+        const sourceRect = sourceCard.getBoundingClientRect();
+        const targetRect = fitRect();
+        const html = await fetchMarkdownHtml(episode);
+
+        frontFace.innerHTML = `<img src="${escapeHtml(episode.image)}" alt="${escapeHtml(episode.title)} cover image">`;
+        expandedTitle.textContent = episode.title;
+        expandedDate.textContent = episode.date || "";
+        expandedDate.dateTime = episode.date || "";
+        markdownBody.innerHTML = html;
+        audio.src = episode.audio;
+        audio.volume = Number(volume.value);
+        updateTime();
+        setPlayState();
+
+        positionShell(sourceRect);
+        flipShell.style.transform = "translate3d(0, 0, 0) scale(1)";
+        flipCard.classList.remove("flipped");
+        flipLayer.classList.add("active");
+        flipLayer.setAttribute("aria-hidden", "false");
+        document.body.classList.add("expanded-lock");
+        sourceCard.style.visibility = "hidden";
+
+        await wait(30);
+        flipLayer.classList.add("shaded");
+        flipShell.style.transform = transformBetween(sourceRect, targetRect);
+        await wait(430);
+        flipCard.classList.add("flipped");
+        await wait(620);
+        backBtn.focus();
+      }
+
+      async function closeEpisode() {
+        if (!isExpanded || isClosing || !activeSourceCard) return;
+        isClosing = true;
+        clearTimeout(closeAudioTimer);
+        audio.pause();
+        audio.currentTime = 0;
+        setPlayState();
+
+        const sourceRect = activeSourceCard.getBoundingClientRect();
+        const targetRect = fitRect();
+        flipCard.classList.remove("flipped");
+        await wait(620);
+        flipShell.style.transform = transformBetween(targetRect, sourceRect);
+        flipLayer.classList.remove("shaded");
+        await wait(430);
+
+        activeSourceCard.style.visibility = "";
+        activeSourceCard.querySelector(".image-button").focus();
+        flipLayer.classList.remove("active");
+        flipLayer.setAttribute("aria-hidden", "true");
+        document.body.classList.remove("expanded-lock");
+        frontFace.replaceChildren();
+        audio.removeAttribute("src");
+        audio.load();
+        activeEpisode = null;
+        activeSourceCard = null;
+        isExpanded = false;
+        isClosing = false;
+      }
+
+      function openQuickView(episode) {
+        closeQuickView(false);
+        lightboxImage.src = episode.image;
+        lightboxImage.alt = `${episode.title} cover image`;
+        lightbox.classList.add("active");
+        lightbox.setAttribute("aria-label", `Quick view ${episode.title}`);
+        requestAnimationFrame(() => lightbox.classList.add("visible"));
+        quickTimer = setTimeout(() => closeQuickView(), 5000);
+      }
+
+      async function closeQuickView(animate = true) {
+        clearTimeout(quickTimer);
+        if (!lightbox.classList.contains("active")) return;
+        lightbox.classList.remove("visible");
+        if (animate) await wait(300);
+        lightbox.classList.remove("active");
+        lightboxImage.removeAttribute("src");
+      }
+
+      playBtn.addEventListener("click", async () => {
+        if (!audio.src) return;
+        if (audio.paused) {
+          try {
+            await audio.play();
+          } catch (error) {
+            setStatus("Audio could not be played. Try interacting with the page first or check the audio file.");
+          }
+        } else {
+          audio.pause();
+        }
+        setPlayState();
+      });
+
+      backBtn.addEventListener("click", closeEpisode);
+      audio.addEventListener("play", setPlayState);
+      audio.addEventListener("pause", setPlayState);
+      audio.addEventListener("loadedmetadata", updateTime);
+      audio.addEventListener("timeupdate", updateTime);
+      audio.addEventListener("error", () => {
+        timeDisplay.textContent = "Audio not available";
+      });
+      audio.addEventListener("ended", () => {
+        closeAudioTimer = setTimeout(() => {
+          if (isExpanded) closeEpisode();
+        }, 1000);
+      });
+
+      progress.addEventListener("input", () => {
+        if (!audio.duration) return;
+        audio.currentTime = (Number(progress.value) / 100) * audio.duration;
+      });
+
+      volume.addEventListener("input", () => {
+        audio.volume = Number(volume.value);
+      });
+
+      lightbox.addEventListener("click", (event) => {
+        if (event.target === lightbox) closeQuickView();
+      });
+
+      lightbox.addEventListener("touchstart", (event) => {
+        quickTouchY = event.changedTouches[0].clientY;
+      }, { passive: true });
+
+      lightbox.addEventListener("touchend", (event) => {
+        if (quickTouchY !== null && event.changedTouches[0].clientY - quickTouchY > 80) {
+          closeQuickView();
+        }
+        quickTouchY = null;
+      }, { passive: true });
+
+      flipLayer.addEventListener("touchstart", (event) => {
+        flipTouchY = event.changedTouches[0].clientY;
+      }, { passive: true });
+
+      flipLayer.addEventListener("touchend", (event) => {
+        if (flipTouchY !== null && event.changedTouches[0].clientY - flipTouchY > 80) {
+          closeEpisode();
+        }
+        flipTouchY = null;
+      }, { passive: true });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          if (lightbox.classList.contains("active")) {
+            closeQuickView();
+            return;
+          }
+          if (isExpanded) closeEpisode();
+        }
+
+        if (event.code === "Space" && isExpanded) {
+          event.preventDefault();
+          playBtn.click();
+        }
+
+        if (event.key === "Tab" && isExpanded) {
+          const focusable = flipCard.querySelectorAll("button, input, a, audio");
+          const items = Array.from(focusable).filter((item) => !item.disabled);
+          if (!items.length) return;
+          const first = items[0];
+          const last = items[items.length - 1];
+          if (event.shiftKey && document.activeElement === first) {
+            event.preventDefault();
+            last.focus();
+          } else if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault();
+            first.focus();
+          }
+        }
+      });
+
+      window.addEventListener("resize", () => {
+        if (!isExpanded || !activeSourceCard) return;
+        const targetRect = fitRect();
+        const sourceRect = activeSourceCard.getBoundingClientRect();
+        positionShell(sourceRect);
+        flipShell.style.transform = transformBetween(sourceRect, targetRect);
+      });
+
+      loadEpisodes();
+    </script>
+  </body>
+</html>
