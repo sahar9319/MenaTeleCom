@@ -3,28 +3,29 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>MenaTeleCom Research Episodes</title>
+    <title>Telecom Research Log</title>
     <style>
       :root {
-        --bg: #e9f0ec;
-        --surface: #f4f7ef;
-        --surface-soft: rgba(255, 255, 255, 0.36);
-        --surface-strong: #fff5df;
-        --ink: #20302f;
-        --muted: #667370;
-        --accent: #2f8d86;
-        --accent-deep: #176763;
-        --accent-2: #d97865;
-        --accent-3: #efc15e;
-        --shadow-dark: rgba(54, 77, 73, 0.22);
-        --shadow-light: rgba(255, 255, 255, 0.92);
+        --bg: #eef4f0;
+        --surface: #f6f8f2;
+        --surface-soft: rgba(255, 255, 255, 0.48);
+        --ink: #24302f;
+        --muted: #66736f;
+        --primary: #1e3a5f;
+        --accent: #e07a5f;
+        --secondary: #2a9d8f;
+        --tertiary: #d9a441;
+        --success: #5fa8a0;
+        --clay-light: #f4f1ea;
+        --clay-dark: #b7c9d3;
         --radius: 24px;
-        --radius-sm: 18px;
-        --page-gutter: clamp(18px, 4vw, 44px);
-        --content-width: 1160px;
-        --card-height: clamp(300px, 34vw, 390px);
-        --shadow-clay: 16px 16px 34px var(--shadow-dark), -16px -16px 34px var(--shadow-light), inset 3px 3px 10px rgba(255,255,255,0.84), inset -3px -3px 10px rgba(86,108,104,0.11);
-        --shadow-clay-hover: 20px 22px 46px rgba(54, 77, 73, 0.28), -18px -18px 36px var(--shadow-light), inset 3px 3px 10px rgba(255,255,255,0.92), inset -3px -3px 10px rgba(86,108,104,0.12);
+        --radius-sm: 16px;
+        --content: 1160px;
+        --gutter: clamp(16px, 4vw, 42px);
+        --card-height: clamp(290px, 32vw, 372px);
+        --shadow: 14px 14px 30px rgba(112, 126, 142, 0.28), -14px -14px 30px rgba(255, 255, 255, 0.82), inset 3px 3px 9px rgba(255, 255, 255, 0.72), inset -3px -3px 9px rgba(128, 143, 158, 0.12);
+        --shadow-soft: 9px 9px 20px rgba(112, 126, 142, 0.22), -9px -9px 20px rgba(255, 255, 255, 0.76), inset 2px 2px 7px rgba(255, 255, 255, 0.72), inset -2px -2px 7px rgba(128, 143, 158, 0.1);
+        --shadow-pressed: inset 7px 7px 15px rgba(112, 126, 142, 0.24), inset -7px -7px 15px rgba(255, 255, 255, 0.78);
         --ease: cubic-bezier(0.4, 0, 0.2, 1);
         --quick-view-ms: 5000ms;
       }
@@ -45,28 +46,26 @@
         color: var(--ink);
         font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
         background:
-          radial-gradient(circle at 12% 4%, rgba(239, 193, 94, 0.2), transparent 24rem),
-          radial-gradient(circle at 92% 10%, rgba(47, 141, 134, 0.16), transparent 24rem),
-          linear-gradient(135deg, #e7f0ec 0%, #f3eee2 48%, #dfeae7 100%);
+          radial-gradient(circle at 12% 6%, color-mix(in srgb, var(--tertiary) 28%, transparent), transparent 23rem),
+          radial-gradient(circle at 90% 0%, color-mix(in srgb, var(--primary) 22%, transparent), transparent 24rem),
+          linear-gradient(135deg, var(--bg), #f8f0e7 52%, #e8f1ef);
         letter-spacing: 0;
-        touch-action: manipulation;
         -webkit-font-smoothing: antialiased;
         text-rendering: geometricPrecision;
+        touch-action: manipulation;
       }
 
-      body.expanded-lock {
+      body.modal-lock {
         overflow: hidden;
       }
 
       button,
-      input,
-      audio {
+      input {
         font: inherit;
       }
 
       button {
         border: 0;
-        color: inherit;
         cursor: pointer;
         touch-action: manipulation;
       }
@@ -74,98 +73,173 @@
       button:focus-visible,
       input:focus-visible,
       a:focus-visible {
-        outline: 3px solid rgba(47, 141, 134, 0.34);
+        outline: 3px solid color-mix(in srgb, var(--primary) 36%, transparent);
         outline-offset: 4px;
       }
 
-      .page {
-        position: relative;
-        isolation: isolate;
-        width: min(var(--content-width), calc(100% - (var(--page-gutter) * 2)));
-        margin: 0 auto;
-        padding: clamp(28px, 6vw, 64px) 0 clamp(48px, 8vw, 84px);
+      .app-shell {
+        min-height: 100vh;
+        padding-top: 86px;
       }
 
-      .telecom-bg {
+      .topbar {
         position: fixed;
-        inset: 0;
-        z-index: -1;
-        overflow: hidden;
-        pointer-events: none;
-      }
-
-      .telecom-sign {
-        position: absolute;
-        width: clamp(120px, 18vw, 260px);
-        opacity: 0.13;
-        color: var(--accent);
-        transform: translateZ(0);
-        animation: drift 12s var(--ease) infinite alternate;
-      }
-
-      .telecom-sign.one {
-        left: -30px;
-        top: 78px;
-      }
-
-      .telecom-sign.two {
-        right: 2%;
-        top: 28%;
-        color: var(--accent-2);
-        animation-delay: -4s;
-      }
-
-      .telecom-sign.three {
-        left: 7%;
-        bottom: 2%;
-        color: var(--accent-3);
-        animation-delay: -7s;
-      }
-
-      @keyframes drift {
-        from { transform: translate3d(0, 0, 0) rotate(-2deg); }
-        to { transform: translate3d(10px, -14px, 0) rotate(2deg); }
-      }
-
-      .site-header {
-        display: grid;
+        top: 14px;
+        left: 50%;
+        z-index: 18;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
         gap: 14px;
-        max-width: 900px;
-        margin-bottom: clamp(26px, 5vw, 42px);
+        width: min(var(--content), calc(100% - 28px));
+        padding: 10px 12px;
+        border-radius: 999px;
+        background: color-mix(in srgb, var(--surface) 76%, transparent);
+        box-shadow: var(--shadow-soft);
+        backdrop-filter: blur(16px);
+        transform: translateX(-50%);
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        min-width: 0;
+        gap: 12px;
+      }
+
+      .logo-wrap,
+      .flag-wrap {
+        display: grid;
+        place-items: center;
+        flex: 0 0 auto;
+        overflow: hidden;
+        background: linear-gradient(135deg, color-mix(in srgb, var(--primary) 42%, white), color-mix(in srgb, var(--secondary) 44%, white));
+        box-shadow: var(--shadow-soft);
+      }
+
+      .logo-wrap {
+        width: 50px;
+        height: 50px;
+        border-radius: 18px;
+      }
+
+      .flag-wrap {
+        width: 42px;
+        height: 30px;
+        border-radius: 10px;
+      }
+
+      .logo-wrap img,
+      .flag-wrap img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .brand-copy {
+        min-width: 0;
+      }
+
+      .brand-title {
+        margin: 0;
+        overflow: hidden;
+        color: var(--ink);
+        font-size: clamp(0.98rem, 2vw, 1.12rem);
+        font-weight: 850;
+        line-height: 1.05;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .brand-tagline {
+        margin: 3px 0 0;
+        overflow: hidden;
+        color: var(--muted);
+        font-size: 0.78rem;
+        font-weight: 650;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .page {
+        width: min(var(--content), calc(100% - (var(--gutter) * 2)));
+        margin: 0 auto;
+        padding-bottom: clamp(44px, 8vw, 86px);
+      }
+
+      .hero {
+        display: grid;
+        gap: clamp(22px, 4vw, 34px);
+        padding: clamp(22px, 5vw, 46px) 0 clamp(28px, 6vw, 54px);
+      }
+
+      .hero-copy {
+        max-width: 780px;
       }
 
       .eyebrow {
-        margin: 0;
-        color: var(--accent);
-        font-size: 0.76rem;
-        font-weight: 800;
+        margin: 0 0 12px;
+        color: var(--primary);
+        font-size: 0.78rem;
+        font-weight: 850;
         letter-spacing: 0.08em;
         text-transform: uppercase;
       }
 
-      h1 {
-        max-width: 820px;
+      .hero h1 {
         margin: 0;
-        font-size: clamp(2.4rem, 6.2vw, 4.8rem);
-        line-height: 1;
-        letter-spacing: 0;
+        font-size: clamp(2.35rem, 7vw, 5.25rem);
+        line-height: 0.98;
       }
 
-      .intro {
-        max-width: 680px;
-        margin: 0;
+      .hero p {
+        max-width: 650px;
+        margin: 16px 0 0;
         color: var(--muted);
-        font-size: clamp(1rem, 1.6vw, 1.14rem);
-        line-height: 1.6;
+        font-size: clamp(1rem, 1.8vw, 1.16rem);
+        line-height: 1.65;
+      }
+
+      .icon-row {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: clamp(12px, 2vw, 20px);
+      }
+
+      .clay-icon {
+        position: relative;
+        display: grid;
+        place-items: center;
+        min-height: clamp(92px, 13vw, 138px);
+        border-radius: var(--radius);
+        background: linear-gradient(135deg, color-mix(in srgb, var(--tone) 34%, var(--surface)), color-mix(in srgb, var(--tone) 16%, white));
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+
+      .clay-icon::before {
+        content: "";
+        position: absolute;
+        inset: 14px;
+        border-radius: calc(var(--radius) - 8px);
+        box-shadow: inset 5px 5px 13px rgba(255,255,255,0.56), inset -5px -5px 13px color-mix(in srgb, var(--tone) 24%, transparent);
+      }
+
+      .clay-icon svg {
+        position: relative;
+        width: 44px;
+        height: 44px;
+        color: color-mix(in srgb, var(--tone) 84%, #24302f);
+        stroke-width: 2.25;
       }
 
       .status {
         display: none;
-        margin: 24px 0 30px;
-        padding: 18px 20px;
+        margin-bottom: 24px;
+        padding: 16px 18px;
         border-radius: var(--radius);
         background: var(--surface);
-        box-shadow: var(--shadow-clay);
+        box-shadow: var(--shadow-soft);
         color: var(--muted);
       }
 
@@ -194,14 +268,13 @@
         }
       }
 
-      .skeleton-grid.hidden,
-      .grid.hidden {
-        display: none;
+      .hidden {
+        display: none !important;
       }
 
       .skeleton-grid {
         opacity: 1;
-        transition: opacity 320ms var(--ease);
+        transition: opacity 280ms var(--ease);
       }
 
       .skeleton-grid.fading {
@@ -211,16 +284,16 @@
       .skeleton-card {
         min-height: var(--card-height);
         border-radius: var(--radius);
-        background: linear-gradient(110deg, rgba(255,255,255,0.24), rgba(255,255,255,0.72), rgba(255,255,255,0.24));
+        background: linear-gradient(110deg, color-mix(in srgb, var(--surface) 80%, transparent), rgba(255,255,255,0.78), color-mix(in srgb, var(--surface) 80%, transparent));
         background-size: 200% 100%;
-        box-shadow: var(--shadow-clay);
-        animation: pulse 1.4s var(--ease) infinite;
+        box-shadow: var(--shadow);
+        animation: pulse 1.35s var(--ease) infinite;
       }
 
       @keyframes pulse {
-        0% { opacity: 0.58; background-position: 180% 0; }
+        0% { opacity: 0.62; background-position: 170% 0; }
         50% { opacity: 1; }
-        100% { opacity: 0.58; background-position: -20% 0; }
+        100% { opacity: 0.62; background-position: -20% 0; }
       }
 
       .episode-card {
@@ -228,11 +301,11 @@
         min-height: var(--card-height);
         border-radius: var(--radius);
         background: var(--surface);
-        box-shadow: var(--shadow-clay);
+        box-shadow: var(--shadow);
         overflow: hidden;
         opacity: 0;
         transform: translate3d(0, 12px, 0);
-        transition: opacity 360ms var(--ease), transform 360ms var(--ease), box-shadow 240ms var(--ease);
+        transition: opacity 320ms var(--ease), transform 320ms var(--ease), box-shadow 220ms var(--ease);
       }
 
       .episode-card.ready {
@@ -240,15 +313,14 @@
         transform: translate3d(0, 0, 0);
       }
 
-      .episode-card:focus-within,
-      .episode-card:hover {
-        box-shadow: var(--shadow-clay-hover);
+      .episode-card:hover,
+      .episode-card:focus-within {
+        box-shadow: 18px 18px 38px rgba(112, 126, 142, 0.34), -16px -16px 34px rgba(255,255,255,0.86), inset 3px 3px 9px rgba(255,255,255,0.78), inset -3px -3px 9px rgba(128,143,158,0.12);
       }
 
       .image-button {
         display: block;
         width: 100%;
-        height: 100%;
         min-height: var(--card-height);
         padding: 0;
         background: transparent;
@@ -258,17 +330,16 @@
       .cover {
         position: absolute;
         inset: 12px;
-        border-radius: calc(var(--radius) - 7px);
         overflow: hidden;
-        background: #d7e4df;
+        border-radius: calc(var(--radius) - 8px);
+        background: color-mix(in srgb, var(--primary) 14%, var(--surface));
       }
 
       .cover::after {
         content: "";
         position: absolute;
         inset: 0;
-        background: linear-gradient(180deg, rgba(12, 28, 27, 0.02) 35%, rgba(12, 28, 27, 0.58) 100%);
-        opacity: 0.92;
+        background: linear-gradient(180deg, transparent 34%, rgba(20, 34, 34, 0.66));
         pointer-events: none;
       }
 
@@ -276,12 +347,12 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-        transform: scale(1.01) translateZ(0);
-        transition: transform 420ms var(--ease), opacity 240ms var(--ease);
+        transform: translateZ(0) scale(1.01);
+        transition: transform 420ms var(--ease), opacity 220ms var(--ease);
       }
 
       .episode-card:hover .cover img {
-        transform: scale(1.045) translateZ(0);
+        transform: translateZ(0) scale(1.04);
       }
 
       .cover.has-error img {
@@ -290,81 +361,98 @@
 
       .image-fallback {
         position: relative;
-        z-index: 1;
+        z-index: 2;
         display: grid;
         place-items: center;
         width: 100%;
         height: 100%;
-        padding: 24px;
+        padding: 22px;
         color: var(--muted);
         text-align: center;
-        background: repeating-linear-gradient(135deg, rgba(49,140,136,0.08), rgba(49,140,136,0.08) 14px, rgba(255,255,255,0.36) 14px, rgba(255,255,255,0.36) 28px);
       }
 
       .title-overlay {
         position: absolute;
-        z-index: 1;
-        left: 24px;
-        right: 82px;
-        bottom: 24px;
-        padding: 0;
-        border-radius: 0;
+        z-index: 2;
+        left: 22px;
+        right: 78px;
+        bottom: 22px;
         color: #fff;
-        background: transparent;
-        text-shadow: 0 2px 16px rgba(0, 0, 0, 0.34);
+        text-shadow: 0 2px 16px rgba(0, 0, 0, 0.36);
       }
 
       .title-overlay h2 {
         margin: 0;
-        font-size: clamp(1.18rem, 2vw, 1.45rem);
-        line-height: 1.16;
-        font-weight: 760;
-        letter-spacing: 0;
+        font-size: clamp(1.08rem, 1.8vw, 1.36rem);
+        font-weight: 820;
+        line-height: 1.18;
       }
 
       .title-overlay time {
         display: block;
         margin-top: 6px;
         font-size: 0.82rem;
-        opacity: 0.8;
+        opacity: 0.82;
+      }
+
+      .clay-button,
+      .quick-view,
+      .round-btn {
+        display: inline-grid;
+        place-items: center;
+        width: 46px;
+        height: 46px;
+        border-radius: 16px;
+        color: #fff;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        box-shadow: var(--shadow-soft);
+        transition: transform 180ms var(--ease), box-shadow 180ms var(--ease);
+      }
+
+      .clay-button:active,
+      .quick-view:active,
+      .round-btn:active {
+        transform: translate3d(0, 1px, 0) scale(0.98);
+        box-shadow: var(--shadow-pressed);
+      }
+
+      .clay-button svg,
+      .quick-view svg,
+      .round-btn svg {
+        width: 24px;
+        height: 24px;
+        stroke-width: 2.25;
+      }
+
+      .home-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: auto;
+        min-width: max-content;
+        padding: 0 18px;
+        font-size: 0.9rem;
+        font-weight: 820;
+        white-space: nowrap;
       }
 
       .quick-view {
         position: absolute;
-        top: 24px;
-        right: 24px;
-        z-index: 2;
-        display: grid;
-        place-items: center;
-        width: 46px;
-        height: 46px;
-        border-radius: var(--radius-sm);
-        background: rgba(244, 247, 239, 0.9);
-        box-shadow: 8px 8px 18px rgba(24,42,41,0.24), -8px -8px 18px rgba(255,255,255,0.7), inset 2px 2px 6px rgba(255,255,255,0.8);
-        transition: transform 220ms var(--ease), opacity 220ms var(--ease);
-      }
-
-      .quick-view:hover,
-      .quick-view:focus-visible {
-        transform: translate3d(0, -2px, 0) scale(1.04);
-      }
-
-      .quick-view svg,
-      .round-btn svg {
-        width: 22px;
-        height: 22px;
-        stroke-width: 2.2;
+        top: 22px;
+        right: 22px;
+        z-index: 4;
+        background: linear-gradient(135deg, var(--accent), var(--tertiary));
       }
 
       .flip-layer {
         position: fixed;
         inset: 0;
-        z-index: 30;
+        z-index: 40;
         display: none;
-        padding: 16px;
         perspective: 1800px;
-        background: rgba(22, 34, 33, 0);
-        transition: background 400ms var(--ease);
+        background: rgba(26, 36, 36, 0);
+        transition: background 360ms var(--ease);
       }
 
       .flip-layer.active {
@@ -372,15 +460,14 @@
       }
 
       .flip-layer.shaded {
-        background: rgba(22, 34, 33, 0.36);
+        background: rgba(26, 36, 36, 0.56);
       }
 
       .flip-shell {
         position: fixed;
-        border-radius: var(--radius);
         transform-origin: top left;
         transform-style: preserve-3d;
-        transition: transform 400ms var(--ease);
+        transition: transform 380ms var(--ease);
         will-change: transform;
       }
 
@@ -388,9 +475,8 @@
         position: relative;
         width: 100%;
         height: 100%;
-        border-radius: var(--radius);
         transform-style: preserve-3d;
-        transition: transform 600ms var(--ease);
+        transition: transform 560ms var(--ease);
       }
 
       .flip-card.flipped {
@@ -403,8 +489,12 @@
         overflow: hidden;
         border-radius: var(--radius);
         background: var(--surface);
+        box-shadow: 24px 24px 54px rgba(23, 34, 34, 0.32), -18px -18px 42px rgba(255,255,255,0.42);
         backface-visibility: hidden;
-        box-shadow: 24px 24px 60px rgba(8, 26, 25, 0.34), -18px -18px 46px rgba(255,255,255,0.55), inset 4px 4px 12px rgba(255,255,255,0.88), inset -4px -4px 14px rgba(80,103,99,0.16);
+      }
+
+      .flip-layer.shaded .face {
+        border-radius: 0;
       }
 
       .front-face img {
@@ -416,102 +506,120 @@
       .back-face {
         display: grid;
         grid-template-rows: auto minmax(0, 1fr) auto;
-        gap: clamp(14px, 2.4vw, 22px);
-        padding: clamp(16px, 4vw, 36px);
+        max-height: 100vh;
+        padding: clamp(12px, 2.6vw, 28px);
+        gap: clamp(12px, 2vw, 18px);
+        background:
+          radial-gradient(circle at 10% 6%, color-mix(in srgb, var(--tertiary) 18%, transparent), transparent 18rem),
+          radial-gradient(circle at 92% 8%, color-mix(in srgb, var(--primary) 16%, transparent), transparent 18rem),
+          linear-gradient(135deg, var(--bg), #f8f0e7);
         transform: rotateY(180deg);
       }
 
-      .back-head {
+      .reader-header {
         display: flex;
         align-items: center;
-        justify-content: space-between;
-        gap: 16px;
-      }
-
-      .back-title {
+        gap: 12px;
+        width: min(980px, 100%);
         min-width: 0;
+        margin: 0 auto;
       }
 
-      .back-title h2 {
+      .reader-title {
+        min-width: 0;
+        margin-right: auto;
+      }
+
+      .reader-title h2 {
         margin: 0;
-        font-size: clamp(1.45rem, 3vw, 2.45rem);
-        line-height: 1.08;
-        letter-spacing: 0;
+        overflow: hidden;
+        font-size: clamp(1.15rem, 2vw, 1.65rem);
+        line-height: 1.14;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
 
-      .back-title time {
+      .reader-title time {
         display: block;
-        margin-top: 6px;
+        margin-top: 4px;
         color: var(--muted);
+        font-size: 0.82rem;
       }
 
-      .round-btn {
-        display: grid;
-        flex: 0 0 auto;
-        place-items: center;
-        width: 46px;
-        height: 46px;
-        border-radius: var(--radius-sm);
-        background: var(--surface);
-        box-shadow: 8px 8px 18px var(--shadow-dark), -8px -8px 18px var(--shadow-light), inset 2px 2px 7px rgba(255,255,255,0.86);
-        transition: transform 220ms var(--ease);
+      .reader-home {
+        background: linear-gradient(135deg, var(--success), var(--primary));
       }
 
-      .round-btn:hover,
-      .round-btn:focus-visible {
-        transform: translate3d(0, -2px, 0);
+      .reader-back {
+        width: auto;
+        min-width: max-content;
+        padding: 0 18px;
+        gap: 8px;
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        font-weight: 820;
       }
 
       .markdown-body {
-        overflow: auto;
+        overflow-y: auto;
         min-height: 0;
-        padding: clamp(16px, 3vw, 24px);
-        border-radius: 22px;
-        background: var(--surface-soft);
-        box-shadow: inset 5px 5px 14px rgba(94,117,112,0.14), inset -5px -5px 14px rgba(255,255,255,0.8);
-        line-height: 1.7;
-        scrollbar-color: rgba(47, 141, 134, 0.42) transparent;
+        width: min(980px, 100%);
+        max-height: 100%;
+        margin: 0 auto;
+        padding: clamp(16px, 3vw, 30px);
+        border-radius: clamp(18px, 2vw, 26px);
+        background: color-mix(in srgb, var(--surface) 72%, transparent);
+        box-shadow: var(--shadow);
+        color: var(--ink);
+        font-size: clamp(1rem, 1.3vw, 1.125rem);
+        line-height: 1.72;
+        scrollbar-color: color-mix(in srgb, var(--primary) 48%, transparent) transparent;
       }
 
       .markdown-body h1,
       .markdown-body h2,
       .markdown-body h3 {
         margin: 0 0 12px;
-        line-height: 1.15;
-        letter-spacing: 0;
+        line-height: 1.16;
+      }
+
+      .markdown-body h1 {
+        font-size: clamp(1.45rem, 2.4vw, 2rem);
+      }
+
+      .markdown-body h2 {
+        font-size: clamp(1.25rem, 2vw, 1.55rem);
+      }
+
+      .markdown-body h3 {
+        font-size: clamp(1.1rem, 1.7vw, 1.28rem);
       }
 
       .markdown-body p,
       .markdown-body ul {
+        max-width: 74ch;
         margin: 0 0 16px;
       }
 
-      .markdown-body p,
-      .markdown-body li {
-        max-width: 74ch;
-      }
-
       .markdown-body a {
-        color: var(--accent-deep);
-        font-weight: 700;
+        color: color-mix(in srgb, var(--primary) 72%, #1d4f4a);
+        font-weight: 760;
       }
 
       .player {
         display: grid;
-        grid-template-columns: auto minmax(0, 1fr) auto;
+        grid-template-columns: auto auto minmax(0, 1fr) auto;
         align-items: center;
-        gap: 14px;
-        padding: 14px 16px;
-        border-radius: 22px;
-        background: var(--surface-strong);
-        box-shadow: 10px 10px 24px rgba(64, 88, 84, 0.2), -10px -10px 24px rgba(255,255,255,0.86), inset 2px 2px 8px rgba(255,255,255,0.84);
+        gap: 12px;
+        width: min(980px, 100%);
+        margin: 0 auto;
+        padding: 12px 14px;
+        border-radius: 24px;
+        background: linear-gradient(135deg, color-mix(in srgb, var(--secondary) 18%, var(--surface)), color-mix(in srgb, var(--primary) 12%, var(--surface)));
+        box-shadow: var(--shadow);
       }
 
-      .time {
-        color: var(--muted);
-        font-size: 0.84rem;
-        font-variant-numeric: tabular-nums;
-        white-space: nowrap;
+      #muteBtn {
+        background: linear-gradient(135deg, var(--secondary), var(--primary));
       }
 
       .ranges {
@@ -524,27 +632,35 @@
         display: flex;
         align-items: center;
         gap: 8px;
+        color: var(--muted);
+        font-size: 0.82rem;
+        font-weight: 760;
       }
 
       input[type="range"] {
         width: 100%;
-        accent-color: var(--accent);
+        min-height: 26px;
+        accent-color: var(--primary);
         cursor: pointer;
+      }
+
+      .time {
+        color: var(--muted);
+        font-size: 0.84rem;
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
       }
 
       .lightbox {
         position: fixed;
         inset: 0;
-        z-index: 40;
+        z-index: 50;
         display: none;
         place-items: center;
         padding: 24px;
-        background: rgba(13, 22, 22, 0);
-        transition: background 240ms var(--ease);
-      }
-
-      .lightbox:focus {
-        outline: none;
+        background: color-mix(in srgb, var(--ink) 70%, transparent);
+        opacity: 0;
+        transition: opacity 240ms var(--ease);
       }
 
       .lightbox.active {
@@ -552,42 +668,48 @@
       }
 
       .lightbox.visible {
-        background: rgba(13, 22, 22, 0.72);
+        opacity: 1;
+      }
+
+      .lightbox:focus {
+        outline: none;
       }
 
       .lightbox-panel {
         position: relative;
-        width: min(900px, 94vw);
+        width: min(920px, 94vw);
         max-height: 86vh;
-        transform: translate3d(0, 16px, 0) scale(0.94);
+        padding: 12px;
+        border-radius: calc(var(--radius) + 6px);
+        background: color-mix(in srgb, var(--surface) 76%, transparent);
+        box-shadow: 24px 24px 54px rgba(0,0,0,0.28), -14px -14px 34px rgba(255,255,255,0.14), inset 3px 3px 9px rgba(255,255,255,0.56);
         opacity: 0;
-        transition: transform 300ms var(--ease), opacity 300ms var(--ease);
+        transform: translate3d(0, 14px, 0) scale(0.96);
+        transition: opacity 260ms var(--ease), transform 260ms var(--ease);
       }
 
       .lightbox.visible .lightbox-panel {
-        transform: translate3d(0, 0, 0) scale(1);
         opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
       }
 
       .lightbox img {
         display: block;
         width: 100%;
-        max-height: 86vh;
+        max-height: 82vh;
         object-fit: contain;
         border-radius: var(--radius);
-        box-shadow: 22px 22px 48px rgba(0,0,0,0.36), -14px -14px 36px rgba(255,255,255,0.12);
-        background: var(--surface);
       }
 
       .countdown {
         position: absolute;
-        left: 0;
-        right: 0;
+        left: 18px;
+        right: 18px;
         bottom: -14px;
         height: 8px;
         overflow: hidden;
         border-radius: 999px;
-        background: rgba(255,255,255,0.24);
+        background: rgba(255,255,255,0.28);
       }
 
       .countdown::before {
@@ -596,7 +718,7 @@
         width: 100%;
         height: 100%;
         border-radius: inherit;
-        background: var(--accent-3);
+        background: linear-gradient(90deg, var(--secondary), var(--tertiary));
         transform-origin: left center;
       }
 
@@ -608,39 +730,33 @@
         to { transform: scaleX(0); }
       }
 
-      .sr-only {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        padding: 0;
-        margin: -1px;
-        overflow: hidden;
-        clip: rect(0, 0, 0, 0);
-        white-space: nowrap;
-        border: 0;
-      }
-
-      @media (max-width: 620px) {
+      @media (max-width: 720px) {
         :root {
-          --card-height: clamp(280px, 78vw, 340px);
+          --card-height: clamp(280px, 76vw, 338px);
         }
 
-        .page {
-          width: min(100% - 28px, var(--content-width));
-          padding-top: 22px;
+        .app-shell {
+          padding-top: 28px;
+          padding-bottom: 86px;
         }
 
-        .site-header {
-          gap: 10px;
-          margin-bottom: 24px;
+        .topbar {
+          top: auto;
+          bottom: 12px;
+          padding: 9px;
         }
 
-        .telecom-sign {
-          opacity: 0.08;
+        .brand-tagline,
+        .flag-wrap {
+          display: none;
         }
 
-        .cover {
-          inset: 10px;
+        .hero {
+          padding-top: 16px;
+        }
+
+        .icon-row {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
         }
 
         .title-overlay {
@@ -656,27 +772,46 @@
           height: 44px;
         }
 
+        .back-face {
+          padding: 10px;
+          gap: 10px;
+        }
+
+        .reader-header {
+          gap: 8px;
+        }
+
+        .reader-back,
+        .reader-home {
+          width: auto;
+          min-width: max-content;
+          min-height: 44px;
+          padding: 0 13px;
+        }
+
+        .markdown-body {
+          padding: 16px;
+          font-size: 1rem;
+        }
+
         .player {
-          grid-template-columns: auto 1fr;
-          align-items: start;
-          padding: 12px;
+          grid-template-columns: auto auto 1fr;
+          gap: 10px;
+          padding: 10px;
         }
 
         .player .time {
           grid-column: 1 / -1;
-          padding-left: 2px;
         }
       }
 
-      @media (max-width: 380px) {
-        .title-overlay {
-          right: 20px;
-          bottom: 18px;
+      @media (max-width: 420px) {
+        .brand-title {
+          max-width: 160px;
         }
 
-        .quick-view {
-          width: 42px;
-          height: 42px;
+        .player {
+          grid-template-columns: auto auto 1fr;
         }
       }
 
@@ -693,61 +828,90 @@
     </style>
   </head>
   <body>
-    <div class="telecom-bg" aria-hidden="true">
-      <svg class="telecom-sign one" viewBox="0 0 160 160" fill="none">
-        <path d="M80 138V66M52 138h56M80 66 50 30M80 66l30-36" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
-        <path d="M35 48c-16 22-16 44 0 66M125 48c16 22 16 44 0 66M20 30c-28 38-28 74 0 112M140 30c28 38 28 74 0 112" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
-      </svg>
-      <svg class="telecom-sign two" viewBox="0 0 180 180" fill="none">
-        <path d="M35 132c44-8 78-42 86-86 25 22 29 59 7 84s-60 28-93 2Z" stroke="currentColor" stroke-width="7" stroke-linejoin="round"/>
-        <path d="M118 48 148 18M131 35l24 24M70 128l-18 32" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
-      </svg>
-      <svg class="telecom-sign three" viewBox="0 0 180 180" fill="none">
-        <path d="M42 126h96M90 126V56" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
-        <path d="M67 72c13-11 33-11 46 0M51 53c22-21 56-21 78 0M35 35c31-31 79-31 110 0" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
-      </svg>
-    </div>
-
-    <main class="page">
-      <header class="site-header">
-        <p class="eyebrow">Research Signals</p>
-        <h1>MenaTeleCom Episodes</h1>
-        <p class="intro">Browse field notes, recordings, and visual research from each episode.</p>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <div class="logo-wrap" id="logoWrap" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none">
+              <path d="M24 42V20M16 42h16M24 20 15 8M24 20l9-12" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+              <path d="M10 15c-5 8-5 16 0 24M38 15c5 8 5 16 0 24M5 9c-8 12-8 24 0 36M43 9c8 12 8 24 0 36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="brand-copy">
+            <p class="brand-title" id="brandTitle">Telecom Research Log</p>
+            <p class="brand-tagline" id="brandTagline">Signal Diaries</p>
+          </div>
+          <div class="flag-wrap hidden" id="flagWrap" aria-hidden="true"></div>
+        </div>
+        <button class="clay-button home-button" id="homeBtn" type="button" aria-label="Home">
+          <span>Home</span>
+        </button>
       </header>
 
-      <div id="status" class="status" role="status" aria-live="polite"></div>
-      <section id="skeleton" class="skeleton-grid" aria-label="Loading episodes" aria-busy="true">
-        <div class="skeleton-card"></div>
-        <div class="skeleton-card"></div>
-        <div class="skeleton-card"></div>
-      </section>
-      <section id="grid" class="grid hidden" aria-label="Research episodes"></section>
-    </main>
+      <main class="page" id="top">
+        <section class="hero" aria-labelledby="heroTitle">
+          <div class="hero-copy">
+            <p class="eyebrow" id="heroEyebrow">Research Broadcast</p>
+            <h1 id="heroTitle">Telecom Research Log</h1>
+            <p id="heroDescription">Soft, focused research episodes on telecom operators, market signals, AI, and infrastructure shifts across the region.</p>
+          </div>
+
+          <div class="icon-row" aria-hidden="true">
+            <div class="clay-icon" style="--tone: var(--primary)">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor"><path d="M24 42V20M16 42h16M24 20 15 9M24 20l9-11"/><path d="M12 17c-5 7-5 14 0 21M36 17c5 7 5 14 0 21"/></svg>
+            </div>
+            <div class="clay-icon" style="--tone: var(--secondary)">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor"><path d="M17 12h14v24H17z"/><path d="M21 17h6M21 23h6M21 29h6M20 39h8"/><path d="M33 15c4 4 4 14 0 18M15 15c-4 4-4 14 0 18"/></svg>
+            </div>
+            <div class="clay-icon" style="--tone: var(--tertiary)">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor"><path d="M12 30c7-7 17-7 24 0M8 22c9-10 23-10 32 0M4 14c12-13 28-13 40 0"/><path d="M24 35v7"/></svg>
+            </div>
+            <div class="clay-icon" style="--tone: var(--success)">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor"><path d="M16 9h16v30H16z"/><path d="M21 35h6M20 14h8M20 20h8M20 26h8"/></svg>
+            </div>
+          </div>
+        </section>
+
+        <div id="status" class="status" role="status" aria-live="polite"></div>
+        <section id="skeleton" class="skeleton-grid" aria-label="Loading episodes" aria-busy="true">
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+        </section>
+        <section id="grid" class="grid hidden" aria-label="Research episodes"></section>
+      </main>
+    </div>
 
     <div id="flipLayer" class="flip-layer" aria-hidden="true">
       <div id="flipShell" class="flip-shell">
         <article id="flipCard" class="flip-card" aria-modal="true" role="dialog" aria-labelledby="expandedTitle" tabindex="-1">
           <div class="face front-face" id="frontFace"></div>
           <div class="face back-face">
-            <header class="back-head">
-              <div class="back-title">
+            <header class="reader-header">
+              <div class="reader-title">
                 <h2 id="expandedTitle"></h2>
                 <time id="expandedDate"></time>
               </div>
-              <button class="round-btn" id="backBtn" aria-label="Back to episodes">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="m15 18-6-6 6-6"/><path d="M9 12h12"/></svg>
+              <button class="round-btn reader-home" id="readerHomeBtn" type="button" aria-label="Home">
+                <span>Home</span>
+              </button>
+              <button class="round-btn reader-back" id="backBtn" type="button" aria-label="Back">
+                <span>Back</span>
               </button>
             </header>
             <div id="markdownBody" class="markdown-body"></div>
-            <div class="player" role="group" aria-label="Audio player">
-              <button class="round-btn" id="playBtn" aria-label="Play audio">
+            <div class="player" id="audioPlayer" role="group" aria-label="Audio player">
+              <button class="round-btn" id="playBtn" type="button" aria-label="Play">
                 <svg id="playIcon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+              </button>
+              <button class="round-btn" id="muteBtn" type="button" aria-label="Mute">
+                <svg id="muteIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 9.5c1.3 1.4 1.3 3.6 0 5"/></svg>
               </button>
               <div class="ranges">
                 <input id="progress" type="range" min="0" max="100" value="0" aria-label="Audio progress">
                 <div class="volume-row">
-                  <span aria-hidden="true">Vol</span>
-                  <input id="volume" type="range" min="0" max="1" step="0.01" value="0.85" aria-label="Volume">
+                  <span id="volumeLabel">Volume</span>
+                  <input id="volume" type="range" min="0" max="1" step="0.01" value="0.85" aria-labelledby="volumeLabel">
                 </div>
               </div>
               <span class="time" id="timeDisplay" aria-live="polite">0:00 / 0:00</span>
@@ -758,7 +922,7 @@
       </div>
     </div>
 
-    <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Quick image view" aria-hidden="true" tabindex="-1">
+    <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Quick preview" aria-hidden="true" tabindex="-1">
       <div class="lightbox-panel">
         <img id="lightboxImage" alt="">
         <div class="countdown" aria-hidden="true"></div>
@@ -766,9 +930,68 @@
     </div>
 
     <script>
+      const DEFAULT_CONFIG = {
+        siteTitle: "Research Episodes",
+        tagline: "Signal stories",
+        eyebrow: "Research Broadcast",
+        description: "Browse field notes, recordings, and visual research from each episode.",
+        homeButtonText: "Home",
+        backButtonText: "Back to main page",
+        quickViewTooltip: "Quick preview",
+        errorImageMissing: "Image not available",
+        errorEpisodesMissing: "Episodes could not be loaded. Check that episodes.json exists and that you are using a local server.",
+        errorTextMissing: "Text is not available for this episode yet.",
+        audioPlayLabel: "Play",
+        audioPauseLabel: "Pause",
+        muteTitle: "Mute",
+        unmuteTitle: "Unmute",
+        episodesAriaLabel: "Research episodes",
+        loadingEpisodesLabel: "Loading episodes",
+        audioPlayerLabel: "Audio player",
+        audioProgressLabel: "Audio progress",
+        audioUnavailable: "Audio not available",
+        audioError: "Audio could not be played. Try interacting with the page first or check the audio file.",
+        loadingText: "Loading episode notes...",
+        volumeLabel: "Volume",
+        primaryColor: "#1E3A5F",
+        accentColor: "#E07A5F",
+        secondaryColor: "#2A9D8F",
+        tertiaryColor: "#D9A441",
+        successColor: "#5FA8A0",
+        backgroundColor: "#EEF2EF",
+        surfaceColor: "#F4F1EA",
+        inkColor: "#1F2D3A",
+        mutedColor: "#66747A",
+        clayLight: "#F4F1EA",
+        clayDark: "#B7C9D3",
+        logoUrl: "",
+        flagIconUrl: ""
+      };
+
+      const TIMING = {
+        quickView: 5000,
+        fade: 260,
+        skeletonFade: 300,
+        expand: 390,
+        flip: 580,
+        startDelay: 24,
+        autoReturnDelay: 1000
+      };
+      const SWIPE_DISMISS_DISTANCE = 80;
+
+      const root = document.documentElement;
+      const appShell = document.querySelector(".app-shell");
+      const homeBtn = document.querySelector("#homeBtn");
+      const brandTitle = document.querySelector("#brandTitle");
+      const brandTagline = document.querySelector("#brandTagline");
+      const logoWrap = document.querySelector("#logoWrap");
+      const flagWrap = document.querySelector("#flagWrap");
+      const heroEyebrow = document.querySelector("#heroEyebrow");
+      const heroTitle = document.querySelector("#heroTitle");
+      const heroDescription = document.querySelector("#heroDescription");
       const grid = document.querySelector("#grid");
-      const page = document.querySelector(".page");
       const skeleton = document.querySelector("#skeleton");
+      const audioPlayer = document.querySelector("#audioPlayer");
       const statusBox = document.querySelector("#status");
       const flipLayer = document.querySelector("#flipLayer");
       const flipShell = document.querySelector("#flipShell");
@@ -777,33 +1000,27 @@
       const markdownBody = document.querySelector("#markdownBody");
       const expandedTitle = document.querySelector("#expandedTitle");
       const expandedDate = document.querySelector("#expandedDate");
+      const readerHomeBtn = document.querySelector("#readerHomeBtn");
       const backBtn = document.querySelector("#backBtn");
       const audio = document.querySelector("#audio");
       const playBtn = document.querySelector("#playBtn");
       const playIcon = document.querySelector("#playIcon");
+      const muteBtn = document.querySelector("#muteBtn");
+      const muteIcon = document.querySelector("#muteIcon");
       const progress = document.querySelector("#progress");
       const volume = document.querySelector("#volume");
+      const volumeLabel = document.querySelector("#volumeLabel");
       const timeDisplay = document.querySelector("#timeDisplay");
       const lightbox = document.querySelector("#lightbox");
       const lightboxImage = document.querySelector("#lightboxImage");
 
-      const TIMING = {
-        quickView: 5000,
-        fade: 300,
-        skeletonFade: 330,
-        expand: 430,
-        flip: 620,
-        startDelay: 30,
-        autoReturnDelay: 1000,
-      };
-      const SWIPE_DISMISS_DISTANCE = 80;
       const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
       const motionDuration = (name) => reduceMotion.matches ? 0 : TIMING[name];
       const scheduleIdle = window.requestIdleCallback || ((callback) => setTimeout(callback, 1));
-
       const markdownCache = new Map();
+
+      let config = DEFAULT_CONFIG;
       let episodes = [];
-      let activeEpisode = null;
       let activeSourceCard = null;
       let isExpanded = false;
       let isClosing = false;
@@ -816,16 +1033,85 @@
 
       const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+      const applyTheme = () => {
+        root.style.setProperty("--primary", config.primaryColor);
+        root.style.setProperty("--accent", config.accentColor || config.secondaryColor);
+        root.style.setProperty("--secondary", config.secondaryColor);
+        root.style.setProperty("--tertiary", config.tertiaryColor);
+        root.style.setProperty("--success", config.successColor);
+        root.style.setProperty("--bg", config.backgroundColor);
+        root.style.setProperty("--surface", config.surfaceColor);
+        root.style.setProperty("--ink", config.inkColor);
+        root.style.setProperty("--muted", config.mutedColor);
+        root.style.setProperty("--clay-light", config.clayLight);
+        root.style.setProperty("--clay-dark", config.clayDark);
+      };
+
+      const applyCopy = () => {
+        document.title = config.siteTitle;
+        brandTitle.textContent = config.siteTitle;
+        brandTagline.textContent = config.tagline;
+        heroEyebrow.textContent = config.eyebrow || config.tagline;
+        heroTitle.textContent = config.siteTitle;
+        heroDescription.textContent = config.description;
+        homeBtn.querySelector("span").textContent = config.homeButtonText;
+        homeBtn.setAttribute("aria-label", config.homeButtonText);
+        readerHomeBtn.querySelector("span").textContent = config.homeButtonText;
+        readerHomeBtn.setAttribute("aria-label", config.homeButtonText);
+        backBtn.querySelector("span").textContent = config.backButtonText;
+        backBtn.setAttribute("aria-label", config.backButtonText);
+        playBtn.setAttribute("aria-label", config.audioPlayLabel);
+        muteBtn.setAttribute("aria-label", config.muteTitle);
+        muteBtn.title = config.muteTitle;
+        grid.setAttribute("aria-label", config.episodesAriaLabel);
+        skeleton.setAttribute("aria-label", config.loadingEpisodesLabel);
+        audioPlayer.setAttribute("aria-label", config.audioPlayerLabel);
+        progress.setAttribute("aria-label", config.audioProgressLabel);
+        volumeLabel.textContent = config.volumeLabel;
+        lightbox.setAttribute("aria-label", config.quickViewTooltip);
+      };
+
+      const applyAssets = () => {
+        if (config.logoUrl) {
+          logoWrap.innerHTML = "";
+          const img = document.createElement("img");
+          img.src = config.logoUrl;
+          img.alt = "";
+          logoWrap.append(img);
+        }
+
+        if (config.flagIconUrl) {
+          flagWrap.classList.remove("hidden");
+          flagWrap.innerHTML = "";
+          const img = document.createElement("img");
+          img.src = config.flagIconUrl;
+          img.alt = "";
+          flagWrap.append(img);
+        }
+      };
+
       const setStatus = (message) => {
         statusBox.textContent = message;
         statusBox.classList.toggle("visible", Boolean(message));
       };
 
-      const setPageInert = (inert) => {
-        page.inert = inert;
+      const setBackgroundInert = (inert) => {
+        appShell.inert = inert;
       };
 
-      const escapeHtml = (text) => text
+      const goHome = async () => {
+        if (lightbox.classList.contains("active")) {
+          await closeQuickView(false);
+        }
+        if (isExpanded) {
+          await closeEpisode(false);
+        }
+        setBackgroundInert(false);
+        document.querySelector("#top").scrollIntoView({ behavior: reduceMotion.matches ? "auto" : "smooth", block: "start" });
+        homeBtn.focus({ preventScroll: true });
+      };
+
+      const escapeHtml = (text) => String(text)
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
@@ -853,8 +1139,7 @@
         html = html.replace(/\[([^\]]+)]\(([^)\s]+)\)/g, (match, label, href) => {
           const safeHref = sanitizeUrl(href);
           const isExternal = /^https?:|^mailto:/i.test(href.trim());
-          const externalAttrs = isExternal ? ' target="_blank" rel="noopener noreferrer"' : "";
-          return `<a href="${safeHref}"${externalAttrs}>${label}</a>`;
+          return `<a href="${safeHref}"${isExternal ? ' target="_blank" rel="noopener noreferrer"' : ""}>${label}</a>`;
         });
         html = html.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
         html = html.replace(/(^|[^*])\*([^*\n]+)\*/g, "$1<em>$2</em>");
@@ -904,10 +1189,19 @@
 
       const setPlayState = () => {
         const playing = !audio.paused;
-        playBtn.setAttribute("aria-label", playing ? "Pause audio" : "Play audio");
+        playBtn.setAttribute("aria-label", playing ? config.audioPauseLabel : config.audioPlayLabel);
         playIcon.innerHTML = playing
           ? '<path d="M7 5h4v14H7zM13 5h4v14h-4z"/>'
           : '<path d="M8 5v14l11-7z"/>';
+      };
+
+      const setMuteState = () => {
+        const muted = audio.muted;
+        muteBtn.setAttribute("aria-label", muted ? config.unmuteTitle : config.muteTitle);
+        muteBtn.title = muted ? config.unmuteTitle : config.muteTitle;
+        muteIcon.innerHTML = muted
+          ? '<path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="m18 9-5 5"/><path d="m13 9 5 5"/>'
+          : '<path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 9.5c1.3 1.4 1.3 3.6 0 5"/>';
       };
 
       const fetchMarkdownHtml = async (episode) => {
@@ -923,7 +1217,7 @@
           markdownCache.set(episode.id, html);
           return html;
         } catch (error) {
-          const fallback = "<p>Text is not available for this episode yet.</p>";
+          const fallback = `<p>${escapeHtml(config.errorTextMissing)}</p>`;
           markdownCache.set(episode.id, fallback);
           return fallback;
         }
@@ -937,7 +1231,7 @@
         const imageButton = document.createElement("button");
         imageButton.className = "image-button";
         imageButton.type = "button";
-        imageButton.setAttribute("aria-label", `Open ${episode.title}`);
+        imageButton.setAttribute("aria-label", `${config.backButtonText}: ${episode.title}`);
 
         const cover = document.createElement("div");
         cover.className = "cover";
@@ -947,13 +1241,11 @@
         image.alt = `${episode.title} cover image`;
         image.loading = index === 0 ? "eager" : "lazy";
         image.decoding = "async";
-        if (index === 0) {
-          image.fetchPriority = "high";
-        }
+        if (index === 0) image.fetchPriority = "high";
         image.onerror = () => {
           cover.classList.add("has-error");
           if (!cover.querySelector(".image-fallback")) {
-            cover.insertAdjacentHTML("afterbegin", '<div class="image-fallback">Image not available</div>');
+            cover.insertAdjacentHTML("afterbegin", `<div class="image-fallback">${escapeHtml(config.errorImageMissing)}</div>`);
           }
         };
 
@@ -964,8 +1256,8 @@
         const quick = document.createElement("button");
         quick.className = "quick-view";
         quick.type = "button";
-        quick.setAttribute("aria-label", `Quick view ${episode.title}`);
-        quick.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>';
+        quick.setAttribute("aria-label", `${config.quickViewTooltip}: ${episode.title}`);
+        quick.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="10" cy="10" r="4"/><path d="m14 14 6 6"/><path d="M4 18c4-3 8-3 12 0"/><path d="M6 21c3-2 6-2 9 0"/></svg>';
 
         cover.append(image, title);
         imageButton.append(cover);
@@ -986,12 +1278,24 @@
         return article;
       };
 
+      const loadConfig = async () => {
+        try {
+          const response = await fetch("config.json", { cache: "no-store" });
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          config = { ...DEFAULT_CONFIG, ...(await response.json()) };
+        } catch (error) {
+          config = DEFAULT_CONFIG;
+        }
+        applyTheme();
+        applyCopy();
+        applyAssets();
+      };
+
       const loadEpisodes = async () => {
         try {
           const response = await fetch("episodes.json", { cache: "no-store" });
           if (!response.ok) throw new Error(`HTTP ${response.status}`);
           episodes = await response.json();
-
           grid.replaceChildren(...episodes.map(buildCard));
           skeleton.classList.add("fading");
           skeleton.setAttribute("aria-busy", "false");
@@ -1006,21 +1310,18 @@
         } catch (error) {
           skeleton.classList.add("hidden");
           skeleton.setAttribute("aria-busy", "false");
-          setStatus("Episodes could not be loaded. Check that episodes.json exists and that you are using a local server.");
+          setStatus(config.errorEpisodesMissing);
         }
       };
 
-      const fitRect = () => {
-        const margin = window.innerWidth < 720 ? 12 : 28;
-        return {
-          left: margin,
-          top: margin,
-          width: window.innerWidth - margin * 2,
-          height: window.innerHeight - margin * 2,
-        };
-      };
+      const viewportRect = () => ({
+        left: 0,
+        top: 0,
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
 
-      const positionShell = (rect) => {
+      const setShellRect = (rect) => {
         flipShell.style.left = `${rect.left}px`;
         flipShell.style.top = `${rect.top}px`;
         flipShell.style.width = `${rect.width}px`;
@@ -1035,15 +1336,24 @@
         return `translate3d(${translateX}px, ${translateY}px, 0) scale(${scaleX}, ${scaleY})`;
       };
 
+      const normalizeShellTo = (rect) => {
+        const previousTransition = flipShell.style.transition;
+        flipShell.style.transition = "none";
+        setShellRect(rect);
+        flipShell.style.transform = "translate3d(0, 0, 0) scale(1)";
+        flipShell.offsetHeight;
+        flipShell.style.transition = previousTransition;
+      };
+
       async function openEpisode(episode, sourceCard) {
         if (isExpanded || isClosing) return;
         isExpanded = true;
-        activeEpisode = episode;
         activeSourceCard = sourceCard;
         clearTimeout(closeAudioTimer);
 
         const sourceRect = sourceCard.getBoundingClientRect();
-        const targetRect = fitRect();
+        const targetRect = viewportRect();
+        const htmlPromise = fetchMarkdownHtml(episode);
 
         frontFace.replaceChildren();
         const frontImage = document.createElement("img");
@@ -1054,35 +1364,35 @@
         expandedTitle.textContent = episode.title;
         expandedDate.textContent = episode.date || "";
         expandedDate.dateTime = episode.date || "";
-        markdownBody.innerHTML = "<p>Loading episode notes...</p>";
+        markdownBody.innerHTML = `<p>${escapeHtml(config.loadingText)}</p>`;
         audio.src = episode.audio;
         audio.volume = Number(volume.value);
         updateTime();
         setPlayState();
+        setMuteState();
 
-        positionShell(sourceRect);
+        setShellRect(sourceRect);
         flipShell.style.transform = "translate3d(0, 0, 0) scale(1)";
         flipCard.classList.remove("flipped");
         flipLayer.classList.add("active");
         flipLayer.setAttribute("aria-hidden", "false");
-        document.body.classList.add("expanded-lock");
-        flipCard.focus({ preventScroll: true });
-        setPageInert(true);
+        document.body.classList.add("modal-lock");
+        setBackgroundInert(true);
         sourceCard.style.visibility = "hidden";
-
-        const htmlPromise = fetchMarkdownHtml(episode);
+        flipCard.focus({ preventScroll: true });
 
         await wait(motionDuration("startDelay"));
         flipLayer.classList.add("shaded");
         flipShell.style.transform = transformBetween(sourceRect, targetRect);
         await wait(motionDuration("expand"));
+        normalizeShellTo(targetRect);
         flipCard.classList.add("flipped");
         markdownBody.innerHTML = await htmlPromise;
         await wait(motionDuration("flip"));
         backBtn.focus();
       }
 
-      async function closeEpisode() {
+      async function closeEpisode(restoreFocus = true) {
         if (!isExpanded || isClosing || !activeSourceCard) return;
         isClosing = true;
         clearTimeout(closeAudioTimer);
@@ -1091,23 +1401,26 @@
         setPlayState();
 
         const sourceRect = activeSourceCard.getBoundingClientRect();
-        const targetRect = fitRect();
+        const targetRect = viewportRect();
         flipCard.classList.remove("flipped");
         await wait(motionDuration("flip"));
+        normalizeShellTo(targetRect);
         flipShell.style.transform = transformBetween(targetRect, sourceRect);
         flipLayer.classList.remove("shaded");
         await wait(motionDuration("expand"));
 
         activeSourceCard.style.visibility = "";
-        setPageInert(false);
-        activeSourceCard.querySelector(".image-button").focus();
+        if (restoreFocus) {
+          activeSourceCard.querySelector(".image-button").focus({ preventScroll: true });
+          activeSourceCard.scrollIntoView({ behavior: reduceMotion.matches ? "auto" : "smooth", block: "center" });
+        }
         flipLayer.classList.remove("active");
         flipLayer.setAttribute("aria-hidden", "true");
-        document.body.classList.remove("expanded-lock");
+        document.body.classList.remove("modal-lock");
+        setBackgroundInert(false);
         frontFace.replaceChildren();
         audio.removeAttribute("src");
         audio.load();
-        activeEpisode = null;
         activeSourceCard = null;
         isExpanded = false;
         isClosing = false;
@@ -1120,8 +1433,9 @@
         lightboxImage.alt = `${episode.title} cover image`;
         lightbox.classList.add("active");
         lightbox.setAttribute("aria-hidden", "false");
-        lightbox.setAttribute("aria-label", `Quick view ${episode.title}`);
-        setPageInert(true);
+        lightbox.setAttribute("aria-label", `${config.quickViewTooltip}: ${episode.title}`);
+        document.body.classList.add("modal-lock");
+        setBackgroundInert(true);
         requestAnimationFrame(() => lightbox.classList.add("visible"));
         lightbox.focus({ preventScroll: true });
         quickTimer = setTimeout(() => closeQuickView(), TIMING.quickView);
@@ -1135,7 +1449,8 @@
         lightbox.classList.remove("active");
         lightbox.setAttribute("aria-hidden", "true");
         lightboxImage.removeAttribute("src");
-        setPageInert(false);
+        document.body.classList.remove("modal-lock");
+        setBackgroundInert(false);
         if (previousFocus && typeof previousFocus.focus === "function") {
           previousFocus.focus({ preventScroll: true });
         }
@@ -1148,21 +1463,30 @@
           try {
             await audio.play();
           } catch (error) {
-            setStatus("Audio could not be played. Try interacting with the page first or check the audio file.");
+            setStatus(config.audioError);
           }
         } else {
           audio.pause();
         }
         setPlayState();
       });
+      muteBtn.addEventListener("click", () => {
+        audio.muted = !audio.muted;
+        setMuteState();
+      });
 
-      backBtn.addEventListener("click", closeEpisode);
+      backBtn.addEventListener("click", async () => {
+        await closeEpisode();
+      });
+      readerHomeBtn.addEventListener("click", goHome);
+      homeBtn.addEventListener("click", goHome);
       audio.addEventListener("play", setPlayState);
       audio.addEventListener("pause", setPlayState);
+      audio.addEventListener("volumechange", setMuteState);
       audio.addEventListener("loadedmetadata", updateTime);
       audio.addEventListener("timeupdate", updateTime);
       audio.addEventListener("error", () => {
-        timeDisplay.textContent = "Audio not available";
+        timeDisplay.textContent = config.audioUnavailable;
       });
       audio.addEventListener("ended", () => {
         closeAudioTimer = setTimeout(() => {
@@ -1182,11 +1506,9 @@
       lightbox.addEventListener("click", (event) => {
         if (event.target === lightbox) closeQuickView();
       });
-
       lightbox.addEventListener("touchstart", (event) => {
         quickTouchY = event.changedTouches[0].clientY;
       }, { passive: true });
-
       lightbox.addEventListener("touchend", (event) => {
         if (quickTouchY !== null && event.changedTouches[0].clientY - quickTouchY > SWIPE_DISMISS_DISTANCE) {
           closeQuickView();
@@ -1197,7 +1519,6 @@
       flipLayer.addEventListener("touchstart", (event) => {
         flipTouchY = event.changedTouches[0].clientY;
       }, { passive: true });
-
       flipLayer.addEventListener("touchend", (event) => {
         if (flipTouchY !== null && event.changedTouches[0].clientY - flipTouchY > SWIPE_DISMISS_DISTANCE) {
           closeEpisode();
@@ -1220,7 +1541,7 @@
         }
 
         if (event.key === "Tab" && isExpanded) {
-          const focusable = flipCard.querySelectorAll("button, input, a, audio");
+          const focusable = flipCard.querySelectorAll("button, input, a");
           const items = Array.from(focusable).filter((item) => !item.disabled);
           if (!items.length) return;
           const first = items[0];
@@ -1238,10 +1559,7 @@
       const syncExpandedPosition = () => {
         resizeFrame = null;
         if (!isExpanded || !activeSourceCard) return;
-        const targetRect = fitRect();
-        const sourceRect = activeSourceCard.getBoundingClientRect();
-        positionShell(sourceRect);
-        flipShell.style.transform = transformBetween(sourceRect, targetRect);
+        normalizeShellTo(viewportRect());
       };
 
       window.addEventListener("resize", () => {
@@ -1249,7 +1567,12 @@
         resizeFrame = requestAnimationFrame(syncExpandedPosition);
       });
 
-      loadEpisodes();
+      const init = async () => {
+        await loadConfig();
+        await loadEpisodes();
+      };
+
+      init();
     </script>
   </body>
 </html>

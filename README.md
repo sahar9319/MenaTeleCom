@@ -2,6 +2,25 @@
 
 A single-page static website for sharing research episodes with images, Markdown notes, and audio recordings.
 
+## Configure The Site
+
+Edit `config.json` to change site-wide copy, labels, colors, and optional logo/flag assets:
+
+```json
+{
+  "siteTitle": "MENA Telecommunication Market",
+  "tagline": "Signal Stories",
+  "homeButtonText": "Home",
+  "backButtonText": "Back to main page",
+  "primaryColor": "#6C9BCF",
+  "secondaryColor": "#FFB5A7",
+  "logoUrl": "",
+  "flagIconUrl": ""
+}
+```
+
+Episode titles, images, audio, and Markdown paths still come from `episodes.json`.
+
 ## Add Episodes
 
 Create one folder per episode inside `episodes/`:
@@ -54,4 +73,4 @@ Then open the shown local URL, such as `http://localhost:8000`.
 
 ## Free Hosting
 
-GitHub Pages, Netlify, and Vercel all host this project as static files. Push or upload the full folder, including `index.html`, `episodes.json`, `generate_manifest.js`, and `episodes/`.
+GitHub Pages, Netlify, and Vercel all host this project as static files. Push or upload the full folder, including `index.html`, `config.json`, `episodes.json`, `generate_manifest.js`, and `episodes/`.
