@@ -1,20 +1,20 @@
 [
   {
-    "id": "ep1",
+    "id": "Episode One",
     "title": "Episode One",
     "image": "episodes/ep1/image.png",
     "text": "episodes/ep1/text.md",
     "audio": "episodes/ep1/audio.mp3"
   },
   {
-    "id": "ep2",
+    "id": "Episode Two",
     "title": "Episode Two",
     "image": "episodes/ep2/image.png",
     "text": "episodes/ep2/text.md",
     "audio": "episodes/ep2/audio.mp3"
   },
   {
-    "id": "ep3",
+    "id": "Episode Three",
     "title": "Episode Three",
     "image": "episodes/ep3/image.png",
     "text": "episodes/ep3/text.md",
