@@ -42,6 +42,11 @@
   "mutedColor": "#66747A",
   "clayLight": "#F4F1EA",
   "clayDark": "#B7C9D3",
+  "avatarSkinColor": "#FDDCB5",
+  "avatarHeadsetColor": "#3D5A80",
+  "avatarImageUrl": "episodes/ep1/avatar.png",
+  "highlightColor": "rgba(224, 122, 95, 0.26)",
+  "avatarSize": "90px",
   "logoUrl": "",
   "flagIconUrl": ""
 }

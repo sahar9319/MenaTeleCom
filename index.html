@@ -18,6 +18,10 @@
         --success: #5fa8a0;
         --clay-light: #f4f1ea;
         --clay-dark: #b7c9d3;
+        --avatar-skin-color: #fddcb5;
+        --avatar-headset-color: #3d5a80;
+        --highlight-color: rgba(224, 122, 95, 0.26);
+        --avatar-size: 90px;
         --radius: 24px;
         --radius-sm: 16px;
         --content: 1160px;
@@ -839,6 +843,21 @@
         font-weight: 760;
       }
 
+      .word {
+        display: inline-block;
+        border-radius: 8px;
+        padding: 0 0.08em;
+        transition: background-color 160ms var(--ease), color 160ms var(--ease), transform 160ms var(--ease), box-shadow 160ms var(--ease);
+        transform-origin: center;
+      }
+
+      .word.active {
+        color: var(--ink);
+        background: var(--highlight-color);
+        box-shadow: inset 2px 2px 5px rgba(255,255,255,0.62), inset -2px -2px 5px color-mix(in srgb, var(--accent) 18%, transparent);
+        transform: scale(1.04);
+      }
+
       .player {
         display: grid;
         grid-template-columns: auto auto minmax(0, 1fr) auto;
@@ -850,6 +869,93 @@
         border-radius: 24px;
         background: linear-gradient(135deg, color-mix(in srgb, var(--secondary) 18%, var(--surface)), color-mix(in srgb, var(--primary) 12%, var(--surface)));
         box-shadow: var(--shadow);
+      }
+
+      .floating-avatar {
+        position: fixed;
+        right: max(24px, env(safe-area-inset-right));
+        bottom: max(24px, env(safe-area-inset-bottom));
+        z-index: 70;
+        width: var(--avatar-size);
+        height: var(--avatar-size);
+        border: 0;
+        padding: 0;
+        background: transparent;
+        box-shadow: none;
+        opacity: 0.86;
+        pointer-events: none;
+        transform: translate3d(0, var(--avatar-y, 0), 0) rotate(var(--avatar-rotate, 0deg)) scale(var(--avatar-scale, 1));
+        transform-origin: center bottom;
+        transition: opacity 180ms var(--ease);
+        will-change: transform;
+      }
+
+      .floating-avatar.speaking {
+        opacity: 0.98;
+      }
+
+      body.modal-lock .floating-avatar {
+        opacity: 0.72;
+      }
+
+      body.modal-lock .floating-avatar.speaking {
+        opacity: 0.9;
+      }
+
+      .avatar-head-svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+      }
+
+      .avatar-photo {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        border: 0;
+        border-radius: 42% 42% 48% 48%;
+        background: transparent;
+        box-shadow: none;
+        -webkit-mask-image: radial-gradient(ellipse 62% 72% at 50% 49%, #000 68%, transparent 79%);
+        mask-image: radial-gradient(ellipse 62% 72% at 50% 49%, #000 68%, transparent 79%);
+      }
+
+      .avatar-photo img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 50% 33%;
+        transform: scale(2.45);
+        transform-origin: 50% 31%;
+      }
+
+      .avatar-photo-mouth {
+        position: absolute;
+        left: 50.5%;
+        top: 67%;
+        width: 17%;
+        height: 4.6%;
+        border-radius: 999px;
+        background: color-mix(in srgb, var(--ink) 86%, black);
+        opacity: 0.78;
+        transform: translate(-50%, -50%) scale(var(--mouth-x, 1), var(--mouth-y, 1));
+        transform-origin: center;
+        transition: transform 90ms linear, opacity 140ms var(--ease);
+      }
+
+      .avatar-eye,
+      .avatar-brow,
+      .avatar-mouth {
+        transform-box: fill-box;
+        transform-origin: center;
+        transition: transform 90ms linear;
+      }
+
+      .avatar-mouth {
+        transform: scale(var(--mouth-x, 1), var(--mouth-y, 1));
       }
 
       #muteBtn {
@@ -1043,6 +1149,13 @@
           padding: 10px;
         }
 
+        .floating-avatar {
+          right: max(14px, env(safe-area-inset-right));
+          bottom: calc(88px + env(safe-area-inset-bottom));
+          width: min(var(--avatar-size), 72px);
+          height: min(var(--avatar-size), 72px);
+        }
+
         .glossary-head {
           align-items: start;
           flex-direction: column;
@@ -1215,6 +1328,8 @@
       </div>
     </div>
 
+    <div class="floating-avatar" id="avatarHost" aria-hidden="true"></div>
+
     <script>
       const DEFAULT_CONFIG = {
         siteTitle: "Research Episodes",
@@ -1260,6 +1375,11 @@
         mutedColor: "#66747A",
         clayLight: "#F4F1EA",
         clayDark: "#B7C9D3",
+        avatarSkinColor: "#FDDCB5",
+        avatarHeadsetColor: "#3D5A80",
+        avatarImageUrl: "episodes/ep1/avatar.png",
+        highlightColor: "rgba(224, 122, 95, 0.26)",
+        avatarSize: "90px",
         logoUrl: "",
         flagIconUrl: ""
       };
@@ -1302,6 +1422,7 @@
       const flipCard = document.querySelector("#flipCard");
       const frontFace = document.querySelector("#frontFace");
       const markdownBody = document.querySelector("#markdownBody");
+      const avatarHost = document.querySelector("#avatarHost");
       const expandedTitle = document.querySelector("#expandedTitle");
       const expandedDate = document.querySelector("#expandedDate");
       const readerHomeBtn = document.querySelector("#readerHomeBtn");
@@ -1322,6 +1443,7 @@
       const motionDuration = (name) => reduceMotion.matches ? 0 : TIMING[name];
       const scheduleIdle = window.requestIdleCallback || ((callback) => setTimeout(callback, 1));
       const markdownCache = new Map();
+      const timingCache = new Map();
       const glossaryAudioState = new WeakMap();
 
       let config = DEFAULT_CONFIG;
@@ -1338,6 +1460,22 @@
       let flipTouchY = null;
       let previousFocus = null;
       let resizeFrame = null;
+      let audioContext = null;
+      let avatarAnalyser = null;
+      let avatarData = null;
+      let avatarFreqData = null;
+      let avatarFrame = null;
+      let blinkTimer = null;
+      let mouthLevel = 0;
+      let mouthWidth = 0;
+      let browLevel = 0;
+      let nodLevel = 0;
+      let lastRms = 0;
+      let activeAudio = null;
+      let connectedAvatarSource = null;
+      const audioSources = new WeakMap();
+      let activeWord = null;
+      let highlightFrame = null;
 
       const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -1353,6 +1491,10 @@
         root.style.setProperty("--muted", config.mutedColor);
         root.style.setProperty("--clay-light", config.clayLight);
         root.style.setProperty("--clay-dark", config.clayDark);
+        root.style.setProperty("--avatar-skin-color", config.avatarSkinColor || "#FDDCB5");
+        root.style.setProperty("--avatar-headset-color", config.avatarHeadsetColor || config.primaryColor);
+        root.style.setProperty("--highlight-color", config.highlightColor || "rgba(224, 122, 95, 0.26)");
+        root.style.setProperty("--avatar-size", config.avatarSize || "90px");
       };
 
       const applyCopy = () => {
@@ -1540,6 +1682,302 @@
         return plain.length > 100 ? `${plain.slice(0, 100).trim()}...` : plain;
       };
 
+      const episodeFolder = (episode) => {
+        const source = episode.text || episode.audio || "";
+        const slash = source.lastIndexOf("/");
+        return slash >= 0 ? source.slice(0, slash + 1) : "";
+      };
+
+      const fetchEpisodeTiming = async (episode) => {
+        const timingUrl = episode.timing || `${episodeFolder(episode)}timing.json`;
+        if (!timingUrl) return [];
+        if (timingCache.has(timingUrl)) return timingCache.get(timingUrl);
+
+        try {
+          const response = await fetch(timingUrl, { cache: "no-store" });
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          const timing = (await response.json()).filter((item) =>
+            item && typeof item.word === "string" && Number.isFinite(Number(item.start)) && Number.isFinite(Number(item.end))
+          );
+          timingCache.set(timingUrl, timing);
+          return timing;
+        } catch (error) {
+          timingCache.set(timingUrl, []);
+          return [];
+        }
+      };
+
+      const wrapTextNodeWithTiming = (textNode, timing, cursor) => {
+        const text = textNode.nodeValue;
+        const parts = text.match(/\S+|\s+/g);
+        if (!parts) return cursor;
+
+        const fragment = document.createDocumentFragment();
+        parts.forEach((part) => {
+          if (/^\s+$/.test(part) || cursor.index >= timing.length) {
+            fragment.append(document.createTextNode(part));
+            return;
+          }
+
+          const stamp = timing[cursor.index];
+          const span = document.createElement("span");
+          span.className = "word";
+          span.dataset.start = String(Number(stamp.start));
+          span.dataset.end = String(Number(stamp.end));
+          span.textContent = part;
+          fragment.append(span);
+          cursor.index += 1;
+        });
+
+        textNode.replaceWith(fragment);
+        return cursor;
+      };
+
+      const enableTextHighlighting = (timing) => {
+        activeWord = null;
+        if (!timing.length) {
+          markdownBody.dataset.highlighting = "false";
+          return;
+        }
+
+        const cursor = { index: 0 };
+        const walker = document.createTreeWalker(markdownBody, NodeFilter.SHOW_TEXT, {
+          acceptNode(node) {
+            if (!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+            const parent = node.parentElement;
+            if (!parent || parent.closest("script, style, a")) return NodeFilter.FILTER_REJECT;
+            return NodeFilter.FILTER_ACCEPT;
+          }
+        });
+        const nodes = [];
+        while (walker.nextNode()) nodes.push(walker.currentNode);
+        nodes.forEach((node) => wrapTextNodeWithTiming(node, timing, cursor));
+        markdownBody.dataset.highlighting = cursor.index ? "true" : "false";
+      };
+
+      const updateTextHighlight = () => {
+        highlightFrame = null;
+        if (!isExpanded || markdownBody.dataset.highlighting !== "true") return;
+        const current = audio.currentTime || 0;
+        const active = Array.from(markdownBody.querySelectorAll(".word")).find((span) => {
+          const start = Number(span.dataset.start);
+          const end = Number(span.dataset.end);
+          return current >= start && current < end;
+        });
+        if (active === activeWord) return;
+        if (activeWord) activeWord.classList.remove("active");
+        activeWord = active || null;
+        if (activeWord) {
+          activeWord.classList.add("active");
+          if (!reduceMotion.matches) {
+            activeWord.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
+          }
+        }
+      };
+
+      const requestTextHighlight = () => {
+        if (highlightFrame !== null) return;
+        highlightFrame = requestAnimationFrame(updateTextHighlight);
+      };
+
+      const builtInAvatar = () => `
+        <svg class="avatar-head-svg" viewBox="0 0 120 120" fill="none" aria-hidden="true">
+          <defs>
+            <radialGradient id="avatarFaceGlow" cx="34%" cy="24%" r="74%">
+              <stop offset="0" stop-color="#fff6e9"/>
+              <stop offset="0.44" stop-color="var(--avatar-skin-color)"/>
+              <stop offset="1" stop-color="color-mix(in srgb, var(--avatar-skin-color) 74%, var(--accent))"/>
+            </radialGradient>
+            <linearGradient id="avatarHeadset" x1="25" y1="18" x2="92" y2="92">
+              <stop stop-color="color-mix(in srgb, var(--avatar-headset-color) 76%, white)"/>
+              <stop offset="1" stop-color="var(--avatar-headset-color)"/>
+            </linearGradient>
+          </defs>
+          <ellipse cx="32" cy="60" rx="9" ry="14" fill="color-mix(in srgb, var(--avatar-skin-color) 86%, var(--accent))"/>
+          <ellipse cx="88" cy="60" rx="9" ry="14" fill="color-mix(in srgb, var(--avatar-skin-color) 86%, var(--accent))"/>
+          <ellipse cx="60" cy="62" rx="38" ry="42" fill="url(#avatarFaceGlow)"/>
+          <ellipse class="avatar-eye avatar-eye-left" cx="47" cy="56" rx="8" ry="6" fill="#fffaf2"/>
+          <ellipse class="avatar-eye avatar-eye-right" cx="73" cy="56" rx="8" ry="6" fill="#fffaf2"/>
+          <circle class="avatar-pupil" cx="48" cy="57" r="3.2" fill="var(--ink)"/>
+          <circle class="avatar-pupil" cx="72" cy="57" r="3.2" fill="var(--ink)"/>
+          <path class="avatar-brow avatar-brow-left" d="M39 45c5-4 10-4 15-1" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+          <path class="avatar-brow avatar-brow-right" d="M66 44c5-3 10-3 15 1" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+          <rect class="avatar-mouth" x="50" y="72" width="20" height="8" rx="4" fill="color-mix(in srgb, var(--ink) 86%, black)"/>
+          <path d="M30 58c0-24 15-38 30-38s30 14 30 38" stroke="url(#avatarHeadset)" stroke-width="7" stroke-linecap="round"/>
+          <rect x="22" y="54" width="13" height="22" rx="7" fill="url(#avatarHeadset)"/>
+          <rect x="85" y="54" width="13" height="22" rx="7" fill="url(#avatarHeadset)"/>
+          <path d="M91 74c0 13-11 20-24 20" stroke="url(#avatarHeadset)" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="65" cy="94" r="4" fill="var(--avatar-headset-color)"/>
+          <path d="M60 20V9M54 20h12M60 9l-5-5M60 9l5-5" stroke="var(--secondary)" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      `;
+
+      const renderAvatar = () => {
+        if (!config.avatarImageUrl) {
+          avatarHost.innerHTML = builtInAvatar();
+          return;
+        }
+
+        avatarHost.innerHTML = `
+          <div class="avatar-photo">
+            <img src="${escapeHtml(config.avatarImageUrl)}" alt="">
+            <span class="avatar-photo-mouth"></span>
+          </div>
+        `;
+        const img = avatarHost.querySelector("img");
+        img.onerror = () => {
+          avatarHost.innerHTML = builtInAvatar();
+        };
+      };
+
+      const setAvatarExpression = (speaking) => {
+        const mouth = avatarHost.querySelector(".avatar-mouth, .avatar-photo-mouth");
+        const brows = avatarHost.querySelectorAll(".avatar-brow");
+        if (mouth) {
+          mouth.style.setProperty("--mouth-x", String(1 + mouthWidth));
+          mouth.style.setProperty("--mouth-y", String(1 + mouthLevel * 1.5));
+        }
+        brows.forEach((brow, index) => {
+          const sideLift = nodLevel > 0.35 && index === 0 ? 1.4 : 0;
+          brow.style.transform = `translateY(${-browLevel * 2 - sideLift}px)`;
+        });
+        avatarHost.classList.toggle("speaking", speaking);
+      };
+
+      const blinkAvatar = () => {
+        const eyes = avatarHost.querySelectorAll(".avatar-eye, .avatar-pupil");
+        eyes.forEach((eye) => {
+          eye.style.transform = "scaleY(0.1)";
+        });
+        setTimeout(() => {
+          eyes.forEach((eye) => {
+            eye.style.transform = "";
+          });
+        }, 110);
+        scheduleBlink();
+      };
+
+      const scheduleBlink = () => {
+        clearTimeout(blinkTimer);
+        const speaking = activeAudio && !activeAudio.paused && !activeAudio.muted;
+        const min = speaking ? 1500 : 2000;
+        const max = speaking ? 4000 : 5000;
+        blinkTimer = setTimeout(blinkAvatar, min + Math.random() * (max - min));
+      };
+
+      const stopAvatar = (audioElement = activeAudio) => {
+        if (audioElement && activeAudio && audioElement !== activeAudio) return;
+        activeAudio = null;
+        mouthLevel = 0;
+        mouthWidth = 0;
+        browLevel = 0;
+        nodLevel = 0;
+        lastRms = 0;
+        avatarHost.style.setProperty("--avatar-y", "0px");
+        avatarHost.style.setProperty("--avatar-rotate", "0deg");
+        setAvatarExpression(false);
+        if (avatarFrame !== null) {
+          cancelAnimationFrame(avatarFrame);
+          avatarFrame = null;
+        }
+        scheduleBlink();
+      };
+
+      const ensureAvatarAnalyser = async (audioElement) => {
+        if (!audioContext) {
+          const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+          if (!AudioContextClass) return false;
+          audioContext = new AudioContextClass();
+        }
+        if (audioContext.state === "suspended") {
+          await audioContext.resume();
+        }
+        if (!avatarAnalyser) {
+          avatarAnalyser = audioContext.createAnalyser();
+          avatarAnalyser.fftSize = 256;
+          avatarAnalyser.smoothingTimeConstant = 0.72;
+          avatarData = new Uint8Array(avatarAnalyser.fftSize);
+          avatarFreqData = new Uint8Array(avatarAnalyser.frequencyBinCount);
+          avatarAnalyser.connect(audioContext.destination);
+        }
+        let source = audioSources.get(audioElement);
+        if (!source) {
+          source = audioContext.createMediaElementSource(audioElement);
+          audioSources.set(audioElement, source);
+        }
+        if (connectedAvatarSource && connectedAvatarSource !== source) {
+          try {
+            connectedAvatarSource.disconnect();
+          } catch (error) {
+            /* Source may already be disconnected by the browser. */
+          }
+        }
+        if (connectedAvatarSource !== source) {
+          source.connect(avatarAnalyser);
+          connectedAvatarSource = source;
+        }
+        return true;
+      };
+
+      const animateAvatar = () => {
+        const sourceAudio = activeAudio;
+        const now = performance.now();
+        const idleY = Math.sin(now / 820) * 1.15;
+        const idleRotate = Math.sin(now / 1100) * 1.5;
+
+        if (!sourceAudio || sourceAudio.paused || sourceAudio.ended || sourceAudio.muted || !avatarAnalyser || !avatarData || !avatarFreqData) {
+          avatarHost.style.setProperty("--avatar-y", `${idleY.toFixed(2)}px`);
+          avatarHost.style.setProperty("--avatar-rotate", `${idleRotate.toFixed(2)}deg`);
+          setAvatarExpression(false);
+          avatarFrame = requestAnimationFrame(animateAvatar);
+          return;
+        }
+
+        avatarAnalyser.getByteTimeDomainData(avatarData);
+        avatarAnalyser.getByteFrequencyData(avatarFreqData);
+        let sum = 0;
+        for (let index = 0; index < avatarData.length; index += 1) {
+          const normalized = (avatarData[index] - 128) / 128;
+          sum += normalized * normalized;
+        }
+        let high = 0;
+        const highStart = Math.floor(avatarFreqData.length * 0.55);
+        for (let index = highStart; index < avatarFreqData.length; index += 1) {
+          high += avatarFreqData[index] / 255;
+        }
+        const rms = Math.sqrt(sum / avatarData.length);
+        const volume = Math.max(0, Math.min(1, (rms - 0.018) * 10));
+        const highEnergy = high / Math.max(1, avatarFreqData.length - highStart);
+        const peak = volume - lastRms > 0.18;
+        lastRms = volume;
+        mouthLevel += (volume - mouthLevel) * 0.24;
+        mouthWidth += (Math.min(0.34, highEnergy * 0.42) - mouthWidth) * 0.2;
+        browLevel += (volume - browLevel) * 0.18;
+        nodLevel += ((peak ? 1 : 0) - nodLevel) * 0.32;
+        const speakingY = idleY + (nodLevel * 1.4);
+        const speakingRotate = idleRotate + (peak ? -1.1 : 0);
+        avatarHost.style.setProperty("--avatar-y", `${speakingY.toFixed(2)}px`);
+        avatarHost.style.setProperty("--avatar-rotate", `${speakingRotate.toFixed(2)}deg`);
+        setAvatarExpression(true);
+        avatarFrame = requestAnimationFrame(animateAvatar);
+      };
+
+      const startAvatar = async (audioElement = audio) => {
+        if (!audioElement || audioElement.muted) {
+          stopAvatar();
+          return;
+        }
+        if (activeAudio && activeAudio !== audioElement && !activeAudio.paused) {
+          activeAudio.pause();
+        }
+        activeAudio = audioElement;
+        const ready = await ensureAvatarAnalyser(audioElement);
+        if (!ready) return;
+        if (avatarFrame !== null) cancelAnimationFrame(avatarFrame);
+        scheduleBlink();
+        animateAvatar();
+      };
+
       const updateGlossaryTime = (state) => {
         const duration = state.audio.duration || 0;
         const current = state.audio.currentTime || 0;
@@ -1573,6 +2011,7 @@
           clearTimeout(state.closeTimer);
           state.audio.pause();
           state.audio.currentTime = 0;
+          stopAvatar(state.audio);
           updateGlossaryTime(state);
           updateGlossaryPlayState(tile);
         }
@@ -1659,9 +2098,22 @@
           tile.querySelector(".glossary-trigger").focus({ preventScroll: true });
         });
 
-        state.audio.addEventListener("play", () => updateGlossaryPlayState(tile));
-        state.audio.addEventListener("pause", () => updateGlossaryPlayState(tile));
-        state.audio.addEventListener("volumechange", () => updateGlossaryMuteState(tile));
+        state.audio.addEventListener("play", () => {
+          updateGlossaryPlayState(tile);
+          startAvatar(state.audio);
+        });
+        state.audio.addEventListener("pause", () => {
+          updateGlossaryPlayState(tile);
+          stopAvatar(state.audio);
+        });
+        state.audio.addEventListener("volumechange", () => {
+          updateGlossaryMuteState(tile);
+          if (state.audio.muted) {
+            stopAvatar(state.audio);
+          } else if (!state.audio.paused) {
+            startAvatar(state.audio);
+          }
+        });
         state.audio.addEventListener("loadedmetadata", () => updateGlossaryTime(state));
         state.audio.addEventListener("timeupdate", () => updateGlossaryTime(state));
         state.audio.addEventListener("error", () => {
@@ -1669,6 +2121,7 @@
         });
         state.audio.addEventListener("ended", () => {
           updateGlossaryPlayState(tile);
+          stopAvatar(state.audio);
           if (config.glossaryAutoClose) {
             state.closeTimer = setTimeout(() => closeGlossaryTile(tile), 2000);
           }
@@ -1923,6 +2376,7 @@
         const sourceRect = sourceCard.getBoundingClientRect();
         const targetRect = viewportRect();
         const htmlPromise = fetchMarkdownHtml(episode);
+        const timingPromise = fetchEpisodeTiming(episode);
 
         frontFace.replaceChildren();
         const frontImage = document.createElement("img");
@@ -1934,6 +2388,8 @@
         expandedDate.textContent = episode.date || "";
         expandedDate.dateTime = episode.date || "";
         markdownBody.innerHTML = `<p>${escapeHtml(config.loadingText)}</p>`;
+        markdownBody.dataset.highlighting = "false";
+        activeWord = null;
         audio.src = episode.audio;
         audio.volume = Number(volume.value);
         updateTime();
@@ -1957,6 +2413,7 @@
         normalizeShellTo(targetRect);
         flipCard.classList.add("flipped");
         markdownBody.innerHTML = await htmlPromise;
+        enableTextHighlighting(await timingPromise);
         await wait(motionDuration("flip"));
         backBtn.focus();
       }
@@ -1968,6 +2425,10 @@
         audio.pause();
         audio.currentTime = 0;
         setPlayState();
+        stopAvatar(audio);
+        if (activeWord) activeWord.classList.remove("active");
+        activeWord = null;
+        markdownBody.dataset.highlighting = "false";
 
         const sourceRect = activeSourceCard.getBoundingClientRect();
         const targetRect = viewportRect();
@@ -2031,6 +2492,7 @@
         if (audio.paused) {
           try {
             await audio.play();
+            await startAvatar(audio);
           } catch (error) {
             setStatus(config.audioError);
           }
@@ -2042,6 +2504,11 @@
       muteBtn.addEventListener("click", () => {
         audio.muted = !audio.muted;
         setMuteState();
+        if (audio.muted) {
+          stopAvatar(audio);
+        } else if (!audio.paused) {
+          startAvatar(audio);
+        }
       });
 
       backBtn.addEventListener("click", async () => {
@@ -2050,15 +2517,32 @@
       readerHomeBtn.addEventListener("click", goHome);
       homeBtn.addEventListener("click", goHome);
       glossaryBtn.addEventListener("click", showGlossary);
-      audio.addEventListener("play", setPlayState);
-      audio.addEventListener("pause", setPlayState);
-      audio.addEventListener("volumechange", setMuteState);
+      audio.addEventListener("play", () => {
+        setPlayState();
+        startAvatar(audio);
+      });
+      audio.addEventListener("pause", () => {
+        setPlayState();
+        stopAvatar(audio);
+      });
+      audio.addEventListener("volumechange", () => {
+        setMuteState();
+        if (audio.muted) {
+          stopAvatar(audio);
+        } else if (!audio.paused) {
+          startAvatar(audio);
+        }
+      });
       audio.addEventListener("loadedmetadata", updateTime);
-      audio.addEventListener("timeupdate", updateTime);
+      audio.addEventListener("timeupdate", () => {
+        updateTime();
+        requestTextHighlight();
+      });
       audio.addEventListener("error", () => {
         timeDisplay.textContent = config.audioUnavailable;
       });
       audio.addEventListener("ended", () => {
+        stopAvatar(audio);
         closeAudioTimer = setTimeout(() => {
           if (isExpanded) closeEpisode();
         }, TIMING.autoReturnDelay);
@@ -2067,6 +2551,7 @@
       progress.addEventListener("input", () => {
         if (!audio.duration) return;
         audio.currentTime = (Number(progress.value) / 100) * audio.duration;
+        requestTextHighlight();
       });
 
       volume.addEventListener("input", () => {
@@ -2139,6 +2624,9 @@
 
       const init = async () => {
         await loadConfig();
+        renderAvatar();
+        animateAvatar();
+        scheduleBlink();
         await loadEpisodes();
       };
 
