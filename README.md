@@ -1,76 +1,65 @@
 # MenaTeleCom Research Episodes
 
-A single-page static website for sharing research episodes with images, Markdown notes, and audio recordings.
+A static, single-page telecom research site with a Home landing view and an Episodes view. It uses vanilla HTML/CSS/JS, Markdown rendering, custom audio controls, quick image previews, sentence highlighting, and an audio-reactive avatar.
 
-## Configure The Site
+## Run Locally
 
-Edit `config.json` to change site-wide copy, labels, colors, and optional logo/flag assets:
-
-```json
-{
-  "siteTitle": "MENA Telecommunication Market",
-  "tagline": "Signal Stories",
-  "homeButtonText": "Home",
-  "backButtonText": "Back to main page",
-  "primaryColor": "#6C9BCF",
-  "secondaryColor": "#FFB5A7",
-  "logoUrl": "",
-  "flagIconUrl": ""
-}
-```
-
-Episode titles, images, audio, and Markdown paths still come from `episodes.json`.
-
-## Add Episodes
-
-Create one folder per episode inside `episodes/`:
-
-```text
-episodes/
-  ep1/
-    image.jpg
-    text.md
-    audio.mp3
-    meta.json
-```
-
-`meta.json` is optional:
-
-```json
-{
-  "title": "My Title",
-  "date": "2025-01-15"
-}
-```
-
-Images can use `image.jpg`, `image.jpeg`, `image.png`, or `image.webp`. Audio can use `audio.mp3`, `audio.m4a`, `audio.ogg`, or `audio.wav`.
-
-## Generate The Manifest
-
-Run this before uploading or deploying:
-
-```bash
-node generate_manifest.js
-```
-
-The script scans `episodes/` and writes `episodes.json` with relative paths used by `index.html`.
-
-## Test Locally
-
-The site uses `fetch`, so open it through a local server:
-
-```bash
-npx serve .
-```
-
-Or:
+Use a local server because the site fetches JSON, Markdown, audio, and image files:
 
 ```bash
 python -m http.server 8000
 ```
 
-Then open the shown local URL, such as `http://localhost:8000`.
+Open `http://localhost:8000/`.
 
-## Free Hosting
+## Configure
 
-GitHub Pages, Netlify, and Vercel all host this project as static files. Push or upload the full folder, including `index.html`, `config.json`, `episodes.json`, `generate_manifest.js`, and `episodes/`.
+Edit `config.json` to change labels, colors, avatar settings, and behavior:
+
+```json
+{
+  "siteTitle": "MENA Telecommunication Market",
+  "homeButtonText": "Home",
+  "episodesButtonText": "Episodes",
+  "avatarImageUrl": "episodes/ep1/avatar.png",
+  "primaryColor": "#1E3A5F",
+  "accentColor": "#E07A5F"
+}
+```
+
+## Episodes
+
+Create one folder per episode:
+
+```text
+episodes/
+  ep1/
+    image.png
+    text.md
+    audio.mp3
+    timing.json
+    meta.json
+```
+
+`timing.json` is optional and enables exact sentence highlighting:
+
+```json
+[{ "word": "Hello", "start": 0, "end": 0.4 }]
+```
+
+Generate `episodes.json`:
+
+```bash
+node generate_episodes_manifest.js
+```
+
+## Hosting
+
+The project is fully static. Upload the folder to GitHub Pages, Netlify, Vercel, or any static host. Include:
+
+```text
+index.html
+config.json
+episodes.json
+episodes/
+```

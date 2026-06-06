@@ -289,7 +289,7 @@
       }
 
       .skeleton-grid.fading {
-        opacity: 0;
+        opacity: 0.86;
       }
 
       .skeleton-card {
@@ -459,220 +459,11 @@
         transform: translate3d(0, 10px, 0);
       }
 
-      .glossary-head {
+      .home-actions {
         display: flex;
-        align-items: end;
-        justify-content: space-between;
-        gap: 18px;
-        padding: clamp(22px, 5vw, 46px) 0 clamp(18px, 4vw, 30px);
-      }
-
-      .glossary-copy {
-        max-width: 760px;
-      }
-
-      .glossary-copy h2 {
-        margin: 0;
-        font-size: clamp(2rem, 5vw, 4rem);
-        line-height: 1;
-      }
-
-      .glossary-copy p {
-        max-width: 650px;
-        margin: 14px 0 0;
-        color: var(--muted);
-        font-size: clamp(1rem, 1.8vw, 1.12rem);
-        line-height: 1.65;
-      }
-
-      .glossary-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        align-items: start;
-        gap: clamp(18px, 3vw, 28px);
-      }
-
-      @media (min-width: 768px) {
-        .glossary-grid {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-      }
-
-      @media (min-width: 1024px) {
-        .glossary-grid {
-          grid-template-columns: repeat(3, minmax(0, 1fr));
-        }
-      }
-
-      .glossary-tile {
-        position: relative;
-        overflow: hidden;
-        border-radius: 18px;
-        background:
-          radial-gradient(circle at 14% 12%, color-mix(in srgb, var(--tertiary) 16%, transparent), transparent 9rem),
-          linear-gradient(135deg, color-mix(in srgb, var(--surface) 86%, var(--secondary)), color-mix(in srgb, var(--surface) 88%, var(--primary)));
-        box-shadow: var(--shadow);
-        opacity: 0;
-        transform: translate3d(0, 12px, 0);
-        transition: opacity 320ms var(--ease), transform 320ms var(--ease), box-shadow 180ms var(--ease);
-      }
-
-      .glossary-tile.ready {
-        opacity: 1;
-        transform: translate3d(0, 0, 0);
-      }
-
-      .glossary-tile.is-pressing {
-        transform: translate3d(0, 1px, 0) scale(0.97);
-        box-shadow: var(--shadow-pressed);
-      }
-
-      .glossary-tile.is-playing::after {
-        content: "";
-        position: absolute;
-        inset: 50% auto auto 50%;
-        width: 36px;
-        height: 36px;
-        border-radius: 999px;
-        pointer-events: none;
-        transform: translate(-50%, -50%);
-        animation: radarPulse 1.8s var(--ease) infinite;
-      }
-
-      @keyframes radarPulse {
-        0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--secondary) 34%, transparent), 0 0 0 0 color-mix(in srgb, var(--primary) 22%, transparent); opacity: 0.9; }
-        100% { box-shadow: 0 0 0 34px transparent, 0 0 0 62px transparent; opacity: 0; }
-      }
-
-      .glossary-trigger {
-        position: relative;
-        z-index: 1;
-        display: grid;
-        grid-template-columns: auto minmax(0, 1fr);
-        gap: 14px;
-        width: 100%;
-        min-height: 168px;
-        padding: 18px;
-        background: transparent;
-        color: var(--ink);
-        text-align: left;
-      }
-
-      .glossary-icon {
-        display: grid;
-        place-items: center;
-        width: 54px;
-        height: 54px;
-        border-radius: 18px;
-        color: #fff;
-        background: linear-gradient(135deg, var(--primary), var(--secondary));
-        box-shadow: var(--shadow-soft);
-      }
-
-      .glossary-icon svg {
-        width: 28px;
-        height: 28px;
-        stroke-width: 2.25;
-      }
-
-      .glossary-title {
-        display: block;
-        margin: 4px 0 8px;
-        font-size: 1rem;
-        font-weight: 850;
-        line-height: 1.22;
-      }
-
-      .glossary-snippet {
-        position: relative;
-        display: block;
-        max-height: 4.7em;
-        overflow: hidden;
-        margin: 0;
-        color: var(--muted);
-        font-size: 0.92rem;
-        line-height: 1.55;
-      }
-
-      .glossary-snippet::after {
-        content: "";
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        width: 42%;
-        height: 1.6em;
-        background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--surface) 90%, var(--primary)));
-      }
-
-      .glossary-panel {
-        display: grid;
-        grid-template-rows: 0fr;
-        transition: grid-template-rows 300ms var(--ease);
-      }
-
-      .glossary-tile.expanded .glossary-panel {
-        grid-template-rows: 1fr;
-      }
-
-      .glossary-panel-inner {
-        min-height: 0;
-        overflow: hidden;
-      }
-
-      .glossary-detail {
-        max-height: min(44vh, 360px);
-        overflow-y: auto;
-        margin: 0 18px 14px;
-        padding: 18px;
-        border-radius: 18px;
-        background: color-mix(in srgb, var(--surface) 74%, transparent);
-        box-shadow: var(--shadow-soft);
-        color: var(--ink);
-        font-size: clamp(1rem, 1.2vw, 1.08rem);
-        line-height: 1.68;
-      }
-
-      .glossary-detail h1,
-      .glossary-detail h2,
-      .glossary-detail h3 {
-        margin: 0 0 10px;
-        font-size: 1.1rem;
-        line-height: 1.2;
-      }
-
-      .glossary-detail p,
-      .glossary-detail ul {
-        margin: 0 0 14px;
-      }
-
-      .glossary-player {
-        display: grid;
-        grid-template-columns: auto auto minmax(0, 1fr) auto;
-        align-items: center;
-        gap: 10px;
-        margin: 0 18px 18px;
-        padding: 11px;
-        border-radius: 20px;
-        background: linear-gradient(135deg, color-mix(in srgb, var(--secondary) 18%, var(--surface)), color-mix(in srgb, var(--primary) 12%, var(--surface)));
-        box-shadow: var(--shadow-soft);
-      }
-
-      .glossary-close {
-        width: auto;
-        min-width: max-content;
-        height: 42px;
-        padding: 0 14px;
-        border-radius: 14px;
-        color: #fff;
-        background: linear-gradient(135deg, var(--primary), var(--accent));
-        box-shadow: var(--shadow-soft);
-        font-weight: 820;
-        transition: transform 180ms var(--ease), box-shadow 180ms var(--ease);
-      }
-
-      .glossary-close:active {
-        transform: translate3d(0, 1px, 0) scale(0.98);
-        box-shadow: var(--shadow-pressed);
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 22px;
       }
 
       .quick-view {
@@ -843,19 +634,19 @@
         font-weight: 760;
       }
 
-      .word {
+      .sentence {
         display: inline-block;
-        border-radius: 8px;
-        padding: 0 0.08em;
+        border-radius: 12px;
+        padding: 0 0.16em;
         transition: background-color 160ms var(--ease), color 160ms var(--ease), transform 160ms var(--ease), box-shadow 160ms var(--ease);
         transform-origin: center;
       }
 
-      .word.active {
+      .sentence.active {
         color: var(--ink);
         background: var(--highlight-color);
         box-shadow: inset 2px 2px 5px rgba(255,255,255,0.62), inset -2px -2px 5px color-mix(in srgb, var(--accent) 18%, transparent);
-        transform: scale(1.04);
+        transform: scale(1.015);
       }
 
       .player {
@@ -895,7 +686,7 @@
       }
 
       body.modal-lock .floating-avatar {
-        opacity: 0;
+        opacity: 0.72;
       }
 
       body.modal-lock .floating-avatar.speaking {
@@ -918,8 +709,8 @@
         border-radius: 42% 42% 48% 48%;
         background: transparent;
         box-shadow: none;
-        -webkit-mask-image: radial-gradient(ellipse 78% 88% at 50% 48%, #000 72%, transparent 88%);
-        mask-image: radial-gradient(ellipse 78% 88% at 50% 48%, #000 72%, transparent 88%);
+        -webkit-mask-image: radial-gradient(ellipse 48% 62% at 50% 43%, #000 78%, transparent 94%);
+        mask-image: radial-gradient(ellipse 48% 62% at 50% 43%, #000 78%, transparent 94%);
       }
 
       .avatar-photo img {
@@ -927,20 +718,20 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-        object-position: 50% 28%;
-        transform: scale(1.58);
-        transform-origin: 50% 28%;
+        object-position: 50% 24%;
+        transform: scale(2.24);
+        transform-origin: 50% 24%;
       }
 
       .avatar-photo-mouth {
         position: absolute;
         left: 50.5%;
-        top: 67%;
-        width: 17%;
-        height: 4.6%;
+        top: 64.5%;
+        width: 19%;
+        height: 3.8%;
         border-radius: 999px;
         background: color-mix(in srgb, var(--ink) 86%, black);
-        opacity: 0.78;
+        opacity: 0.84;
         transform: translate(-50%, -50%) scale(var(--mouth-x, 1), var(--mouth-y, 1));
         transform-origin: center;
         transition: transform 90ms linear, opacity 140ms var(--ease);
@@ -1156,30 +947,6 @@
           height: min(var(--avatar-size), 104px);
         }
 
-        .glossary-head {
-          align-items: start;
-          flex-direction: column;
-          padding-top: 16px;
-        }
-
-        .glossary-trigger {
-          min-height: 150px;
-          padding: 16px;
-        }
-
-        .glossary-player {
-          grid-template-columns: auto auto 1fr;
-        }
-
-        .glossary-player .time {
-          grid-column: 1 / -1;
-        }
-
-        .glossary-close {
-          grid-column: 1 / -1;
-          width: 100%;
-        }
-
         .player .time {
           grid-column: 1 / -1;
         }
@@ -1227,19 +994,22 @@
           <button class="clay-button home-button" id="homeBtn" type="button" aria-label="Home">
             <span>Home</span>
           </button>
-          <button class="clay-button home-button" id="glossaryBtn" type="button" aria-label="Glossary">
-            <span>Glossary</span>
+          <button class="clay-button home-button" id="episodesBtn" type="button" aria-label="Episodes">
+            <span>Episodes</span>
           </button>
         </nav>
       </header>
 
       <main class="page" id="top">
-        <section id="episodesView" class="view-panel">
+        <section id="homeView" class="view-panel">
           <section class="hero" aria-labelledby="heroTitle">
             <div class="hero-copy">
               <p class="eyebrow" id="heroEyebrow">Research Broadcast</p>
               <h1 id="heroTitle">Telecom Research Log</h1>
               <p id="heroDescription">Soft, focused research episodes on telecom operators, market signals, AI, and infrastructure shifts across the region.</p>
+              <div class="home-actions">
+                <button class="clay-button home-button" id="homeEpisodesBtn" type="button"><span>Episodes</span></button>
+              </div>
             </div>
 
             <div class="icon-row" aria-hidden="true">
@@ -1257,7 +1027,9 @@
               </div>
             </div>
           </section>
+        </section>
 
+        <section id="episodesView" class="view-panel hidden">
           <div id="status" class="status" role="status" aria-live="polite"></div>
           <section id="skeleton" class="skeleton-grid" aria-label="Loading episodes" aria-busy="true">
             <div class="skeleton-card"></div>
@@ -1267,17 +1039,6 @@
           <section id="grid" class="grid hidden" aria-label="Research episodes"></section>
         </section>
 
-        <section id="glossaryView" class="view-panel hidden" aria-labelledby="glossaryTitle">
-          <header class="glossary-head">
-            <div class="glossary-copy">
-              <p class="eyebrow" id="glossaryEyebrow">Audio Glossary</p>
-              <h2 id="glossaryTitle">Audio Glossary Table</h2>
-              <p id="glossaryDescription">Tap a telecom term to hear the field note and read the elaboration.</p>
-            </div>
-          </header>
-          <div id="glossaryStatus" class="status" role="status" aria-live="polite"></div>
-          <section id="glossaryGrid" class="glossary-grid" aria-label="Audio glossary"></section>
-        </section>
       </main>
     </div>
 
@@ -1337,16 +1098,7 @@
         eyebrow: "Research Broadcast",
         description: "Browse field notes, recordings, and visual research from each episode.",
         homeButtonText: "Home",
-        glossaryButtonText: "Glossary",
-        glossaryEyebrow: "Audio Glossary",
-        glossaryTitle: "Audio Glossary Table",
-        glossaryDescription: "Tap a telecom term to hear the field note and read the elaboration.",
-        glossaryAriaLabel: "Audio glossary",
-        glossaryLoadingLabel: "Loading glossary",
-        glossaryError: "Glossary could not be loaded. Check that glossary.json exists and that you are using a local server.",
-        glossaryEmpty: "No glossary entries are available yet.",
-        glossaryCloseText: "Close",
-        glossaryAutoClose: false,
+        episodesButtonText: "Episodes",
         backButtonText: "Back to main page",
         quickViewTooltip: "Quick preview",
         errorImageMissing: "Image not available",
@@ -1375,11 +1127,12 @@
         mutedColor: "#66747A",
         clayLight: "#F4F1EA",
         clayDark: "#B7C9D3",
+        enableAvatar: true,
         avatarSkinColor: "#FDDCB5",
         avatarHeadsetColor: "#3D5A80",
         avatarImageUrl: "episodes/ep1/avatar.png",
         highlightColor: "rgba(224, 122, 95, 0.26)",
-        avatarSize: "150px",
+        avatarSize: "190px",
         logoUrl: "",
         flagIconUrl: ""
       };
@@ -1398,7 +1151,8 @@
       const root = document.documentElement;
       const appShell = document.querySelector(".app-shell");
       const homeBtn = document.querySelector("#homeBtn");
-      const glossaryBtn = document.querySelector("#glossaryBtn");
+      const episodesBtn = document.querySelector("#episodesBtn");
+      const homeEpisodesBtn = document.querySelector("#homeEpisodesBtn");
       const brandTitle = document.querySelector("#brandTitle");
       const brandTagline = document.querySelector("#brandTagline");
       const logoWrap = document.querySelector("#logoWrap");
@@ -1406,13 +1160,8 @@
       const heroEyebrow = document.querySelector("#heroEyebrow");
       const heroTitle = document.querySelector("#heroTitle");
       const heroDescription = document.querySelector("#heroDescription");
+      const homeView = document.querySelector("#homeView");
       const episodesView = document.querySelector("#episodesView");
-      const glossaryView = document.querySelector("#glossaryView");
-      const glossaryEyebrow = document.querySelector("#glossaryEyebrow");
-      const glossaryTitle = document.querySelector("#glossaryTitle");
-      const glossaryDescription = document.querySelector("#glossaryDescription");
-      const glossaryStatus = document.querySelector("#glossaryStatus");
-      const glossaryGrid = document.querySelector("#glossaryGrid");
       const grid = document.querySelector("#grid");
       const skeleton = document.querySelector("#skeleton");
       const audioPlayer = document.querySelector("#audioPlayer");
@@ -1444,13 +1193,10 @@
       const scheduleIdle = window.requestIdleCallback || ((callback) => setTimeout(callback, 1));
       const markdownCache = new Map();
       const timingCache = new Map();
-      const glossaryAudioState = new WeakMap();
 
       let config = DEFAULT_CONFIG;
       let episodes = [];
-      let glossaryEntries = null;
-      let currentView = "episodes";
-      let activeGlossaryTile = null;
+      let currentView = "home";
       let activeSourceCard = null;
       let isExpanded = false;
       let isClosing = false;
@@ -1495,7 +1241,7 @@
         root.style.setProperty("--avatar-skin-color", config.avatarSkinColor || "#FDDCB5");
         root.style.setProperty("--avatar-headset-color", config.avatarHeadsetColor || config.primaryColor);
         root.style.setProperty("--highlight-color", config.highlightColor || "rgba(224, 122, 95, 0.26)");
-        root.style.setProperty("--avatar-size", config.avatarSize || "150px");
+        root.style.setProperty("--avatar-size", config.avatarSize || "190px");
       };
 
       const applyCopy = () => {
@@ -1507,11 +1253,9 @@
         heroDescription.textContent = config.description;
         homeBtn.querySelector("span").textContent = config.homeButtonText;
         homeBtn.setAttribute("aria-label", config.homeButtonText);
-        glossaryBtn.querySelector("span").textContent = config.glossaryButtonText;
-        glossaryBtn.setAttribute("aria-label", config.glossaryButtonText);
-        glossaryEyebrow.textContent = config.glossaryEyebrow;
-        glossaryTitle.textContent = config.glossaryTitle;
-        glossaryDescription.textContent = config.glossaryDescription;
+        episodesBtn.querySelector("span").textContent = config.episodesButtonText;
+        episodesBtn.setAttribute("aria-label", config.episodesButtonText);
+        homeEpisodesBtn.querySelector("span").textContent = config.episodesButtonText;
         readerHomeBtn.querySelector("span").textContent = config.homeButtonText;
         readerHomeBtn.setAttribute("aria-label", config.homeButtonText);
         backBtn.querySelector("span").textContent = config.backButtonText;
@@ -1521,7 +1265,6 @@
         muteBtn.title = config.muteTitle;
         grid.setAttribute("aria-label", config.episodesAriaLabel);
         skeleton.setAttribute("aria-label", config.loadingEpisodesLabel);
-        glossaryGrid.setAttribute("aria-label", config.glossaryAriaLabel);
         audioPlayer.setAttribute("aria-label", config.audioPlayerLabel);
         progress.setAttribute("aria-label", config.audioProgressLabel);
         volumeLabel.textContent = config.volumeLabel;
@@ -1552,19 +1295,19 @@
         statusBox.classList.toggle("visible", Boolean(message));
       };
 
-      const setGlossaryStatus = (message) => {
-        glossaryStatus.textContent = message;
-        glossaryStatus.classList.toggle("visible", Boolean(message));
-      };
-
       const setBackgroundInert = (inert) => {
         appShell.inert = inert;
       };
 
       const switchView = async (view) => {
         if (currentView === view) return;
-        const leaving = currentView === "glossary" ? glossaryView : episodesView;
-        const entering = view === "glossary" ? glossaryView : episodesView;
+        const views = {
+          home: homeView,
+          episodes: episodesView
+        };
+        const leaving = views[currentView];
+        const entering = views[view];
+        if (!leaving || !entering) return;
 
         leaving.classList.add("is-exiting");
         await wait(motionDuration("fade"));
@@ -1582,10 +1325,7 @@
         if (isExpanded) {
           await closeEpisode(false);
         }
-        if (activeGlossaryTile) {
-          closeGlossaryTile(activeGlossaryTile);
-        }
-        await switchView("episodes");
+        await switchView("home");
         setBackgroundInert(false);
         document.querySelector("#top").scrollIntoView({ behavior: reduceMotion.matches ? "auto" : "smooth", block: "start" });
         homeBtn.focus({ preventScroll: true });
@@ -1678,11 +1418,6 @@
         .replace(/\s+/g, " ")
         .trim();
 
-      const glossarySnippet = (text) => {
-        const plain = plainMarkdown(text);
-        return plain.length > 100 ? `${plain.slice(0, 100).trim()}...` : plain;
-      };
-
       const episodeFolder = (episode) => {
         const source = episode.text || episode.audio || "";
         const slash = source.lastIndexOf("/");
@@ -1708,26 +1443,42 @@
         }
       };
 
-      const wrapTextNodeWithTiming = (textNode, timing, cursor) => {
+      const sentenceChunks = (text) => {
+        const chunks = [];
+        const matches = String(text).match(/[^.!?]+[.!?]+["')\]]*|[^.!?]+$/g);
+        if (!matches) return chunks;
+        matches.forEach((chunk) => {
+          const leading = chunk.match(/^\s*/)[0];
+          const trailing = chunk.match(/\s*$/)[0];
+          const body = chunk.slice(leading.length, chunk.length - trailing.length);
+          if (leading) chunks.push({ text: leading, sentence: false });
+          if (body) chunks.push({ text: body, sentence: true, words: body.match(/\S+/g)?.length || 0 });
+          if (trailing) chunks.push({ text: trailing, sentence: false });
+        });
+        return chunks;
+      };
+
+      const wrapTextNodeWithSentenceTiming = (textNode, timing, cursor) => {
         const text = textNode.nodeValue;
-        const parts = text.match(/\S+|\s+/g);
-        if (!parts) return cursor;
+        const chunks = sentenceChunks(text);
+        if (!chunks.length) return cursor;
 
         const fragment = document.createDocumentFragment();
-        parts.forEach((part) => {
-          if (/^\s+$/.test(part) || cursor.index >= timing.length) {
-            fragment.append(document.createTextNode(part));
+        chunks.forEach((chunk) => {
+          if (!chunk.sentence || !chunk.words || cursor.index >= timing.length) {
+            fragment.append(document.createTextNode(chunk.text));
             return;
           }
 
-          const stamp = timing[cursor.index];
+          const first = timing[cursor.index];
+          const last = timing[Math.min(timing.length - 1, cursor.index + chunk.words - 1)];
           const span = document.createElement("span");
-          span.className = "word";
-          span.dataset.start = String(Number(stamp.start));
-          span.dataset.end = String(Number(stamp.end));
-          span.textContent = part;
+          span.className = "sentence";
+          span.dataset.start = String(Number(first.start));
+          span.dataset.end = String(Number(last.end));
+          span.textContent = chunk.text;
           fragment.append(span);
-          cursor.index += 1;
+          cursor.index += chunk.words;
         });
 
         textNode.replaceWith(fragment);
@@ -1752,7 +1503,7 @@
         });
         const nodes = [];
         while (walker.nextNode()) nodes.push(walker.currentNode);
-        nodes.forEach((node) => wrapTextNodeWithTiming(node, timing, cursor));
+        nodes.forEach((node) => wrapTextNodeWithSentenceTiming(node, timing, cursor));
         markdownBody.dataset.highlighting = cursor.index ? "true" : "false";
       };
 
@@ -1761,7 +1512,7 @@
           acceptNode(node) {
             if (!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
             const parent = node.parentElement;
-            if (!parent || parent.closest("script, style, a, .word")) return NodeFilter.FILTER_REJECT;
+            if (!parent || parent.closest("script, style, a, .sentence")) return NodeFilter.FILTER_REJECT;
             return NodeFilter.FILTER_ACCEPT;
           }
         });
@@ -1777,15 +1528,15 @@
         }
 
         const nodes = collectReadableTextNodes();
-        const words = nodes.flatMap((node) => node.nodeValue.match(/\S+/g) || []);
-        if (!words.length) {
+        const totalWords = nodes.reduce((sum, node) => sum + (node.nodeValue.match(/\S+/g)?.length || 0), 0);
+        if (!totalWords) {
           markdownBody.dataset.highlighting = "false";
           return;
         }
 
-        const step = audio.duration / words.length;
-        const timing = words.map((word, index) => ({
-          word,
+        const step = audio.duration / totalWords;
+        const timing = Array.from({ length: totalWords }, (_, index) => ({
+          word: "",
           start: index * step,
           end: Math.min(audio.duration, (index + 1) * step)
         }));
@@ -1797,7 +1548,7 @@
         highlightFrame = null;
         if (!isExpanded || markdownBody.dataset.highlighting !== "true") return;
         const current = audio.currentTime || 0;
-        const active = Array.from(markdownBody.querySelectorAll(".word")).find((span) => {
+        const active = Array.from(markdownBody.querySelectorAll(".sentence")).find((span) => {
           const start = Number(span.dataset.start);
           const end = Number(span.dataset.end);
           return current >= start && current < end;
@@ -1851,6 +1602,11 @@
       `;
 
       const renderAvatar = () => {
+        if (!config.enableAvatar) {
+          avatarHost.classList.add("hidden");
+          return;
+        }
+        avatarHost.classList.remove("hidden");
         if (!config.avatarImageUrl) {
           avatarHost.innerHTML = builtInAvatar();
           return;
@@ -1872,8 +1628,11 @@
         const mouth = avatarHost.querySelector(".avatar-mouth, .avatar-photo-mouth");
         const brows = avatarHost.querySelectorAll(".avatar-brow");
         if (mouth) {
-          mouth.style.setProperty("--mouth-x", String(1 + mouthWidth));
-          mouth.style.setProperty("--mouth-y", String(1 + mouthLevel * 1.5));
+          const isPhoto = mouth.classList.contains("avatar-photo-mouth");
+          const baseY = isPhoto ? 0.22 : 1;
+          const gainY = isPhoto ? 5.2 : 2.2;
+          mouth.style.setProperty("--mouth-x", String(1 + mouthWidth * 1.55));
+          mouth.style.setProperty("--mouth-y", String(baseY + mouthLevel * gainY));
         }
         brows.forEach((brow, index) => {
           const sideLift = nodLevel > 0.35 && index === 0 ? 1.4 : 0;
@@ -1914,11 +1673,10 @@
         avatarHost.style.setProperty("--avatar-y", "0px");
         avatarHost.style.setProperty("--avatar-rotate", "0deg");
         setAvatarExpression(false);
-        if (avatarFrame !== null) {
-          cancelAnimationFrame(avatarFrame);
-          avatarFrame = null;
+        if (avatarFrame === null) {
+          animateAvatar();
         }
-        clearTimeout(blinkTimer);
+        scheduleBlink();
       };
 
       const ensureAvatarAnalyser = async (audioElement) => {
@@ -1984,12 +1742,12 @@
           high += avatarFreqData[index] / 255;
         }
         const rms = Math.sqrt(sum / avatarData.length);
-        const volume = Math.max(0, Math.min(1, (rms - 0.018) * 10));
+        const volume = Math.max(0, Math.min(1, (rms - 0.012) * 16));
         const highEnergy = high / Math.max(1, avatarFreqData.length - highStart);
         const peak = volume - lastRms > 0.18;
         lastRms = volume;
-        mouthLevel += (volume - mouthLevel) * 0.24;
-        mouthWidth += (Math.min(0.34, highEnergy * 0.42) - mouthWidth) * 0.2;
+        mouthLevel += (volume - mouthLevel) * 0.38;
+        mouthWidth += (Math.min(0.44, highEnergy * 0.62) - mouthWidth) * 0.28;
         browLevel += (volume - browLevel) * 0.18;
         nodLevel += ((peak ? 1 : 0) - nodLevel) * 0.32;
         const speakingY = idleY + (nodLevel * 1.4);
@@ -2014,199 +1772,6 @@
         if (avatarFrame !== null) cancelAnimationFrame(avatarFrame);
         scheduleBlink();
         animateAvatar();
-      };
-
-      const updateGlossaryTime = (state) => {
-        const duration = state.audio.duration || 0;
-        const current = state.audio.currentTime || 0;
-        state.progress.value = duration ? String((current / duration) * 100) : "0";
-        state.time.textContent = `${formatTime(current)} / ${formatTime(duration)}`;
-      };
-
-      const updateGlossaryPlayState = (tile) => {
-        const state = glossaryAudioState.get(tile);
-        if (!state) return;
-        const playing = !state.audio.paused;
-        state.playBtn.setAttribute("aria-label", playing ? config.audioPauseLabel : config.audioPlayLabel);
-        state.playIcon.innerHTML = playing ? telecomIcon("tower") : telecomIcon("signal");
-        tile.classList.toggle("is-playing", playing);
-      };
-
-      const updateGlossaryMuteState = (tile) => {
-        const state = glossaryAudioState.get(tile);
-        if (!state) return;
-        const muted = state.audio.muted;
-        state.muteBtn.setAttribute("aria-label", muted ? config.unmuteTitle : config.muteTitle);
-        state.muteBtn.title = muted ? config.unmuteTitle : config.muteTitle;
-        state.muteIcon.innerHTML = muted
-          ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M4 17c5-5 11-5 16 0"/><path d="m5 5 14 14"/></svg>'
-          : telecomIcon("signal");
-      };
-
-      function closeGlossaryTile(tile) {
-        const state = glossaryAudioState.get(tile);
-        if (state) {
-          clearTimeout(state.closeTimer);
-          state.audio.pause();
-          state.audio.currentTime = 0;
-          stopAvatar(state.audio);
-          updateGlossaryTime(state);
-          updateGlossaryPlayState(tile);
-        }
-        tile.classList.remove("expanded", "is-playing");
-        const trigger = tile.querySelector(".glossary-trigger");
-        if (trigger) trigger.setAttribute("aria-expanded", "false");
-        if (activeGlossaryTile === tile) activeGlossaryTile = null;
-      }
-
-      const expandGlossaryTile = async (tile) => {
-        if (activeGlossaryTile && activeGlossaryTile !== tile) {
-          closeGlossaryTile(activeGlossaryTile);
-        }
-        tile.classList.add("is-pressing");
-        await wait(150);
-        tile.classList.remove("is-pressing");
-        tile.classList.add("expanded");
-        tile.querySelector(".glossary-trigger").setAttribute("aria-expanded", "true");
-        activeGlossaryTile = tile;
-      };
-
-      const createGlossaryPlayer = (tile, entry) => {
-        const player = document.createElement("div");
-        player.className = "glossary-player";
-        player.setAttribute("role", "group");
-        player.setAttribute("aria-label", config.audioPlayerLabel);
-        player.innerHTML = `
-          <button class="round-btn" type="button" aria-label="${escapeHtml(config.audioPlayLabel)}">
-            <span class="glossary-play-icon">${telecomIcon("signal")}</span>
-          </button>
-          <button class="round-btn" type="button" aria-label="${escapeHtml(config.muteTitle)}" title="${escapeHtml(config.muteTitle)}">
-            <span class="glossary-mute-icon">${telecomIcon("signal")}</span>
-          </button>
-          <div class="ranges">
-            <input class="glossary-progress" type="range" min="0" max="100" value="0" aria-label="${escapeHtml(config.audioProgressLabel)}">
-          </div>
-          <span class="time" aria-live="polite">0:00 / 0:00</span>
-          <button class="glossary-close" type="button">${escapeHtml(config.glossaryCloseText)}</button>
-          <audio preload="metadata"></audio>
-        `;
-
-        const state = {
-          audio: player.querySelector("audio"),
-          playBtn: player.querySelector(".round-btn"),
-          muteBtn: player.querySelectorAll(".round-btn")[1],
-          playIcon: player.querySelector(".glossary-play-icon"),
-          muteIcon: player.querySelector(".glossary-mute-icon"),
-          progress: player.querySelector(".glossary-progress"),
-          time: player.querySelector(".time"),
-          closeTimer: null
-        };
-        state.audio.src = entry.audio || "";
-        glossaryAudioState.set(tile, state);
-
-        state.playBtn.addEventListener("click", async (event) => {
-          event.stopPropagation();
-          if (!state.audio.src) return;
-          if (state.audio.paused) {
-            try {
-              await state.audio.play();
-            } catch (error) {
-              setGlossaryStatus(config.audioError);
-            }
-          } else {
-            state.audio.pause();
-          }
-          updateGlossaryPlayState(tile);
-        });
-
-        state.muteBtn.addEventListener("click", (event) => {
-          event.stopPropagation();
-          state.audio.muted = !state.audio.muted;
-          updateGlossaryMuteState(tile);
-        });
-
-        state.progress.addEventListener("input", () => {
-          if (!state.audio.duration) return;
-          state.audio.currentTime = (Number(state.progress.value) / 100) * state.audio.duration;
-        });
-
-        player.querySelector(".glossary-close").addEventListener("click", (event) => {
-          event.stopPropagation();
-          closeGlossaryTile(tile);
-          tile.querySelector(".glossary-trigger").focus({ preventScroll: true });
-        });
-
-        state.audio.addEventListener("play", () => {
-          updateGlossaryPlayState(tile);
-          startAvatar(state.audio);
-        });
-        state.audio.addEventListener("pause", () => {
-          updateGlossaryPlayState(tile);
-          stopAvatar(state.audio);
-        });
-        state.audio.addEventListener("volumechange", () => {
-          updateGlossaryMuteState(tile);
-          if (state.audio.muted) {
-            stopAvatar(state.audio);
-          } else if (!state.audio.paused) {
-            startAvatar(state.audio);
-          }
-        });
-        state.audio.addEventListener("loadedmetadata", () => updateGlossaryTime(state));
-        state.audio.addEventListener("timeupdate", () => updateGlossaryTime(state));
-        state.audio.addEventListener("error", () => {
-          state.time.textContent = config.audioUnavailable;
-        });
-        state.audio.addEventListener("ended", () => {
-          updateGlossaryPlayState(tile);
-          stopAvatar(state.audio);
-          if (config.glossaryAutoClose) {
-            state.closeTimer = setTimeout(() => closeGlossaryTile(tile), 2000);
-          }
-        });
-
-        return player;
-      };
-
-      const buildGlossaryTile = (entry, index) => {
-        const article = document.createElement("article");
-        article.className = "glossary-tile";
-        article.dataset.id = entry.id || `glossary-${index}`;
-
-        const trigger = document.createElement("button");
-        trigger.className = "glossary-trigger";
-        trigger.type = "button";
-        trigger.setAttribute("aria-expanded", "false");
-        trigger.setAttribute("aria-label", entry.title || config.glossaryTitle);
-        trigger.innerHTML = `
-          <span class="glossary-icon">${telecomIcon(entry.icon)}</span>
-          <span>
-            <span class="glossary-title">${escapeHtml(entry.title || config.glossaryTitle)}</span>
-            <span class="glossary-snippet">${escapeHtml(glossarySnippet(entry.text))}</span>
-          </span>
-        `;
-
-        const panel = document.createElement("div");
-        panel.className = "glossary-panel";
-        const inner = document.createElement("div");
-        inner.className = "glossary-panel-inner";
-        const detail = document.createElement("div");
-        detail.className = "glossary-detail";
-        detail.innerHTML = parseMarkdown(entry.text || config.errorTextMissing);
-        inner.append(detail, createGlossaryPlayer(article, entry));
-        panel.append(inner);
-        article.append(trigger, panel);
-
-        trigger.addEventListener("click", () => {
-          if (article.classList.contains("expanded")) {
-            closeGlossaryTile(article);
-          } else {
-            expandGlossaryTile(article);
-          }
-        });
-
-        setTimeout(() => article.classList.add("ready"), reduceMotion.matches ? 0 : index * 60);
-        return article;
       };
 
       const updateTime = () => {
@@ -2343,35 +1908,12 @@
         }
       };
 
-      const loadGlossary = async () => {
-        if (glossaryEntries) return glossaryEntries;
-        setGlossaryStatus(config.glossaryLoadingLabel);
-        try {
-          const response = await fetch("glossary.json", { cache: "no-store" });
-          if (!response.ok) throw new Error(`HTTP ${response.status}`);
-          glossaryEntries = await response.json();
-          glossaryGrid.replaceChildren(...glossaryEntries.map(buildGlossaryTile));
-          setGlossaryStatus(glossaryEntries.length ? "" : config.glossaryEmpty);
-          return glossaryEntries;
-        } catch (error) {
-          glossaryEntries = [];
-          glossaryGrid.replaceChildren();
-          setGlossaryStatus(config.glossaryError);
-          return glossaryEntries;
-        }
-      };
-
-      const showGlossary = async () => {
-        if (lightbox.classList.contains("active")) {
-          await closeQuickView(false);
-        }
-        if (isExpanded) {
-          await closeEpisode(false);
-        }
-        await loadGlossary();
-        await switchView("glossary");
+      const showEpisodes = async () => {
+        if (lightbox.classList.contains("active")) await closeQuickView(false);
+        if (isExpanded) await closeEpisode(false);
+        await switchView("episodes");
         document.querySelector("#top").scrollIntoView({ behavior: reduceMotion.matches ? "auto" : "smooth", block: "start" });
-        glossaryBtn.focus({ preventScroll: true });
+        episodesBtn.focus({ preventScroll: true });
       };
 
       const viewportRect = () => ({
@@ -2561,7 +2103,8 @@
       });
       readerHomeBtn.addEventListener("click", goHome);
       homeBtn.addEventListener("click", goHome);
-      glossaryBtn.addEventListener("click", showGlossary);
+      episodesBtn.addEventListener("click", showEpisodes);
+      homeEpisodesBtn.addEventListener("click", showEpisodes);
       audio.addEventListener("play", () => {
         setPlayState();
         startAvatar(audio);
@@ -2673,6 +2216,8 @@
       const init = async () => {
         await loadConfig();
         renderAvatar();
+        animateAvatar();
+        scheduleBlink();
         await loadEpisodes();
       };
 
