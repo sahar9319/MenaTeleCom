@@ -1,0 +1,29 @@
+<svg class="avatar-head-svg" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <radialGradient id="avatarFaceGlow" cx="34%" cy="24%" r="74%">
+      <stop offset="0" stop-color="#fff6e9"/>
+      <stop offset="0.44" stop-color="var(--avatar-skin-color)"/>
+      <stop offset="1" stop-color="color-mix(in srgb, var(--avatar-skin-color) 74%, var(--accent))"/>
+    </radialGradient>
+    <linearGradient id="avatarHeadset" x1="25" y1="18" x2="92" y2="92">
+      <stop stop-color="color-mix(in srgb, var(--avatar-headset-color) 76%, white)"/>
+      <stop offset="1" stop-color="var(--avatar-headset-color)"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="32" cy="60" rx="9" ry="14" fill="color-mix(in srgb, var(--avatar-skin-color) 86%, var(--accent))"/>
+  <ellipse cx="88" cy="60" rx="9" ry="14" fill="color-mix(in srgb, var(--avatar-skin-color) 86%, var(--accent))"/>
+  <ellipse cx="60" cy="62" rx="38" ry="42" fill="url(#avatarFaceGlow)"/>
+  <ellipse class="avatar-eye avatar-eye-left" cx="47" cy="56" rx="8" ry="6" fill="#fffaf2"/>
+  <ellipse class="avatar-eye avatar-eye-right" cx="73" cy="56" rx="8" ry="6" fill="#fffaf2"/>
+  <circle class="avatar-pupil" cx="48" cy="57" r="3.2" fill="var(--ink)"/>
+  <circle class="avatar-pupil" cx="72" cy="57" r="3.2" fill="var(--ink)"/>
+  <path class="avatar-brow avatar-brow-left" d="M39 45c5-4 10-4 15-1" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+  <path class="avatar-brow avatar-brow-right" d="M66 44c5-3 10-3 15 1" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+  <rect class="avatar-mouth" x="50" y="72" width="20" height="8" rx="4" fill="color-mix(in srgb, var(--ink) 86%, black)"/>
+  <path d="M30 58c0-24 15-38 30-38s30 14 30 38" stroke="url(#avatarHeadset)" stroke-width="7" stroke-linecap="round"/>
+  <rect x="22" y="54" width="13" height="22" rx="7" fill="url(#avatarHeadset)"/>
+  <rect x="85" y="54" width="13" height="22" rx="7" fill="url(#avatarHeadset)"/>
+  <path d="M91 74c0 13-11 20-24 20" stroke="url(#avatarHeadset)" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="65" cy="94" r="4" fill="var(--avatar-headset-color)"/>
+  <path d="M60 20V9M54 20h12M60 9l-5-5M60 9l5-5" stroke="var(--secondary)" stroke-width="3" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,31 @@
+<svg class="avatar-head-svg" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <radialGradient id="f2Face" cx="34%" cy="24%" r="74%">
+      <stop offset="0" stop-color="#fff8f2"/>
+      <stop offset="0.44" stop-color="var(--avatar-skin-color)"/>
+      <stop offset="1" stop-color="#d4a574"/>
+    </radialGradient>
+    <linearGradient id="f2Hair" x1="10" y1="0" x2="110" y2="55">
+      <stop stop-color="#1a1a2e"/>
+      <stop offset="1" stop-color="#3d3d5c"/>
+    </linearGradient>
+    <linearGradient id="f2Headset" x1="25" y1="18" x2="92" y2="92">
+      <stop stop-color="var(--secondary)"/>
+      <stop offset="1" stop-color="var(--primary)"/>
+    </linearGradient>
+  </defs>
+  <path d="M14 48c4-32 76-32 92 0 6 20 2 32-10 40-20 14-56 14-76 0-12-8-16-20-10-40z" fill="url(#f2Hair)"/>
+  <ellipse cx="32" cy="60" rx="9" ry="14" fill="#f0c9a8"/>
+  <ellipse cx="88" cy="60" rx="9" ry="14" fill="#f0c9a8"/>
+  <ellipse cx="60" cy="63" rx="34" ry="38" fill="url(#f2Face)"/>
+  <ellipse class="avatar-eye avatar-eye-left" cx="47" cy="57" rx="8" ry="6" fill="#fffaf2"/>
+  <ellipse class="avatar-eye avatar-eye-right" cx="73" cy="57" rx="8" ry="6" fill="#fffaf2"/>
+  <circle class="avatar-pupil" cx="48" cy="58" r="3.2" fill="var(--ink)"/>
+  <circle class="avatar-pupil" cx="72" cy="58" r="3.2" fill="var(--ink)"/>
+  <path class="avatar-brow avatar-brow-left" d="M40 45c4-4 9-5 14-2" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round"/>
+  <path class="avatar-brow avatar-brow-right" d="M66 44c4-3 9-4 14-1" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round"/>
+  <rect class="avatar-mouth" x="50" y="73" width="20" height="7" rx="3.5" fill="color-mix(in srgb, var(--accent) 72%, #5a2020)"/>
+  <path d="M30 58c0-24 15-38 30-38s30 14 30 38" stroke="url(#f2Headset)" stroke-width="7" stroke-linecap="round"/>
+  <rect x="22" y="54" width="13" height="22" rx="7" fill="url(#f2Headset)"/>
+  <rect x="85" y="54" width="13" height="22" rx="7" fill="url(#f2Headset)"/>
+</svg>

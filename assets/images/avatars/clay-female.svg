@@ -1,0 +1,63 @@
+<svg class="avatar-head-svg" viewBox="0 0 140 168" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <filter id="clayFemaleShadow" x="-24%" y="-24%" width="148%" height="148%">
+      <feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#b7a0a8" flood-opacity="0.33"/>
+      <feDropShadow dx="0" dy="-4" stdDeviation="5" flood-color="#ffffff" flood-opacity="0.64"/>
+    </filter>
+    <radialGradient id="clayFemaleFace" cx="36%" cy="22%" r="80%">
+      <stop offset="0" stop-color="#fff7f1"/>
+      <stop offset="0.36" stop-color="#f5d4bc"/>
+      <stop offset="1" stop-color="color-mix(in srgb, var(--avatar-skin-color) 64%, #d49a7a)"/>
+    </radialGradient>
+    <linearGradient id="clayFemaleHair" x1="10" y1="4" x2="130" y2="78">
+      <stop stop-color="#3f2730"/>
+      <stop offset="0.45" stop-color="#6d4450"/>
+      <stop offset="1" stop-color="#52343d"/>
+    </linearGradient>
+    <linearGradient id="clayFemaleHeadset" x1="20" y1="18" x2="120" y2="112">
+      <stop stop-color="color-mix(in srgb, var(--accent) 46%, white)"/>
+      <stop offset="1" stop-color="color-mix(in srgb, var(--primary) 78%, var(--accent))"/>
+    </linearGradient>
+    <linearGradient id="clayFemaleBase" x1="18" y1="146" x2="122" y2="168">
+      <stop stop-color="color-mix(in srgb, var(--surface) 90%, var(--accent))"/>
+      <stop offset="1" stop-color="color-mix(in srgb, var(--clay-dark) 68%, var(--accent))"/>
+    </linearGradient>
+    <radialGradient id="clayFemaleCheekL" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="color-mix(in srgb, var(--accent) 28%, transparent)"/>
+      <stop offset="1" stop-color="transparent"/>
+    </radialGradient>
+    <radialGradient id="clayFemaleCheekR" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="color-mix(in srgb, var(--accent) 24%, transparent)"/>
+      <stop offset="1" stop-color="transparent"/>
+    </radialGradient>
+  </defs>
+  <ellipse class="avatar-base" cx="70" cy="158" rx="48" ry="10" fill="url(#clayFemaleBase)" opacity="0.94"/>
+  <g filter="url(#clayFemaleShadow)">
+    <path d="M12 50c10-40 96-40 116 0 7 20 5 34-10 46-20 16-58 16-78 0-15-12-17-26-10-46z" fill="url(#clayFemaleHair)"/>
+    <path d="M20 56c12-20 88-20 100 0 7 12 3 20-8 28-16 12-68 12-84 0-11-8-15-16-8-28z" fill="#ffffff" opacity="0.07"/>
+    <path d="M28 62c8-10 76-10 84 0 4 6 0 12-8 16-12 8-64 8-76 0-8-4-12-10-8-16z" fill="color-mix(in srgb, #7a4a52 70%, black)" opacity="0.18"/>
+    <ellipse cx="70" cy="92" rx="38" ry="42" fill="url(#clayFemaleFace)"/>
+    <ellipse cx="70" cy="96" rx="32" ry="34" fill="#ffffff" opacity="0.24"/>
+    <ellipse cx="53" cy="102" rx="11" ry="8" fill="url(#clayFemaleCheekL)" opacity="0.95"/>
+    <ellipse cx="87" cy="102" rx="11" ry="8" fill="url(#clayFemaleCheekR)" opacity="0.95"/>
+    <ellipse class="avatar-eye avatar-eye-left" cx="57" cy="84" rx="10" ry="7.8" fill="#fffdf9"/>
+    <ellipse class="avatar-eye avatar-eye-right" cx="83" cy="84" rx="10" ry="7.8" fill="#fffdf9"/>
+    <circle class="avatar-pupil" cx="58" cy="85" r="3.9" fill="#3d2830"/>
+    <circle class="avatar-pupil" cx="82" cy="85" r="3.9" fill="#3d2830"/>
+    <circle cx="59.5" cy="83" r="1.5" fill="#fff" opacity="0.94"/>
+    <circle cx="83.5" cy="83" r="1.5" fill="#fff" opacity="0.94"/>
+    <path class="avatar-brow avatar-brow-left" d="M47 71c6-7 11-8 16-3" stroke="#5c3840" stroke-width="2.8" stroke-linecap="round"/>
+    <path class="avatar-brow avatar-brow-right" d="M77 70c6-6 11-7 16-2" stroke="#5c3840" stroke-width="2.8" stroke-linecap="round"/>
+    <ellipse class="avatar-mouth" cx="70" cy="105" rx="10.5" ry="4.8" fill="color-mix(in srgb, var(--accent) 58%, #8e4444)"/>
+    <ellipse cx="70" cy="104" rx="6" ry="1.8" fill="#ffffff" opacity="0.18"/>
+    <path d="M32 86c0-30 18-46 38-46s38 16 38 46" stroke="url(#clayFemaleHeadset)" stroke-width="8.5" stroke-linecap="round"/>
+    <rect x="22" y="80" width="17" height="28" rx="8.5" fill="url(#clayFemaleHeadset)"/>
+    <rect x="101" y="80" width="17" height="28" rx="8.5" fill="url(#clayFemaleHeadset)"/>
+    <rect x="25" y="84" width="11" height="18" rx="5.5" fill="#ffffff" opacity="0.14"/>
+    <rect x="104" y="84" width="11" height="18" rx="5.5" fill="#ffffff" opacity="0.14"/>
+    <path d="M107 104c0 15-13 24-28 24" stroke="url(#clayFemaleHeadset)" stroke-width="5.8" stroke-linecap="round"/>
+    <circle cx="89" cy="126" r="5" fill="var(--accent)"/>
+    <circle cx="89" cy="126" r="2.2" fill="#ffffff" opacity="0.45"/>
+    <path d="M64 35V22M57 35h14M64 22l-7-7M64 22l7-7" stroke="var(--tertiary)" stroke-width="3" stroke-linecap="round"/>
+  </g>
+</svg>

@@ -1,0 +1,9 @@
+{
+  "name": "menatelecom",
+  "private": true,
+  "scripts": {
+    "start": "node scripts/serve.js",
+    "serve": "node scripts/serve.js",
+    "manifest": "node scripts/generate_manifest.js"
+  }
+}

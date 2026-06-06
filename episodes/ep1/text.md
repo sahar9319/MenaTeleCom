@@ -13,5 +13,3 @@ Here is how the region's telcos are transforming into "techcos":
 - **Orchestrating the Ecosystem:** The massive demand for sovereign cloud environments and localized AI is giving operators a new role: digital infrastructure orchestrators.
 
 Enterprise value in MENA telecom has officially shifted from owning physical assets to controlling digital platforms and data ecosystems. Future market leaders won't be defined by the size of their network, but by their ability to monetize the digital services running on top of it.
-
-#MENA #Telecom #DigitalTransformation #CloudComputing #EnterpriseAI #5G #TechStrategy

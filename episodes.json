@@ -1,26 +1,41 @@
 [
   {
-    "id": "Episode One",
-    "title": "Episode One",
-    "image": "episodes/ep1/image.png",
-    "text": "episodes/ep1/text.md",
-    "audio": "episodes/ep1/audio.mp3",
-    "avatar": "episodes/ep1/avatar.png"
-  },
-  {
-    "id": "Episode Two",
-    "title": "Episode Two",
-    "image": "episodes/ep2/image.png",
-    "text": "episodes/ep2/text.md",
-    "audio": "episodes/ep2/audio.mp3",
-    "avatar": "episodes/ep2/avatar.png"
-  },
-  {
-    "id": "Episode Three",
+    "id": "ep3",
     "title": "Episode Three",
+    "date": "2025-06-03",
     "image": "episodes/ep3/image.png",
     "text": "episodes/ep3/text.md",
     "audio": "episodes/ep3/audio.mp3",
-    "avatar": "episodes/ep3/avatar.png"
+    "textUpdated": 1780774014054.6455,
+    "voice": "female",
+    "avatar": "episodes/ep3/avatar.png",
+    "timing": "episodes/ep3/timing.json",
+    "timingUpdated": 1780774156438.2593
+  },
+  {
+    "id": "ep2",
+    "title": "Episode Two",
+    "date": "2025-06-02",
+    "image": "episodes/ep2/image.png",
+    "text": "episodes/ep2/text.md",
+    "audio": "episodes/ep2/audio.mp3",
+    "textUpdated": 1780770189657.9038,
+    "voice": "female",
+    "avatar": "episodes/ep2/avatar.png",
+    "timing": "episodes/ep2/timing.json",
+    "timingUpdated": 1780774152883.7017
+  },
+  {
+    "id": "ep1",
+    "title": "Episode One",
+    "date": "2025-06-01",
+    "image": "episodes/ep1/image.png",
+    "text": "episodes/ep1/text.md",
+    "audio": "episodes/ep1/audio.mp3",
+    "textUpdated": 1780770189586.8435,
+    "voice": "female",
+    "avatar": "episodes/ep1/avatar.png",
+    "timing": "episodes/ep1/timing.json",
+    "timingUpdated": 1780774147180.3713
   }
 ]

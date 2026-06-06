@@ -1,0 +1,897 @@
+[
+  {
+    "word": "From",
+    "start": 0.0,
+    "end": 0.46
+  },
+  {
+    "word": "Infrastructure",
+    "start": 0.46,
+    "end": 0.9
+  },
+  {
+    "word": "to",
+    "start": 0.9,
+    "end": 1.34
+  },
+  {
+    "word": "Intelligence:",
+    "start": 1.34,
+    "end": 1.9
+  },
+  {
+    "word": "The",
+    "start": 2.34,
+    "end": 2.4
+  },
+  {
+    "word": "MENA",
+    "start": 7.16,
+    "end": 7.42
+  },
+  {
+    "word": "Telecom",
+    "start": 7.42,
+    "end": 7.5
+  },
+  {
+    "word": "Pivot",
+    "start": 7.5,
+    "end": 7.58
+  },
+  {
+    "word": "The",
+    "start": 9.78,
+    "end": 9.92
+  },
+  {
+    "word": "MENA",
+    "start": 9.92,
+    "end": 10.0
+  },
+  {
+    "word": "telecommunications",
+    "start": 10.0,
+    "end": 10.08
+  },
+  {
+    "word": "sector",
+    "start": 10.08,
+    "end": 10.16
+  },
+  {
+    "word": "is",
+    "start": 15.86,
+    "end": 15.98
+  },
+  {
+    "word": "undergoing",
+    "start": 15.98,
+    "end": 16.06
+  },
+  {
+    "word": "a",
+    "start": 19.2,
+    "end": 19.5
+  },
+  {
+    "word": "massive",
+    "start": 24.44,
+    "end": 24.66
+  },
+  {
+    "word": "structural",
+    "start": 24.66,
+    "end": 24.74
+  },
+  {
+    "word": "shift.",
+    "start": 24.74,
+    "end": 24.82
+  },
+  {
+    "word": "The",
+    "start": 28.94,
+    "end": 29.1
+  },
+  {
+    "word": "old",
+    "start": 29.1,
+    "end": 29.18
+  },
+  {
+    "word": "playbook\u2014where",
+    "start": 29.18,
+    "end": 29.26
+  },
+  {
+    "word": "market",
+    "start": 29.26,
+    "end": 29.34
+  },
+  {
+    "word": "leadership",
+    "start": 29.34,
+    "end": 29.42
+  },
+  {
+    "word": "was",
+    "start": 29.42,
+    "end": 29.5
+  },
+  {
+    "word": "defined",
+    "start": 29.5,
+    "end": 29.58
+  },
+  {
+    "word": "by",
+    "start": 29.58,
+    "end": 29.66
+  },
+  {
+    "word": "network",
+    "start": 29.66,
+    "end": 29.74
+  },
+  {
+    "word": "assets,",
+    "start": 29.74,
+    "end": 29.82
+  },
+  {
+    "word": "spectrum,",
+    "start": 29.82,
+    "end": 29.9
+  },
+  {
+    "word": "and",
+    "start": 29.9,
+    "end": 29.98
+  },
+  {
+    "word": "subscriber",
+    "start": 29.98,
+    "end": 30.06
+  },
+  {
+    "word": "scale\u2014is",
+    "start": 30.06,
+    "end": 30.14
+  },
+  {
+    "word": "being",
+    "start": 30.14,
+    "end": 30.22
+  },
+  {
+    "word": "replaced.",
+    "start": 30.22,
+    "end": 30.3
+  },
+  {
+    "word": "Value",
+    "start": 30.3,
+    "end": 30.38
+  },
+  {
+    "word": "is",
+    "start": 30.38,
+    "end": 30.46
+  },
+  {
+    "word": "rapidly",
+    "start": 30.46,
+    "end": 30.54
+  },
+  {
+    "word": "migrating",
+    "start": 30.54,
+    "end": 30.62
+  },
+  {
+    "word": "away",
+    "start": 30.62,
+    "end": 30.7
+  },
+  {
+    "word": "from",
+    "start": 35.36,
+    "end": 35.64
+  },
+  {
+    "word": "physical",
+    "start": 35.64,
+    "end": 35.72
+  },
+  {
+    "word": "infrastructure",
+    "start": 36.0,
+    "end": 36.54
+  },
+  {
+    "word": "and",
+    "start": 36.54,
+    "end": 36.62
+  },
+  {
+    "word": "toward",
+    "start": 36.62,
+    "end": 36.94
+  },
+  {
+    "word": "the",
+    "start": 36.94,
+    "end": 37.02
+  },
+  {
+    "word": "digital",
+    "start": 37.02,
+    "end": 37.1
+  },
+  {
+    "word": "layers",
+    "start": 37.1,
+    "end": 37.18
+  },
+  {
+    "word": "built",
+    "start": 37.18,
+    "end": 37.26
+  },
+  {
+    "word": "above",
+    "start": 37.26,
+    "end": 37.34
+  },
+  {
+    "word": "it:",
+    "start": 37.36,
+    "end": 37.78
+  },
+  {
+    "word": "cloud",
+    "start": 37.78,
+    "end": 37.86
+  },
+  {
+    "word": "platforms,",
+    "start": 37.86,
+    "end": 37.94
+  },
+  {
+    "word": "AI",
+    "start": 37.94,
+    "end": 38.02
+  },
+  {
+    "word": "ecosystems,",
+    "start": 38.02,
+    "end": 38.1
+  },
+  {
+    "word": "fintech,",
+    "start": 38.1,
+    "end": 38.18
+  },
+  {
+    "word": "and",
+    "start": 43.72,
+    "end": 43.86
+  },
+  {
+    "word": "enterprise",
+    "start": 43.86,
+    "end": 44.26
+  },
+  {
+    "word": "solutions.",
+    "start": 44.26,
+    "end": 44.34
+  },
+  {
+    "word": "Here",
+    "start": 44.34,
+    "end": 44.42
+  },
+  {
+    "word": "is",
+    "start": 44.42,
+    "end": 44.5
+  },
+  {
+    "word": "how",
+    "start": 44.5,
+    "end": 44.58
+  },
+  {
+    "word": "the",
+    "start": 44.58,
+    "end": 44.66
+  },
+  {
+    "word": "region's",
+    "start": 44.66,
+    "end": 44.74
+  },
+  {
+    "word": "telcos",
+    "start": 44.74,
+    "end": 44.82
+  },
+  {
+    "word": "are",
+    "start": 53.8,
+    "end": 53.98
+  },
+  {
+    "word": "transforming",
+    "start": 55.2,
+    "end": 55.4
+  },
+  {
+    "word": "into",
+    "start": 55.4,
+    "end": 55.48
+  },
+  {
+    "word": "\"techcos\":",
+    "start": 55.48,
+    "end": 55.56
+  },
+  {
+    "word": "Asset-Light,",
+    "start": 55.56,
+    "end": 55.64
+  },
+  {
+    "word": "Platform-Heavy:",
+    "start": 56.78,
+    "end": 57.32
+  },
+  {
+    "word": "Operators",
+    "start": 57.32,
+    "end": 57.4
+  },
+  {
+    "word": "are",
+    "start": 57.4,
+    "end": 57.48
+  },
+  {
+    "word": "divesting",
+    "start": 57.48,
+    "end": 57.56
+  },
+  {
+    "word": "from",
+    "start": 57.56,
+    "end": 57.64
+  },
+  {
+    "word": "passive",
+    "start": 57.64,
+    "end": 57.72
+  },
+  {
+    "word": "infrastructure",
+    "start": 57.72,
+    "end": 57.8
+  },
+  {
+    "word": "to",
+    "start": 57.8,
+    "end": 57.88
+  },
+  {
+    "word": "free",
+    "start": 57.88,
+    "end": 57.96
+  },
+  {
+    "word": "up",
+    "start": 57.96,
+    "end": 58.04
+  },
+  {
+    "word": "capital.",
+    "start": 58.04,
+    "end": 58.12
+  },
+  {
+    "word": "This",
+    "start": 64.16,
+    "end": 64.34
+  },
+  {
+    "word": "investment",
+    "start": 69.84,
+    "end": 70.02
+  },
+  {
+    "word": "is",
+    "start": 70.02,
+    "end": 70.1
+  },
+  {
+    "word": "being",
+    "start": 70.1,
+    "end": 70.18
+  },
+  {
+    "word": "redirected",
+    "start": 70.18,
+    "end": 70.26
+  },
+  {
+    "word": "into",
+    "start": 73.38,
+    "end": 73.7
+  },
+  {
+    "word": "advanced",
+    "start": 73.7,
+    "end": 73.78
+  },
+  {
+    "word": "computing,",
+    "start": 73.78,
+    "end": 73.86
+  },
+  {
+    "word": "data-intensive",
+    "start": 75.44,
+    "end": 75.66
+  },
+  {
+    "word": "applications,",
+    "start": 75.66,
+    "end": 75.74
+  },
+  {
+    "word": "and",
+    "start": 75.74,
+    "end": 75.82
+  },
+  {
+    "word": "enterprise",
+    "start": 75.82,
+    "end": 75.9
+  },
+  {
+    "word": "digitization.",
+    "start": 75.9,
+    "end": 75.98
+  },
+  {
+    "word": "Programmable",
+    "start": 75.98,
+    "end": 76.06
+  },
+  {
+    "word": "Networks:",
+    "start": 80.38,
+    "end": 80.82
+  },
+  {
+    "word": "Cloud-native",
+    "start": 80.82,
+    "end": 80.9
+  },
+  {
+    "word": "architectures,",
+    "start": 84.92,
+    "end": 85.12
+  },
+  {
+    "word": "network",
+    "start": 85.12,
+    "end": 85.2
+  },
+  {
+    "word": "virtualization,",
+    "start": 85.2,
+    "end": 85.28
+  },
+  {
+    "word": "and",
+    "start": 85.28,
+    "end": 85.36
+  },
+  {
+    "word": "5G",
+    "start": 85.36,
+    "end": 85.44
+  },
+  {
+    "word": "standalone",
+    "start": 85.44,
+    "end": 85.52
+  },
+  {
+    "word": "(SA)",
+    "start": 85.52,
+    "end": 85.6
+  },
+  {
+    "word": "deployments",
+    "start": 85.6,
+    "end": 85.68
+  },
+  {
+    "word": "are",
+    "start": 85.68,
+    "end": 85.76
+  },
+  {
+    "word": "turning",
+    "start": 85.76,
+    "end": 85.84
+  },
+  {
+    "word": "connectivity",
+    "start": 85.84,
+    "end": 85.892
+  },
+  {
+    "word": "into",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "an",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "intelligent,",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "low-latency",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "platform.",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "Orchestrating",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "the",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "Ecosystem:",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "The",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "massive",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "demand",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "for",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "sovereign",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "cloud",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "environments",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "and",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "localized",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "AI",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "is",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "giving",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "operators",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "a",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "new",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "role:",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "digital",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "infrastructure",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "orchestrators.",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "Enterprise",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "value",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "in",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "MENA",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "telecom",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "has",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "officially",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "shifted",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "from",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "owning",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "physical",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "assets",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "to",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "controlling",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "digital",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "platforms",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "and",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "data",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "ecosystems.",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "Future",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "market",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "leaders",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "won't",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "be",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "defined",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "by",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "the",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "size",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "of",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "their",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "network,",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "but",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "by",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "their",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "ability",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "to",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "monetize",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "the",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "digital",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "services",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "running",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "on",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "top",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "of",
+    "start": 85.892,
+    "end": 85.892
+  },
+  {
+    "word": "it.",
+    "start": 85.892,
+    "end": 85.892
+  }
+]

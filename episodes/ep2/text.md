@@ -31,5 +31,3 @@ Here is how four major giants shifted their portfolios in FY2024:
 - The Win: Shifted human capital to software. Result? In-house fintech algorithms cut micro-loan defaults by double digits.
 
 MENA is now a global testing ground for 5G-Advanced. Operators aren't disappearing—they are decoupling. By using AI to commoditize their own infrastructure, they are freeing up the cash to dominate digital banking, cloud orchestration, and enterprise software.
-
-#Telecom #ArtificialIntelligence #5GAdvanced #Fintech #CloudComputing #MENAtech #TelcoToTechco

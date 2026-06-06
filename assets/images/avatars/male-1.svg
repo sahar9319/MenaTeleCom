@@ -1,0 +1,32 @@
+<svg class="avatar-head-svg" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <radialGradient id="m1Face" cx="34%" cy="24%" r="74%">
+      <stop offset="0" stop-color="#fff6e9"/>
+      <stop offset="0.44" stop-color="var(--avatar-skin-color)"/>
+      <stop offset="1" stop-color="color-mix(in srgb, var(--avatar-skin-color) 74%, var(--accent))"/>
+    </radialGradient>
+    <linearGradient id="m1Hair" x1="20" y1="10" x2="100" y2="40">
+      <stop stop-color="#2c3e50"/>
+      <stop offset="1" stop-color="#4a6073"/>
+    </linearGradient>
+    <linearGradient id="m1Headset" x1="25" y1="18" x2="92" y2="92">
+      <stop stop-color="color-mix(in srgb, var(--avatar-headset-color) 76%, white)"/>
+      <stop offset="1" stop-color="var(--avatar-headset-color)"/>
+    </linearGradient>
+  </defs>
+  <path d="M34 34c8-18 44-18 52 0 6 14 4 24-2 30-8 8-36 8-44 0-6-6-8-16-6-30z" fill="url(#m1Hair)"/>
+  <ellipse cx="32" cy="60" rx="9" ry="14" fill="color-mix(in srgb, var(--avatar-skin-color) 86%, var(--accent))"/>
+  <ellipse cx="88" cy="60" rx="9" ry="14" fill="color-mix(in srgb, var(--avatar-skin-color) 86%, var(--accent))"/>
+  <ellipse cx="60" cy="64" rx="36" ry="40" fill="url(#m1Face)"/>
+  <ellipse class="avatar-eye avatar-eye-left" cx="47" cy="58" rx="8" ry="6" fill="#fffaf2"/>
+  <ellipse class="avatar-eye avatar-eye-right" cx="73" cy="58" rx="8" ry="6" fill="#fffaf2"/>
+  <circle class="avatar-pupil" cx="48" cy="59" r="3.2" fill="var(--ink)"/>
+  <circle class="avatar-pupil" cx="72" cy="59" r="3.2" fill="var(--ink)"/>
+  <path class="avatar-brow avatar-brow-left" d="M39 47c5-4 10-4 15-1" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+  <path class="avatar-brow avatar-brow-right" d="M66 46c5-3 10-3 15 1" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+  <rect class="avatar-mouth" x="50" y="74" width="20" height="8" rx="4" fill="color-mix(in srgb, var(--ink) 86%, black)"/>
+  <path d="M30 58c0-24 15-38 30-38s30 14 30 38" stroke="url(#m1Headset)" stroke-width="7" stroke-linecap="round"/>
+  <rect x="22" y="54" width="13" height="22" rx="7" fill="url(#m1Headset)"/>
+  <rect x="85" y="54" width="13" height="22" rx="7" fill="url(#m1Headset)"/>
+  <path d="M91 74c0 13-11 20-24 20" stroke="url(#m1Headset)" stroke-width="5" stroke-linecap="round"/>
+</svg>

@@ -1,11 +1,7 @@
 
 While consumer GenAI dominates headlines, MENA telecom leaders are quietly shifting capital away from physical tower infrastructure and moving it deep into the **AI-driven OSS (Operations Support Systems) layer**. In a mature 5G market, hardware differentiation has hit diminishing returns. The new frontier for margin expansion is **Closed-Loop Automation**—turning the network into a zero-touch, self-healing utility.
 
-Traditional Telco Portfolio → Shift → Modern Autonomous Operator
-
-Hardware / Tower CapEx → Shift → AI-Driven OSS Layer
-
-(Diminishing ROI) (Compounding Operational Value)
+from Traditional Telco Portfolio which was Hardware / Tower CapEx it has bin shifted to the Modern Autonomous Operator knowing as AI-Driven OSS Layer.
 
 ### **Why Capital is Moving Behind the Dashboard**
 
@@ -28,5 +24,3 @@ Partner selection now defines an operator's architectural trajectory:
 4. **Blue Planet:** The premier open-API brain for vendor-neutral, best-of-breed infrastructure.
 
 The telecom war in MENA is no longer about steel and concrete. Operators that master the OSS layer will command a structurally superior cost model. The future belongs to the autonomous network.
-
-#TelecomStrategy #OSS #AutonomousNetworks #NetworkAutomation #MENATech #DigitalInfrastructure

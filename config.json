@@ -2,9 +2,19 @@
   "siteTitle": "MENA Telecommunication Market ",
   "tagline": "Signal Diaries",
   "eyebrow": "Research Broadcast",
-  "description": "focused research  on telecom operators, market signals, AI, and infrastructure shifts across the region.",
+  "description": "Focused research on telecom operators, market signals, AI, and infrastructure shifts across the region.",
+  "openEpisodeLabel": "Open episode",
   "homeButtonText": "Home",
-  "episodesButtonText": "Episodes",
+  "glossaryButtonText": "Glossary",
+  "glossaryEyebrow": "Audio Glossary",
+  "glossaryTitle": "Audio Glossary Table",
+  "glossaryDescription": "Tap a telecom term to read the field note and optional audio elaboration.",
+  "glossaryAriaLabel": "Audio glossary",
+  "glossaryLoadingLabel": "Loading glossary",
+  "glossaryError": "Glossary could not be loaded. Check that glossary.json exists and that you are using a local server.",
+  "glossaryEmpty": "No glossary entries are available yet.",
+  "glossaryCloseText": "Close",
+  "glossaryAutoClose": false,
   "backButtonText": "Back to Episodes",
   "quickViewTooltip": "Quick preview",
   "episodesAriaLabel": "Research episodes",
@@ -33,12 +43,44 @@
   "mutedColor": "#66747A",
   "clayLight": "#F4F1EA",
   "clayDark": "#B7C9D3",
-  "enableAvatar": true,
   "avatarSkinColor": "#FDDCB5",
   "avatarHeadsetColor": "#3D5A80",
   "avatarImageUrl": "episodes/ep1/avatar.png",
   "highlightColor": "rgba(224, 122, 95, 0.26)",
-  "avatarSize": "190px",
-  "logoUrl": "",
-  "flagIconUrl": ""
+  "logoUrl": "assets/images/logo.svg",
+  "flagIconUrl": "assets/images/flag.svg",
+  "assets": {
+    "logo": "assets/images/logo.svg",
+    "flag": "assets/images/flag.svg",
+    "favicon": "assets/images/favicon.svg",
+    "avatarFallback": "assets/images/avatar-fallback.svg",
+    "heroIcons": [
+      { "src": "assets/images/hero/broadcast.svg", "tone": "var(--primary)" },
+      { "src": "assets/images/hero/research.svg", "tone": "var(--secondary)" },
+      { "src": "assets/images/hero/network.svg", "tone": "var(--tertiary)" },
+      { "src": "assets/images/hero/analytics.svg", "tone": "var(--success)" }
+    ],
+    "ui": {
+      "play": "assets/icons/ui/play.svg",
+      "pause": "assets/icons/ui/pause.svg",
+      "mute": "assets/icons/ui/mute.svg",
+      "unmute": "assets/icons/ui/unmute.svg",
+      "quickView": "assets/icons/ui/quick-view.svg"
+    },
+    "telecom": {
+      "antenna": "assets/icons/telecom/antenna.svg",
+      "signal": "assets/icons/telecom/signal.svg",
+      "tower": "assets/icons/telecom/tower.svg",
+      "satellite": "assets/icons/telecom/satellite.svg",
+      "handset": "assets/icons/telecom/handset.svg",
+      "radio": "assets/icons/telecom/radio.svg"
+    },
+    "avatars": {
+      "male": ["assets/images/avatars/clay-male.svg"],
+      "female": ["assets/images/avatars/clay-female.svg"]
+    }
+  },
+  "highlightLeadIn": 0.08,
+  "highlightOffset": 0,
+  "avatarSize": "132px"
 }

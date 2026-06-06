@@ -1,0 +1,31 @@
+<svg class="avatar-head-svg" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <radialGradient id="m2Face" cx="34%" cy="24%" r="74%">
+      <stop offset="0" stop-color="#fff3e8"/>
+      <stop offset="0.44" stop-color="#e8c9a8"/>
+      <stop offset="1" stop-color="#c9a07b"/>
+    </radialGradient>
+    <linearGradient id="m2Hair" x1="20" y1="10" x2="100" y2="40">
+      <stop stop-color="#1a1a1a"/>
+      <stop offset="1" stop-color="#3d3d3d"/>
+    </linearGradient>
+    <linearGradient id="m2Headset" x1="25" y1="18" x2="92" y2="92">
+      <stop stop-color="#5a7a9a"/>
+      <stop offset="1" stop-color="#2a4a6a"/>
+    </linearGradient>
+  </defs>
+  <path d="M30 38c4-14 56-14 60 0 3 10 0 18-6 24-10 10-38 10-48 0-6-6-9-14-6-24z" fill="url(#m2Hair)"/>
+  <ellipse cx="32" cy="60" rx="9" ry="14" fill="#ddb896"/>
+  <ellipse cx="88" cy="60" rx="9" ry="14" fill="#ddb896"/>
+  <ellipse cx="60" cy="65" rx="37" ry="41" fill="url(#m2Face)"/>
+  <ellipse class="avatar-eye avatar-eye-left" cx="47" cy="59" rx="7.5" ry="5.5" fill="#fffaf2"/>
+  <ellipse class="avatar-eye avatar-eye-right" cx="73" cy="59" rx="7.5" ry="5.5" fill="#fffaf2"/>
+  <circle class="avatar-pupil" cx="48" cy="60" r="3" fill="#1a1a1a"/>
+  <circle class="avatar-pupil" cx="72" cy="60" r="3" fill="#1a1a1a"/>
+  <path class="avatar-brow avatar-brow-left" d="M38 48c6-3 11-3 16 0" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
+  <path class="avatar-brow avatar-brow-right" d="M66 47c6-2 11-2 16 1" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
+  <rect class="avatar-mouth" x="49" y="75" width="22" height="7" rx="3.5" fill="#3d2b22"/>
+  <path d="M30 58c0-24 15-38 30-38s30 14 30 38" stroke="url(#m2Headset)" stroke-width="7" stroke-linecap="round"/>
+  <rect x="22" y="54" width="13" height="22" rx="7" fill="url(#m2Headset)"/>
+  <rect x="85" y="54" width="13" height="22" rx="7" fill="url(#m2Headset)"/>
+</svg>

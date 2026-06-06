@@ -1,0 +1,32 @@
+<svg class="avatar-head-svg" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <radialGradient id="m3Face" cx="34%" cy="24%" r="74%">
+      <stop offset="0" stop-color="#ffe8d6"/>
+      <stop offset="0.44" stop-color="#c68642"/>
+      <stop offset="1" stop-color="#8d5524"/>
+    </radialGradient>
+    <linearGradient id="m3Hair" x1="20" y1="10" x2="100" y2="40">
+      <stop stop-color="#0f0f0f"/>
+      <stop offset="1" stop-color="#2e2e2e"/>
+    </linearGradient>
+    <linearGradient id="m3Headset" x1="25" y1="18" x2="92" y2="92">
+      <stop stop-color="var(--secondary)"/>
+      <stop offset="1" stop-color="var(--primary)"/>
+    </linearGradient>
+  </defs>
+  <path d="M28 36c6-16 56-16 64 0 4 12 2 22-4 28-12 12-44 12-56 0-6-6-8-16-4-28z" fill="url(#m3Hair)"/>
+  <ellipse cx="32" cy="60" rx="9" ry="14" fill="#a66d3e"/>
+  <ellipse cx="88" cy="60" rx="9" ry="14" fill="#a66d3e"/>
+  <ellipse cx="60" cy="66" rx="38" ry="42" fill="url(#m3Face)"/>
+  <ellipse class="avatar-eye avatar-eye-left" cx="47" cy="60" rx="8" ry="6" fill="#fff8ee"/>
+  <ellipse class="avatar-eye avatar-eye-right" cx="73" cy="60" rx="8" ry="6" fill="#fff8ee"/>
+  <circle class="avatar-pupil" cx="48" cy="61" r="3.2" fill="#1f1408"/>
+  <circle class="avatar-pupil" cx="72" cy="61" r="3.2" fill="#1f1408"/>
+  <path class="avatar-brow avatar-brow-left" d="M37 49c7-4 12-4 17-1" stroke="#1f1408" stroke-width="3.2" stroke-linecap="round"/>
+  <path class="avatar-brow avatar-brow-right" d="M66 48c7-3 12-3 17 2" stroke="#1f1408" stroke-width="3.2" stroke-linecap="round"/>
+  <rect class="avatar-mouth" x="48" y="76" width="24" height="8" rx="4" fill="#2a1810"/>
+  <path d="M30 58c0-24 15-38 30-38s30 14 30 38" stroke="url(#m3Headset)" stroke-width="7" stroke-linecap="round"/>
+  <rect x="22" y="54" width="13" height="22" rx="7" fill="url(#m3Headset)"/>
+  <rect x="85" y="54" width="13" height="22" rx="7" fill="url(#m3Headset)"/>
+  <circle cx="65" cy="94" r="4" fill="var(--primary)"/>
+</svg>
