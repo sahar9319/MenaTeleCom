@@ -1,97 +1,42 @@
 # MENA Telecom Research Episodes
 
-A single-page static website for sharing research episodes with images, Markdown notes, and audio recordings.
+A single-page static site for sharing research episodes with images, Markdown notes, synced narration, and animated avatars.
 
-## Project Structure
+## How to use (quick start)
 
-```text
-MenaTeleCom/
-  index.html              # Page shell
-  config.json             # Site copy, colors, labels, asset paths
-  episodes.json           # Episode manifest (generated)
-  glossary.json           # Glossary entries
-  assets/
-    css/styles.css        # Styles
-    js/app.js             # Application logic
-    images/               # Logo, flag, favicon, hero icons, avatar fallback
-    icons/
-      ui/                 # Play, pause, mute, quick-view
-      telecom/            # Glossary tile icons
-  episodes/
-    ep1/                  # One folder per episode
-      meta.json           # Optional title and date
-      image.png           # Replace to change episode cover
-      text.md
-      audio.mp3
-      avatar.png          # Replace to change episode avatar
-  glossary/
-    g1/                   # Optional audio.mp3 per glossary entry
-  reference/
-    glossary/             # Source reference data (not served as episodes)
-  scripts/
-    serve.js              # Local server — auto-discovers episodes (use this)
-    generate_manifest.js  # Build episodes.json for static deploy
-    lib/episodes_manifest.js
-```
-
-## Configure The Site
-
-Edit `config.json` to change site-wide copy, labels, colors, and asset paths.
-
-Episode titles, images, audio, and Markdown paths come from `episodes.json`.
-
-## Change Images And Icons
-
-All visual assets live in the repo as files you can edit directly:
-
-| What to change | File or folder |
-|----------------|----------------|
-| Site logo | `assets/images/logo.svg` or `config.json` → `logoUrl` |
-| Flag / region icon | `assets/images/flag.svg` or `flagIconUrl` |
-| Browser tab icon | `assets/images/favicon.svg` |
-| Hero row icons | `assets/images/hero/*.svg` or `config.json` → `assets.heroIcons` |
-| Play / pause / mute buttons | `assets/icons/ui/*.svg` |
-| Glossary tile icons | `assets/icons/telecom/*.svg` or `glossary.json` → `icon` |
-| Default animated avatar | `assets/images/avatar-fallback.svg` |
-| Male speaker avatars (3) | `assets/images/avatars/male-1.svg` … `male-3.svg` |
-| Female speaker avatars (3) | `assets/images/avatars/female-1.svg` … `female-3.svg` |
-| Episode cover image | `episodes/epN/image.png` (or `.jpg`, `.webp`) |
-| Episode audio | `episodes/epN/audio.mp3` |
-| Glossary audio | `glossary/gN/audio.mp3` + `"audio"` field in `glossary.json` |
-
-Swap any SVG/PNG file in place, or point `config.json` `assets` paths to your own files. PNG/JPG logos work too — set `logoUrl` to e.g. `assets/images/logo.png`.
-
-## Add Episodes (drop-in folders)
-
-Create a new folder under `episodes/` with at least `text.md`. The site picks it up automatically when you use the dev server.
+### 1. One-time setup
 
 ```bash
-npm start
-# or: node scripts/serve.js
+python3 -m venv .venv
+source .venv/bin/activate          # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
 ```
 
-Then open http://localhost:8000 — refresh after adding or editing a folder.
+You also need **ffmpeg** and **ffprobe** on your PATH ([ffmpeg.org](https://ffmpeg.org/)).
 
-**Quick start:** copy the template folder:
+### 2. Add or edit an episode
+
+Create a folder under `episodes/` with **only what you write**:
+
+```text
+episodes/ep4/
+  text.md       ← required — your research notes (Markdown)
+  meta.json     ← optional — title, date, narrator voice (male/female)
+  image.png     ← optional — cover art
+```
+
+> **Never edit `episodes.json`.** Sync overwrites it on every run. The site reads voice, title, and dates from each episode's **`meta.json`**, not from `episodes.json`.
+
+**You do not create** `audio.mp3`, `timing.json`, or avatar settings. Sync builds those for you.
+
+Copy the starter template:
 
 ```bash
 cp -r episodes/_template episodes/ep4
-# add image.png, audio.mp3, edit text.md and meta.json
+# edit episodes/ep4/text.md and meta.json
 ```
 
-Each episode folder:
-
-```text
-episodes/
-  ep4/
-    meta.json       # optional — title, date, voice (male|female)
-    text.md         # required — shown in the reader
-    image.png       # cover (jpg/webp also work)
-    audio.mp3       # narration
-    timing.json     # optional — auto-generated for word highlights
-```
-
-`meta.json` example:
+`meta.json` example (all fields optional except you should set `voice` if you want a male narrator):
 
 ```json
 {
@@ -101,75 +46,161 @@ episodes/
 }
 ```
 
-Supported media names:
+| Field | What it does |
+|-------|----------------|
+| `title` | Card and reader title (defaults to folder name) |
+| `date` | Shown on the episode card (`YYYY-MM-DD`) |
+| `voice` | `"male"` or `"female"` — picks TTS voice **and** clay avatar automatically |
+| `tts` | Set to `false` **only** if you record your own audio and never want sync to overwrite it |
 
-- Images: `image.jpg`, `image.jpeg`, `image.png`, `image.webp`
-- Audio: `audio.mp3`, `audio.m4a`, `audio.ogg`, `audio.wav`
-- Avatar: `avatar.png`, `avatar.jpg`, `avatar.webp` (optional photo override)
+**Change narrator voice:** edit `"voice"` in `episodes/epN/meta.json`, then run `npm run sync`. Audio and avatar update automatically — do not edit `episodes.json`.
 
-Folders starting with `_` (like `_template`) and `reference/` are ignored.
-
-For **GitHub Pages / static deploy**, generate a manifest once before upload:
-
-```bash
-node scripts/generate_manifest.js
-```
-
-`generate_timing.js` builds `episodes/epN/timing.json` from each episode's `text.md` and audio duration. It detects silence gaps in the narration and maps words across speech segments so highlights track the voice more closely. Requires `ffmpeg` and `ffprobe`.
-
-If highlights are slightly early or late, adjust `"highlightOffset"` in `config.json` (try `-0.15` or `0.15` seconds).
-
-## Voice And Avatar Mapping (Automatic)
-
-The site picks a **male or female avatar automatically** from the audio voice:
-
-1. **While playing** — pitch is analyzed from the audio and the matching avatar appears.
-2. **Before play** — run voice detection so the right avatar shows immediately:
+### 3. Run sync
 
 ```bash
-node scripts/detect_voice.js
-node scripts/generate_manifest.js
+npm run sync
 ```
 
-`detect_voice.js` reads each `audio.mp3`, detects male/female from pitch, and saves it to `meta.json` / `glossary.json`.
+One command does everything:
 
-Optional fields (only if you need to override auto-detection):
+| Step | What sync creates / updates |
+|------|-----------------------------|
+| **Narration** | `audio.mp3` from `text.md` (free Edge TTS, no API key) |
+| **Voice + avatar** | `meta.json` → correct male/female for TTS and animated clay avatar |
+| **Line highlights** | `timing.json` — text highlights follow the voice line-by-line |
+| **Site index** | `episodes.json` — episode list for the site |
 
-```json
-{
-  "title": "Episode One",
-  "voiceOverride": "male",
-  "avatarVariant": 0
-}
+Then preview:
+
+```bash
+npm start
 ```
 
-- `voiceOverride`: force `"male"` or `"female"` when auto-detection is wrong
-- `avatarVariant`: `0`, `1`, or `2` (which of the three avatars for that gender)
+Open http://localhost:8000 and hard-refresh after sync.
 
-Glossary entries support the same fields in `glossary.json`.
+**Edit text → run `npm run sync` again.** If `text.md` changed, narration and highlights update automatically.
+
+---
+
+## What you create vs what sync creates
+
+| File | Who creates it |
+|------|----------------|
+| `text.md` | **You** |
+| `meta.json` | **You** (optional — sync fills defaults if missing) |
+| `image.png` / `.jpg` / `.webp` | **You** (optional) |
+| `audio.mp3` | **Sync** — never create by hand |
+| `timing.json` | **Sync** — never create by hand |
+| `voice` / avatar gender in meta | **Sync** — set from TTS voice; no pitch guessing |
+| `episodes.json` | **Sync** — never edit by hand (generated from each episode's `meta.json`) |
+| Clay avatar on screen | **Site** — reads `voice` from meta; no avatar file needed |
+
+Optional photo override: drop `avatar.png` in the episode folder only if you want a custom image instead of the clay avatar.
+
+---
+
+## Commands
+
+| Command | When to use |
+|---------|-------------|
+| `npm run sync` | **Default.** After any text or meta change. Full automation. |
+| `npm run sync -- --force-speech` | Regenerate all narration even if text unchanged |
+| `npm run sync -- --no-speech` | Rebuild highlights + manifest only (you use your own `audio.mp3`) |
+| `npm start` | Local dev server with live episode discovery |
+| `npm run manifest` | Rare: rebuild `episodes.json` only |
+
+Advanced (you rarely need these):
+
+```bash
+npm run speech              # narration only
+npm run timing              # highlights only
+npm run voice               # pitch-detect voice for manual recordings only
+```
+
+---
+
+## Using your own voice recording
+
+If you prefer a human recording instead of TTS:
+
+1. Add `"tts": false` to `meta.json`
+2. Place your file as `audio.mp3` in the episode folder
+3. Run `npm run sync -- --no-speech` (builds highlights from your audio)
+
+Sync will not overwrite your recording. Set `"voice": "male"` or `"female"` manually, or run `npm run voice` once.
+
+---
+
+## Deploy (GitHub Pages, Netlify, Vercel)
+
+Before upload or push:
+
+```bash
+npm run sync
+```
+
+Include generated files (`episodes.json`, each episode's `audio.mp3` and `timing.json`) in the deploy.
+
+---
+
+## Project structure
+
+```text
+MenaTeleCom/
+  index.html
+  config.json             # Site labels, colors, avatar paths
+  episodes.json           # Generated — do not edit
+  episodes/
+    ep1/
+      text.md             # You write this
+      meta.json           # You write this (optional)
+      image.png           # Optional
+      audio.mp3           # Generated by sync
+      timing.json         # Generated by sync
+    _template/            # Copy to start a new episode
+  scripts/
+    sync.js               # Main pipeline — run via npm run sync
+    generate_speech.py    # Edge TTS narration
+    generate_timing.py    # Whisper line highlights
+    generate_manifest.js  # episodes.json
+    tts_config.json       # TTS voice presets (male/female)
+  assets/
+    js/app.js             # Reader, highlights, avatars
+    images/avatars/       # Clay male/female SVGs (automatic)
+```
+
+Folders starting with `_` (e.g. `_template`) and `reference/` are ignored by the site.
+
+---
+
+## Configure the site
+
+Edit `config.json` for site-wide copy, colors, and labels.
+
+TTS voice presets (Jenny, Guy, etc.) live in `scripts/tts_config.json`.
+
+If line highlights feel slightly early or late, tweak `"highlightLeadIn"` or `"highlightOffset"` in `config.json`.
+
+---
 
 ## Glossary
 
-Edit `glossary.json` directly. Audio is optional — entries without an `audio` field show text only.
+Edit `glossary.json` for telecom term cards. Audio is optional. Clay avatars use each entry's `voice` field.
 
-To add audio, drop `audio.mp3` into `glossary/g1/` (folders `g1`–`g6` already exist) and add `"audio": "glossary/g1/audio.mp3"` to the matching entry in `glossary.json`.
+---
 
-## Test Locally
+## Local development
 
-The site uses `fetch`, so open it through a local server:
-
-```bash
-npx serve .
-```
-
-Or:
+Use the project dev server — it discovers new episode folders automatically:
 
 ```bash
-python3 -m http.server 8000
+npm start
 ```
 
-Then open the shown local URL, such as `http://localhost:8000`.
+Do **not** use `python3 -m http.server` for development; it serves a stale `episodes.json`.
 
-## Free Hosting
+---
 
-GitHub Pages, Netlify, and Vercel all host this project as static files. Push or upload the full folder, including `index.html`, `config.json`, `episodes.json`, `glossary.json`, `assets/`, `episodes/`, and `scripts/`.
+## Free hosting
+
+Host as static files: `index.html`, `config.json`, `episodes.json`, `glossary.json`, `assets/`, and `episodes/` (with generated audio and timing).

@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const { sortEpisodes } = require("./episode_utils");
 
 const IMAGE_NAMES = ["image.jpg", "image.jpeg", "image.png", "image.webp"];
 const AUDIO_NAMES = ["audio.mp3", "audio.m4a", "audio.ogg", "audio.wav"];
@@ -44,7 +45,7 @@ const buildEpisodesManifest = (rootDir) => {
     return [];
   }
 
-  return fs
+  const episodes = fs
     .readdirSync(episodesDir, { withFileTypes: true })
     .filter((entry) => entry.isDirectory() && isEpisodeFolder(episodesDir, entry.name))
     .map((entry) => {
@@ -67,6 +68,13 @@ const buildEpisodesManifest = (rootDir) => {
         textUpdated: fs.statSync(text).mtimeMs,
       };
 
+      if (image) {
+        episode.imageUpdated = fs.statSync(image).mtimeMs;
+      }
+      if (audio) {
+        episode.audioUpdated = fs.statSync(audio).mtimeMs;
+      }
+
       if (meta.voiceOverride) {
         episode.voiceOverride = meta.voiceOverride;
       } else if (meta.voice) {
@@ -75,8 +83,9 @@ const buildEpisodesManifest = (rootDir) => {
       if (Number.isFinite(meta.avatarVariant)) {
         episode.avatarVariant = meta.avatarVariant;
       }
-      if (avatar) {
+      if (meta.avatarMode === "photo" && avatar) {
         episode.avatar = toRelative(rootDir, avatar);
+        episode.avatarMode = "photo";
       }
       if (fs.existsSync(timing)) {
         episode.timing = toRelative(rootDir, timing);
@@ -84,14 +93,10 @@ const buildEpisodesManifest = (rootDir) => {
       }
 
       return episode;
-    })
-    .sort((a, b) => {
-      if (a.date && b.date) {
-        return b.date.localeCompare(a.date);
-      }
-      return a.id.localeCompare(b.id, undefined, { numeric: true, sensitivity: "base" });
-    })
-    .map((episode) => {
+    });
+
+  return sortEpisodes(
+    episodes.map((episode) => {
       if (!episode.date) {
         delete episode.date;
       }
@@ -102,7 +107,8 @@ const buildEpisodesManifest = (rootDir) => {
         delete episode.audio;
       }
       return episode;
-    });
+    }),
+  );
 };
 
 module.exports = {

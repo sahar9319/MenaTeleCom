@@ -2,21 +2,29 @@ const fs = require("fs");
 const path = require("path");
 const { spawnSync } = require("child_process");
 
+const { listEpisodeFolders, findAudio } = require("./lib/episode_utils");
+
 const rootDir = path.join(__dirname, "..");
 const episodesDir = path.join(rootDir, "episodes");
 const glossaryPath = path.join(rootDir, "glossary.json");
-const audioNames = ["audio.mp3", "audio.m4a", "audio.ogg", "audio.wav"];
+const skipTts = process.argv.includes("--skip-tts");
 const PITCH_THRESHOLD_HZ = 165;
 const SAMPLE_RATE = 11025;
 const ANALYZE_SECONDS = 24;
 
-const findAudio = (folder) => {
-  for (const name of audioNames) {
-    const candidate = path.join(folder, name);
-    if (fs.existsSync(candidate)) return candidate;
+const readMeta = (folder) => {
+  const metaPath = path.join(folder, "meta.json");
+  if (!fs.existsSync(metaPath)) return {};
+  try {
+    return JSON.parse(fs.readFileSync(metaPath, "utf8"));
+  } catch (error) {
+    return {};
   }
-  return null;
 };
+
+const isTtsManaged = (meta) => (
+  meta.voiceSource === "tts" || meta.tts === true
+);
 
 const readPcm = (audioPath) => {
   const result = spawnSync(
@@ -109,26 +117,32 @@ const writeMetaVoice = (folder, voice) => {
     : {};
 
   meta.voice = voice;
+  meta.voiceSource = "detected";
   fs.writeFileSync(metaPath, `${JSON.stringify(meta, null, 2)}\n`, "utf8");
 };
 
 let updated = 0;
+let skippedTts = 0;
 
 if (fs.existsSync(episodesDir)) {
-  fs.readdirSync(episodesDir, { withFileTypes: true })
-    .filter((entry) => entry.isDirectory() && fs.existsSync(path.join(episodesDir, entry.name, "text.md")))
-    .forEach((entry) => {
-      const folder = path.join(episodesDir, entry.name);
-      const audioPath = findAudio(folder);
-      if (!audioPath) return;
+  listEpisodeFolders(episodesDir).forEach((folder) => {
+    const meta = readMeta(folder);
+    if (skipTts && isTtsManaged(meta)) {
+      skippedTts += 1;
+      console.log(`${path.basename(folder)}: ${meta.voice} (TTS — skipped pitch detection)`);
+      return;
+    }
 
-      const result = detectVoiceFromFile(audioPath);
-      writeMetaVoice(folder, result.voice);
-      updated += 1;
-      console.log(
-        `${entry.name}: ${result.voice} (~${result.medianPitch || "?"} Hz, ${result.confidence})`
-      );
-    });
+    const audioPath = findAudio(folder);
+    if (!audioPath) return;
+
+    const result = detectVoiceFromFile(audioPath);
+    writeMetaVoice(folder, result.voice);
+    updated += 1;
+    console.log(
+      `${path.basename(folder)}: ${result.voice} (~${result.medianPitch || "?"} Hz, ${result.confidence})`
+    );
+  });
 }
 
 if (fs.existsSync(glossaryPath)) {
@@ -137,12 +151,15 @@ if (fs.existsSync(glossaryPath)) {
 
   glossary.forEach((entry) => {
     if (!entry.audio) return;
+    if (skipTts && entry.voiceSource === "tts") return;
+
     const audioPath = path.join(rootDir, entry.audio);
     if (!fs.existsSync(audioPath)) return;
 
     const result = detectVoiceFromFile(audioPath);
     if (entry.voice !== result.voice) {
       entry.voice = result.voice;
+      entry.voiceSource = "detected";
       glossaryChanged = true;
       console.log(`${entry.id}: ${result.voice} (~${result.medianPitch || "?"} Hz)`);
     }
@@ -154,7 +171,11 @@ if (fs.existsSync(glossaryPath)) {
   }
 }
 
-if (!updated) {
+if (!updated && !skippedTts) {
   console.warn("No voices were detected. Install ffmpeg and ensure episode audio files exist.");
   process.exit(1);
+}
+
+if (!updated && skippedTts) {
+  console.log(`All ${skippedTts} episode(s) use TTS voice metadata — no pitch detection needed.`);
 }

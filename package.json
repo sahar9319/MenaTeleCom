@@ -4,6 +4,11 @@
   "scripts": {
     "start": "node scripts/serve.js",
     "serve": "node scripts/serve.js",
-    "manifest": "node scripts/generate_manifest.js"
+    "sync": "node scripts/sync.js",
+    "sync:all": "node scripts/sync.js",
+    "manifest": "node scripts/generate_manifest.js",
+    "timing": "node scripts/generate_timing.js",
+    "speech": "node scripts/generate_speech.js",
+    "voice": "node scripts/detect_voice.js"
   }
 }

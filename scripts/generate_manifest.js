@@ -14,3 +14,4 @@ const manifest = buildEpisodesManifest(rootDir);
 
 fs.writeFileSync(outputPath, `${JSON.stringify(manifest, null, 2)}\n`, "utf8");
 console.log(`Wrote ${manifest.length} episodes to episodes.json`);
+console.log("Note: episodes.json is generated — edit episodes/*/meta.json for title, date, and voice.");

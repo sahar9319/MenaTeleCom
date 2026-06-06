@@ -184,6 +184,7 @@ let highlightRaf = null;
 let pendingEstimatedHighlight = false;
 let activeTiming = [];
 let activeSpeaker = null;
+let activeEpisode = null;
 let talkPulse = 0;
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -488,6 +489,23 @@ const glossarySnippet = (text) => {
   return plain.length > 100 ? `${plain.slice(0, 100).trim()}...` : plain;
 };
 
+const episodeNumber = (episode) => {
+  const match = String(episode?.id || "").match(/(\d+)/);
+  return match ? Number(match[1]) : 0;
+};
+
+const sortEpisodes = (list) => [...list].sort((a, b) => {
+  if (a.date && b.date && a.date !== b.date) {
+    return b.date.localeCompare(a.date);
+  }
+  const diff = episodeNumber(b) - episodeNumber(a);
+  if (diff !== 0) return diff;
+  return String(b.id || "").localeCompare(String(a.id || ""), undefined, {
+    numeric: true,
+    sensitivity: "base",
+  });
+});
+
 const episodeFolder = (episode) => {
   const source = episode.text || episode.audio || "";
   const slash = source.lastIndexOf("/");
@@ -521,8 +539,9 @@ const fetchEpisodeTiming = async (episode) => {
 };
 
 const normalizeHighlightToken = (word) => String(word || "")
+  .replace(/&amp;/gi, "&")
   .replace(/^[—–-]+/, "")
-  .replace(/[^\w]/g, "")
+  .replace(/[^\w&]/g, "")
   .toLowerCase();
 
 const shouldAttachToPreviousWord = (word) => (
@@ -539,18 +558,6 @@ const mergeOrphanPunctuation = (words) => {
     merged.push(word);
   });
   return merged;
-};
-
-const scoreTimingMatch = (domWord, timingWord) => {
-  const domNorm = normalizeHighlightToken(domWord);
-  const timingNorm = normalizeHighlightToken(timingWord);
-  if (!domNorm && !timingNorm) return 0;
-  if (domNorm === timingNorm) return 100;
-  if (domNorm && timingNorm && (timingNorm.startsWith(domNorm) || domNorm.startsWith(timingNorm))) return 85;
-  if (domNorm && timingNorm && (timingNorm.includes(domNorm) || domNorm.includes(timingNorm))) return 65;
-  const domBare = domWord.replace(/^[^\w]+/, "");
-  if (domBare && timingWord.includes(domBare)) return 55;
-  return 0;
 };
 
 const lineWeight = (element) => {
@@ -580,7 +587,7 @@ const extractLineWords = (element) => mergeOrphanPunctuation(
 );
 
 const splitParagraphLines = () => {
-  markdownBody.querySelectorAll("p").forEach((paragraph) => {
+  markdownBody.querySelectorAll("p:not(.text-line)").forEach((paragraph) => {
     if (!paragraph.querySelector("br")) return;
 
     const parts = paragraph.innerHTML
@@ -625,57 +632,79 @@ const buildWeightedLineTiming = (lines, duration) => {
   });
 };
 
+const repairWordTiming = (timing, duration) => {
+  if (!timing.length) return timing;
+
+  const repaired = timing.map((stamp) => ({
+    word: stamp.word,
+    start: Number(stamp.start),
+    end: Number(Math.max(stamp.end, stamp.start + 0.04))
+  }));
+
+  let index = 0;
+  while (index < repaired.length) {
+    const flatStart = repaired[index].start;
+    let endIndex = index;
+    while (
+      endIndex + 1 < repaired.length
+      && Math.abs(repaired[endIndex + 1].start - flatStart) < 0.02
+      && repaired[endIndex + 1].end - repaired[endIndex + 1].start < 0.03
+    ) {
+      endIndex += 1;
+    }
+
+    if (endIndex > index) {
+      const spanStart = index > 0 ? repaired[index - 1].end : 0;
+      const spanEnd = endIndex + 1 < repaired.length
+        ? repaired[endIndex + 1].start
+        : duration;
+      const count = endIndex - index + 1;
+      const slice = Math.max(0.08, (spanEnd - spanStart) / count);
+      let cursor = spanStart;
+
+      for (let flatIndex = index; flatIndex <= endIndex; flatIndex += 1) {
+        cursor += slice;
+        repaired[flatIndex].start = Number(Math.max(spanStart, cursor - slice).toFixed(3));
+        repaired[flatIndex].end = Number(Math.min(duration, cursor).toFixed(3));
+      }
+    }
+
+    index = endIndex + 1;
+  }
+
+  return repaired;
+};
+
 const buildLineTimingFromWords = (wordTiming, lines, duration) => {
-  const scaled = normalizeTimingToAudio(wordTiming, duration);
+  let scaled = normalizeTimingToAudio(wordTiming, duration);
   if (!scaled.length) {
     return buildWeightedLineTiming(lines, duration);
   }
 
-  let searchFrom = 0;
-  let lastEnd = scaled[0]?.start || 0;
-  const results = [];
+  scaled = repairWordTiming(scaled, duration);
 
-  lines.forEach((element, lineIndex) => {
-    const words = extractLineWords(element);
-    let lineStart = null;
-    let lineEnd = null;
+  const lineWordCounts = lines.map((element) => extractLineWords(element).length);
+  const totalLineWords = lineWordCounts.reduce((sum, count) => sum + count, 0);
+  const drift = Math.abs(totalLineWords - scaled.length);
 
-    words.forEach((word) => {
-      let bestIndex = null;
-      let bestScore = 0;
-      const searchEnd = Math.min(scaled.length, searchFrom + 24);
+  if (drift > Math.max(6, scaled.length * 0.04)) {
+    return buildWeightedLineTiming(lines, duration);
+  }
 
-      for (let index = searchFrom; index < searchEnd; index += 1) {
-        const score = scoreTimingMatch(word, scaled[index].word);
-        if (score > bestScore) {
-          bestScore = score;
-          bestIndex = index;
-        }
-      }
-
-      if (bestIndex === null || bestScore < 40) return;
-
-      const stamp = scaled[bestIndex];
-      if (lineStart === null) lineStart = stamp.start;
-      lineEnd = Math.max(lineEnd ?? stamp.end, stamp.end);
-      if (bestScore >= 55) {
-        searchFrom = bestIndex + 1;
-      }
-    });
-
-    if (lineStart === null) {
-      const remaining = lines.length - lineIndex;
-      const slice = Math.max(0.35, (duration - lastEnd) / Math.max(1, remaining));
-      lineStart = lastEnd;
-      lineEnd = Math.min(duration, lastEnd + slice);
+  let wordIndex = 0;
+  const results = lineWordCounts.map((count) => {
+    if (!count || wordIndex >= scaled.length) {
+      return { start: duration, end: duration };
     }
 
-    lineEnd = Math.max(lineEnd, lineStart + 0.1);
-    lastEnd = lineEnd;
-    results.push({
-      start: Number(lineStart.toFixed(3)),
-      end: Number(lineEnd.toFixed(3))
-    });
+    const startIdx = wordIndex;
+    const endIdx = Math.min(scaled.length - 1, wordIndex + count - 1);
+    wordIndex = endIdx + 1;
+
+    return {
+      start: scaled[startIdx].start,
+      end: Math.max(scaled[endIdx].end, scaled[startIdx].start + 0.08)
+    };
   });
 
   for (let index = 1; index < results.length; index += 1) {
@@ -683,13 +712,39 @@ const buildLineTimingFromWords = (wordTiming, lines, duration) => {
       results[index].start = results[index - 1].end;
     }
     if (results[index].end <= results[index].start) {
-      results[index].end = Number(Math.min(duration, results[index].start + 0.14).toFixed(3));
+      results[index].end = Number(Math.min(duration, results[index].start + 0.12).toFixed(3));
     }
   }
 
   if (results.length) {
     const last = results[results.length - 1];
     last.end = Number(Math.min(duration, Math.max(last.end, last.start + 0.1)).toFixed(3));
+  }
+
+  let lastGoodIndex = -1;
+  results.forEach((stamp, index) => {
+    const span = stamp.end - stamp.start;
+    if (span >= 0.45 && stamp.start < duration - 1) {
+      lastGoodIndex = index;
+    }
+  });
+
+  if (lastGoodIndex >= 0 && lastGoodIndex < results.length - 1) {
+    const tailStart = results[lastGoodIndex].end;
+    const tailBudget = Math.max(0.5, duration - tailStart);
+    const tailWeights = lineWordCounts.slice(lastGoodIndex + 1);
+    const tailTotal = tailWeights.reduce((sum, weight) => sum + weight, 0) || 1;
+    let cursor = tailStart;
+
+    for (let index = lastGoodIndex + 1; index < results.length; index += 1) {
+      const slice = (tailWeights[index - lastGoodIndex - 1] / tailTotal) * tailBudget;
+      const start = cursor;
+      cursor = Math.min(duration, start + Math.max(0.12, slice));
+      results[index] = {
+        start: Number(start.toFixed(3)),
+        end: Number(Math.min(duration, Math.max(cursor, start + 0.12)).toFixed(3))
+      };
+    }
   }
 
   return results;
@@ -855,14 +910,17 @@ const resolveSpeakerVoice = (speaker = {}) => {
 };
 
 const resolveSpeakerAvatar = (speaker = {}) => {
+  const voice = resolveSpeakerVoice(speaker);
+  const assets = resolveAssets();
+
   if (speaker.avatarMode === "photo" && speaker.avatar) {
-    return { mode: "photo", url: speaker.avatar };
+    return { mode: "photo", url: speaker.avatar, voice };
   }
 
-  const assets = resolveAssets();
-  const voice = resolveSpeakerVoice(speaker);
-  const pool = assets.avatars[voice] || assets.avatars.male;
-  return { mode: "svg", url: pool[0], voice };
+  const variant = Number.isFinite(speaker.avatarVariant) ? speaker.avatarVariant : 0;
+  const pool = assets.avatars[voice] || assets.avatars.male || [];
+  const url = pool[variant % pool.length] || pool[0];
+  return { mode: "svg", url, voice };
 };
 
 const renderAvatarSvg = (url, voice = "male") => {
@@ -892,6 +950,7 @@ const renderAvatarPhoto = (url) => {
 const renderAvatarForSpeaker = (speaker = {}) => {
   activeSpeaker = speaker;
   const resolved = resolveSpeakerAvatar(speaker);
+  avatarHost.dataset.voice = resolved.voice;
   if (resolved.mode === "photo") {
     renderAvatarPhoto(resolved.url);
     return;
@@ -1044,7 +1103,7 @@ const animateAvatar = () => {
   avatarFrame = requestAnimationFrame(animateAvatar);
 };
 
-const startAvatar = async (audioElement = audio, speaker = activeSpeaker) => {
+const startAvatar = async (audioElement = audio, speaker = activeEpisode || activeSpeaker) => {
   if (!audioElement || audioElement.muted) {
     stopAvatar();
     return;
@@ -1055,8 +1114,9 @@ const startAvatar = async (audioElement = audio, speaker = activeSpeaker) => {
   }
   activeAudio = audioElement;
 
-  if (speaker) {
-    renderAvatarForSpeaker(speaker);
+  const resolvedSpeaker = speaker || activeEpisode || activeSpeaker;
+  if (resolvedSpeaker) {
+    renderAvatarForSpeaker(resolvedSpeaker);
   }
 
   const ready = await ensureAvatarAnalyser(audioElement);
@@ -1387,7 +1447,7 @@ const loadEpisodes = async ({ refresh = false } = {}) => {
   try {
     const response = await fetch("episodes.json", { cache: "no-store" });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    episodes = await response.json();
+    episodes = sortEpisodes(await response.json());
     grid.replaceChildren(...episodes.map(buildCard));
 
     if (!refresh) {
@@ -1479,6 +1539,7 @@ const normalizeShellTo = (rect) => {
 async function openEpisode(episode, sourceCard) {
   if (isExpanded || isClosing) return;
   isExpanded = true;
+  activeEpisode = episode;
   activeSourceCard = sourceCard;
   clearTimeout(closeAudioTimer);
 
@@ -1501,7 +1562,7 @@ async function openEpisode(episode, sourceCard) {
   pendingEstimatedHighlight = false;
   activeLine = null;
   if (episode.audio) {
-    audio.src = episode.audio;
+    audio.src = assetCacheKey(episode, "audio", episode.audio);
   } else {
     audio.removeAttribute("src");
     audio.load();
@@ -1582,6 +1643,7 @@ async function closeEpisode(restoreFocus = true) {
   activeSourceCard = null;
   isExpanded = false;
   isClosing = false;
+  activeEpisode = null;
   activeSpeaker = null;
   avatarHost.innerHTML = "";
   avatarHost.classList.remove("speaking");
@@ -1623,7 +1685,7 @@ playBtn.addEventListener("click", async () => {
   if (audio.paused) {
     try {
       await audio.play();
-      await startAvatar(audio, activeSpeaker);
+      await startAvatar(audio, activeEpisode);
     } catch (error) {
       setStatus(config.audioError);
     }
@@ -1638,7 +1700,7 @@ muteBtn.addEventListener("click", () => {
   if (audio.muted) {
     stopAvatar(audio);
   } else if (!audio.paused) {
-    startAvatar(audio, activeSpeaker);
+    startAvatar(audio, activeEpisode);
   }
 });
 
@@ -1650,7 +1712,7 @@ homeBtn.addEventListener("click", goHome);
 glossaryBtn.addEventListener("click", showGlossary);
 audio.addEventListener("play", () => {
   setPlayState();
-  startAvatar(audio, activeSpeaker);
+  startAvatar(audio, activeEpisode);
   startHighlightLoop();
 });
 audio.addEventListener("pause", () => {
@@ -1663,14 +1725,14 @@ audio.addEventListener("volumechange", () => {
   if (audio.muted) {
     stopAvatar(audio);
   } else if (!audio.paused) {
-    startAvatar(audio, activeSpeaker);
+    startAvatar(audio, activeEpisode);
   }
 });
 audio.addEventListener("loadedmetadata", () => {
   updateTime();
   if (pendingEstimatedHighlight) {
     enableEstimatedHighlighting();
-  } else if (activeTiming.length && markdownBody.querySelector(".highlight-line")) {
+  } else if (isExpanded && activeTiming.length && markdownBody.dataset.highlighting === "true") {
     applyHighlightTiming(activeTiming);
   }
 });

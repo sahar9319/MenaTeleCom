@@ -1,5 +1,8 @@
 {
   "title": "Episode Two",
   "date": "2025-06-02",
-  "voice": "female"
+  "voice": "female",
+  "voiceSource": "tts",
+  "tts": true,
+  "ttsVoice": "en-US-JennyNeural"
 }

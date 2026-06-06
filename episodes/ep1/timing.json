@@ -2,896 +2,896 @@
   {
     "word": "From",
     "start": 0.0,
-    "end": 0.46
+    "end": 0.5
   },
   {
     "word": "Infrastructure",
-    "start": 0.46,
-    "end": 0.9
+    "start": 0.5,
+    "end": 0.94
   },
   {
     "word": "to",
-    "start": 0.9,
-    "end": 1.34
+    "start": 0.94,
+    "end": 1.38
   },
   {
     "word": "Intelligence:",
-    "start": 1.34,
-    "end": 1.9
+    "start": 1.38,
+    "end": 1.88
   },
   {
     "word": "The",
-    "start": 2.34,
-    "end": 2.4
+    "start": 2.3,
+    "end": 2.38
   },
   {
     "word": "MENA",
-    "start": 7.16,
-    "end": 7.42
+    "start": 2.38,
+    "end": 3.14
   },
   {
     "word": "Telecom",
-    "start": 7.42,
-    "end": 7.5
+    "start": 3.14,
+    "end": 3.62
   },
   {
     "word": "Pivot",
-    "start": 7.5,
-    "end": 7.58
+    "start": 5.2,
+    "end": 5.24
   },
   {
     "word": "The",
-    "start": 9.78,
-    "end": 9.92
+    "start": 5.24,
+    "end": 5.88
   },
   {
     "word": "MENA",
-    "start": 9.92,
-    "end": 10.0
+    "start": 5.88,
+    "end": 6.46
   },
   {
     "word": "telecommunications",
-    "start": 10.0,
-    "end": 10.08
+    "start": 6.46,
+    "end": 6.9
   },
   {
     "word": "sector",
-    "start": 10.08,
-    "end": 10.16
+    "start": 6.9,
+    "end": 7.18
   },
   {
     "word": "is",
-    "start": 15.86,
-    "end": 15.98
+    "start": 7.18,
+    "end": 7.54
   },
   {
     "word": "undergoing",
-    "start": 15.98,
-    "end": 16.06
+    "start": 7.54,
+    "end": 7.8
   },
   {
     "word": "a",
-    "start": 19.2,
-    "end": 19.5
+    "start": 7.8,
+    "end": 8.1
   },
   {
     "word": "massive",
-    "start": 24.44,
-    "end": 24.66
+    "start": 8.1,
+    "end": 8.52
   },
   {
     "word": "structural",
-    "start": 24.66,
-    "end": 24.74
+    "start": 8.52,
+    "end": 9.14
   },
   {
     "word": "shift.",
-    "start": 24.74,
-    "end": 24.82
+    "start": 10.04,
+    "end": 10.14
   },
   {
     "word": "The",
-    "start": 28.94,
-    "end": 29.1
+    "start": 10.14,
+    "end": 10.36
   },
   {
     "word": "old",
-    "start": 29.1,
-    "end": 29.18
+    "start": 10.36,
+    "end": 10.74
   },
   {
     "word": "playbook\u2014where",
-    "start": 29.18,
-    "end": 29.26
+    "start": 10.92,
+    "end": 11.08
   },
   {
     "word": "market",
-    "start": 29.26,
-    "end": 29.34
+    "start": 11.08,
+    "end": 11.4
   },
   {
     "word": "leadership",
-    "start": 29.34,
-    "end": 29.42
+    "start": 11.4,
+    "end": 11.78
   },
   {
     "word": "was",
-    "start": 29.42,
-    "end": 29.5
+    "start": 11.78,
+    "end": 12.12
   },
   {
     "word": "defined",
-    "start": 29.5,
-    "end": 29.58
+    "start": 12.12,
+    "end": 12.42
   },
   {
     "word": "by",
-    "start": 29.58,
-    "end": 29.66
+    "start": 12.42,
+    "end": 12.7
   },
   {
     "word": "network",
-    "start": 29.66,
-    "end": 29.74
+    "start": 12.7,
+    "end": 13.02
   },
   {
     "word": "assets,",
-    "start": 29.74,
-    "end": 29.82
+    "start": 13.02,
+    "end": 13.46
   },
   {
     "word": "spectrum,",
-    "start": 29.82,
-    "end": 29.9
+    "start": 13.86,
+    "end": 14.06
   },
   {
     "word": "and",
-    "start": 29.9,
-    "end": 29.98
+    "start": 14.42,
+    "end": 14.52
   },
   {
     "word": "subscriber",
-    "start": 29.98,
-    "end": 30.06
+    "start": 14.52,
+    "end": 14.92
   },
   {
     "word": "scale\u2014is",
-    "start": 30.06,
-    "end": 30.14
+    "start": 14.92,
+    "end": 15.4
   },
   {
     "word": "being",
-    "start": 30.14,
-    "end": 30.22
+    "start": 15.6,
+    "end": 15.7
   },
   {
     "word": "replaced.",
-    "start": 30.22,
-    "end": 30.3
+    "start": 15.7,
+    "end": 15.98
   },
   {
     "word": "Value",
-    "start": 30.3,
-    "end": 30.38
+    "start": 15.98,
+    "end": 16.5
   },
   {
     "word": "is",
-    "start": 30.38,
-    "end": 30.46
+    "start": 18.08,
+    "end": 18.32
   },
   {
     "word": "rapidly",
-    "start": 30.46,
-    "end": 30.54
+    "start": 18.32,
+    "end": 18.56
   },
   {
     "word": "migrating",
-    "start": 30.54,
-    "end": 30.62
+    "start": 18.56,
+    "end": 18.92
   },
   {
     "word": "away",
-    "start": 30.62,
-    "end": 30.7
+    "start": 18.92,
+    "end": 19.44
   },
   {
     "word": "from",
-    "start": 35.36,
-    "end": 35.64
+    "start": 19.44,
+    "end": 19.72
   },
   {
     "word": "physical",
-    "start": 35.64,
-    "end": 35.72
+    "start": 19.72,
+    "end": 19.98
   },
   {
     "word": "infrastructure",
-    "start": 36.0,
-    "end": 36.54
+    "start": 19.98,
+    "end": 20.36
   },
   {
     "word": "and",
-    "start": 36.54,
-    "end": 36.62
+    "start": 20.36,
+    "end": 20.88
   },
   {
     "word": "toward",
-    "start": 36.62,
-    "end": 36.94
+    "start": 20.88,
+    "end": 21.26
   },
   {
     "word": "the",
-    "start": 36.94,
-    "end": 37.02
+    "start": 21.26,
+    "end": 21.44
   },
   {
     "word": "digital",
-    "start": 37.02,
-    "end": 37.1
+    "start": 21.44,
+    "end": 21.66
   },
   {
     "word": "layers",
-    "start": 37.1,
-    "end": 37.18
+    "start": 21.66,
+    "end": 21.92
   },
   {
     "word": "built",
-    "start": 37.18,
-    "end": 37.26
+    "start": 21.92,
+    "end": 22.28
   },
   {
     "word": "above",
-    "start": 37.26,
-    "end": 37.34
+    "start": 22.28,
+    "end": 22.56
   },
   {
     "word": "it:",
-    "start": 37.36,
-    "end": 37.78
+    "start": 22.56,
+    "end": 22.78
   },
   {
     "word": "cloud",
-    "start": 37.78,
-    "end": 37.86
+    "start": 22.78,
+    "end": 23.06
   },
   {
     "word": "platforms,",
-    "start": 37.86,
-    "end": 37.94
+    "start": 23.26,
+    "end": 23.44
   },
   {
     "word": "AI",
-    "start": 37.94,
-    "end": 38.02
+    "start": 23.44,
+    "end": 23.94
   },
   {
     "word": "ecosystems,",
-    "start": 38.02,
-    "end": 38.1
+    "start": 24.34,
+    "end": 24.56
   },
   {
     "word": "fintech,",
-    "start": 38.1,
-    "end": 38.18
+    "start": 24.56,
+    "end": 25.08
   },
   {
     "word": "and",
-    "start": 43.72,
-    "end": 43.86
+    "start": 25.56,
+    "end": 25.86
   },
   {
     "word": "enterprise",
-    "start": 43.86,
-    "end": 44.26
+    "start": 26.14,
+    "end": 26.28
   },
   {
     "word": "solutions.",
-    "start": 44.26,
-    "end": 44.34
+    "start": 26.28,
+    "end": 26.68
   },
   {
     "word": "Here",
-    "start": 44.34,
-    "end": 44.42
+    "start": 26.68,
+    "end": 27.28
   },
   {
     "word": "is",
-    "start": 44.42,
-    "end": 44.5
+    "start": 28.32,
+    "end": 29.08
   },
   {
     "word": "how",
-    "start": 44.5,
-    "end": 44.58
+    "start": 29.08,
+    "end": 29.24
   },
   {
     "word": "the",
-    "start": 44.58,
-    "end": 44.66
+    "start": 29.24,
+    "end": 29.44
   },
   {
     "word": "region's",
-    "start": 44.66,
-    "end": 44.74
+    "start": 29.44,
+    "end": 29.62
   },
   {
     "word": "telcos",
-    "start": 44.74,
-    "end": 44.82
+    "start": 29.62,
+    "end": 29.92
   },
   {
     "word": "are",
-    "start": 53.8,
-    "end": 53.98
+    "start": 29.92,
+    "end": 30.44
   },
   {
     "word": "transforming",
-    "start": 55.2,
-    "end": 55.4
+    "start": 30.44,
+    "end": 30.7
   },
   {
     "word": "into",
-    "start": 55.4,
-    "end": 55.48
+    "start": 30.7,
+    "end": 31.2
   },
   {
     "word": "\"techcos\":",
-    "start": 55.48,
-    "end": 55.56
+    "start": 31.2,
+    "end": 31.54
   },
   {
     "word": "Asset-Light,",
-    "start": 55.56,
-    "end": 55.64
+    "start": 31.54,
+    "end": 32.24
   },
   {
     "word": "Platform-Heavy:",
-    "start": 56.78,
-    "end": 57.32
+    "start": 33.82,
+    "end": 34.24
   },
   {
     "word": "Operators",
-    "start": 57.32,
-    "end": 57.4
+    "start": 34.48,
+    "end": 34.76
   },
   {
     "word": "are",
-    "start": 57.4,
-    "end": 57.48
+    "start": 34.76,
+    "end": 35.2
   },
   {
     "word": "divesting",
-    "start": 57.48,
-    "end": 57.56
+    "start": 35.54,
+    "end": 35.82
   },
   {
     "word": "from",
-    "start": 57.56,
-    "end": 57.64
+    "start": 35.82,
+    "end": 36.18
   },
   {
     "word": "passive",
-    "start": 57.64,
-    "end": 57.72
+    "start": 36.18,
+    "end": 36.56
   },
   {
     "word": "infrastructure",
-    "start": 57.72,
-    "end": 57.8
+    "start": 36.56,
+    "end": 36.84
   },
   {
     "word": "to",
-    "start": 57.8,
-    "end": 57.88
+    "start": 36.84,
+    "end": 37.2
   },
   {
     "word": "free",
-    "start": 57.88,
-    "end": 57.96
+    "start": 37.2,
+    "end": 37.76
   },
   {
     "word": "up",
-    "start": 57.96,
-    "end": 58.04
+    "start": 37.76,
+    "end": 38.14
   },
   {
     "word": "capital.",
-    "start": 58.04,
-    "end": 58.12
+    "start": 38.14,
+    "end": 38.34
   },
   {
     "word": "This",
-    "start": 64.16,
-    "end": 64.34
+    "start": 38.34,
+    "end": 38.54
   },
   {
     "word": "investment",
-    "start": 69.84,
-    "end": 70.02
+    "start": 38.54,
+    "end": 38.98
   },
   {
     "word": "is",
-    "start": 70.02,
-    "end": 70.1
+    "start": 39.96,
+    "end": 40.2
   },
   {
     "word": "being",
-    "start": 70.1,
-    "end": 70.18
+    "start": 40.2,
+    "end": 40.62
   },
   {
     "word": "redirected",
-    "start": 70.18,
-    "end": 70.26
+    "start": 40.62,
+    "end": 40.84
   },
   {
     "word": "into",
-    "start": 73.38,
-    "end": 73.7
+    "start": 40.84,
+    "end": 41.14
   },
   {
     "word": "advanced",
-    "start": 73.7,
-    "end": 73.78
+    "start": 41.14,
+    "end": 41.66
   },
   {
     "word": "computing,",
-    "start": 73.78,
-    "end": 73.86
+    "start": 41.66,
+    "end": 41.88
   },
   {
     "word": "data-intensive",
-    "start": 75.44,
-    "end": 75.66
+    "start": 41.88,
+    "end": 42.3
   },
   {
     "word": "applications,",
-    "start": 75.66,
-    "end": 75.74
+    "start": 42.3,
+    "end": 42.76
   },
   {
     "word": "and",
-    "start": 75.74,
-    "end": 75.82
+    "start": 43.16,
+    "end": 43.3
   },
   {
     "word": "enterprise",
-    "start": 75.82,
-    "end": 75.9
+    "start": 43.3,
+    "end": 43.72
   },
   {
     "word": "digitization.",
-    "start": 75.9,
-    "end": 75.98
+    "start": 43.72,
+    "end": 44.36
   },
   {
     "word": "Programmable",
-    "start": 75.98,
-    "end": 76.06
+    "start": 44.92,
+    "end": 45.06
   },
   {
     "word": "Networks:",
-    "start": 80.38,
-    "end": 80.82
+    "start": 45.06,
+    "end": 45.46
   },
   {
     "word": "Cloud-native",
-    "start": 80.82,
-    "end": 80.9
+    "start": 45.46,
+    "end": 46.54
   },
   {
     "word": "architectures,",
-    "start": 84.92,
-    "end": 85.12
+    "start": 47.84,
+    "end": 48.52
   },
   {
     "word": "network",
-    "start": 85.12,
-    "end": 85.2
+    "start": 48.52,
+    "end": 49.0
   },
   {
     "word": "virtualization,",
-    "start": 85.2,
-    "end": 85.28
+    "start": 49.28,
+    "end": 49.5
   },
   {
     "word": "and",
-    "start": 85.28,
-    "end": 85.36
+    "start": 49.5,
+    "end": 49.72
   },
   {
     "word": "5G",
-    "start": 85.36,
-    "end": 85.44
+    "start": 49.72,
+    "end": 50.46
   },
   {
     "word": "standalone",
-    "start": 85.44,
-    "end": 85.52
+    "start": 50.7,
+    "end": 50.92
   },
   {
     "word": "(SA)",
-    "start": 85.52,
-    "end": 85.6
+    "start": 50.92,
+    "end": 51.8
   },
   {
     "word": "deployments",
-    "start": 85.6,
-    "end": 85.68
+    "start": 52.08,
+    "end": 52.26
   },
   {
     "word": "are",
-    "start": 85.68,
-    "end": 85.76
+    "start": 52.26,
+    "end": 52.72
   },
   {
     "word": "turning",
-    "start": 85.76,
-    "end": 85.84
+    "start": 52.72,
+    "end": 53.12
   },
   {
     "word": "connectivity",
-    "start": 85.84,
-    "end": 85.892
+    "start": 53.52,
+    "end": 53.78
   },
   {
     "word": "into",
-    "start": 85.892,
-    "end": 85.892
+    "start": 54.14,
+    "end": 54.38
   },
   {
     "word": "an",
-    "start": 85.892,
-    "end": 85.892
+    "start": 54.38,
+    "end": 54.98
   },
   {
     "word": "intelligent,",
-    "start": 85.892,
-    "end": 85.892
+    "start": 54.98,
+    "end": 55.48
   },
   {
     "word": "low-latency",
-    "start": 85.892,
-    "end": 85.892
+    "start": 55.48,
+    "end": 55.88
   },
   {
     "word": "platform.",
-    "start": 85.892,
-    "end": 85.892
+    "start": 55.88,
+    "end": 56.06
   },
   {
     "word": "Orchestrating",
-    "start": 85.892,
-    "end": 85.892
+    "start": 56.06,
+    "end": 56.46
   },
   {
     "word": "the",
-    "start": 85.892,
-    "end": 85.892
+    "start": 56.78,
+    "end": 56.96
   },
   {
     "word": "Ecosystem:",
-    "start": 85.892,
-    "end": 85.892
+    "start": 56.96,
+    "end": 57.28
   },
   {
     "word": "The",
-    "start": 85.892,
-    "end": 85.892
+    "start": 57.28,
+    "end": 58.0
   },
   {
     "word": "massive",
-    "start": 85.892,
-    "end": 85.892
+    "start": 59.46,
+    "end": 59.86
   },
   {
     "word": "demand",
-    "start": 85.892,
-    "end": 85.892
+    "start": 59.86,
+    "end": 60.14
   },
   {
     "word": "for",
-    "start": 85.892,
-    "end": 85.892
+    "start": 60.14,
+    "end": 60.54
   },
   {
     "word": "sovereign",
-    "start": 85.892,
-    "end": 85.892
+    "start": 60.94,
+    "end": 61.02
   },
   {
     "word": "cloud",
-    "start": 85.892,
-    "end": 85.892
+    "start": 61.02,
+    "end": 61.32
   },
   {
     "word": "environments",
-    "start": 85.892,
-    "end": 85.892
+    "start": 61.32,
+    "end": 61.68
   },
   {
     "word": "and",
-    "start": 85.892,
-    "end": 85.892
+    "start": 61.68,
+    "end": 61.92
   },
   {
     "word": "localized",
-    "start": 85.892,
-    "end": 85.892
+    "start": 61.92,
+    "end": 62.26
   },
   {
     "word": "AI",
-    "start": 85.892,
-    "end": 85.892
+    "start": 62.26,
+    "end": 62.58
   },
   {
     "word": "is",
-    "start": 85.892,
-    "end": 85.892
+    "start": 62.58,
+    "end": 63.02
   },
   {
     "word": "giving",
-    "start": 85.892,
-    "end": 85.892
+    "start": 63.02,
+    "end": 63.4
   },
   {
     "word": "operators",
-    "start": 85.892,
-    "end": 85.892
+    "start": 63.4,
+    "end": 63.74
   },
   {
     "word": "a",
-    "start": 85.892,
-    "end": 85.892
+    "start": 63.74,
+    "end": 64.28
   },
   {
     "word": "new",
-    "start": 85.892,
-    "end": 85.892
+    "start": 64.28,
+    "end": 64.46
   },
   {
     "word": "role:",
-    "start": 85.892,
-    "end": 85.892
+    "start": 64.46,
+    "end": 64.72
   },
   {
     "word": "digital",
-    "start": 85.892,
-    "end": 85.892
+    "start": 64.72,
+    "end": 65.18
   },
   {
     "word": "infrastructure",
-    "start": 85.892,
-    "end": 85.892
+    "start": 65.18,
+    "end": 65.48
   },
   {
     "word": "orchestrators.",
-    "start": 85.892,
-    "end": 85.892
+    "start": 65.48,
+    "end": 65.62
   },
   {
     "word": "Enterprise",
-    "start": 85.892,
-    "end": 85.892
+    "start": 65.62,
+    "end": 65.94
   },
   {
     "word": "value",
-    "start": 85.892,
-    "end": 85.892
+    "start": 66.24,
+    "end": 66.48
   },
   {
     "word": "in",
-    "start": 85.892,
-    "end": 85.892
+    "start": 66.48,
+    "end": 67.02
   },
   {
     "word": "MENA",
-    "start": 85.892,
-    "end": 85.892
+    "start": 67.02,
+    "end": 68.08
   },
   {
     "word": "telecom",
-    "start": 85.892,
-    "end": 85.892
+    "start": 69.32,
+    "end": 69.96
   },
   {
     "word": "has",
-    "start": 85.892,
-    "end": 85.892
+    "start": 69.96,
+    "end": 70.44
   },
   {
     "word": "officially",
-    "start": 85.892,
-    "end": 85.892
+    "start": 70.44,
+    "end": 70.66
   },
   {
     "word": "shifted",
-    "start": 85.892,
-    "end": 85.892
+    "start": 70.66,
+    "end": 70.86
   },
   {
     "word": "from",
-    "start": 85.892,
-    "end": 85.892
+    "start": 70.86,
+    "end": 71.38
   },
   {
     "word": "owning",
-    "start": 85.892,
-    "end": 85.892
+    "start": 71.38,
+    "end": 71.62
   },
   {
     "word": "physical",
-    "start": 85.892,
-    "end": 85.892
+    "start": 71.62,
+    "end": 72.0
   },
   {
     "word": "assets",
-    "start": 85.892,
-    "end": 85.892
+    "start": 72.0,
+    "end": 72.4
   },
   {
     "word": "to",
-    "start": 85.892,
-    "end": 85.892
+    "start": 72.4,
+    "end": 72.68
   },
   {
     "word": "controlling",
-    "start": 85.892,
-    "end": 85.892
+    "start": 72.68,
+    "end": 72.96
   },
   {
     "word": "digital",
-    "start": 85.892,
-    "end": 85.892
+    "start": 72.96,
+    "end": 73.38
   },
   {
     "word": "platforms",
-    "start": 85.892,
-    "end": 85.892
+    "start": 73.38,
+    "end": 73.76
   },
   {
     "word": "and",
-    "start": 85.892,
-    "end": 85.892
+    "start": 73.76,
+    "end": 74.06
   },
   {
     "word": "data",
-    "start": 85.892,
-    "end": 85.892
+    "start": 74.06,
+    "end": 74.44
   },
   {
     "word": "ecosystems.",
-    "start": 85.892,
-    "end": 85.892
+    "start": 74.44,
+    "end": 74.84
   },
   {
     "word": "Future",
-    "start": 85.892,
-    "end": 85.892
+    "start": 74.84,
+    "end": 75.34
   },
   {
     "word": "market",
-    "start": 85.892,
-    "end": 85.892
+    "start": 75.34,
+    "end": 75.72
   },
   {
     "word": "leaders",
-    "start": 85.892,
-    "end": 85.892
+    "start": 75.72,
+    "end": 75.96
   },
   {
     "word": "won't",
-    "start": 85.892,
-    "end": 85.892
+    "start": 75.96,
+    "end": 76.54
   },
   {
     "word": "be",
-    "start": 85.892,
-    "end": 85.892
+    "start": 77.82,
+    "end": 77.98
   },
   {
     "word": "defined",
-    "start": 85.892,
-    "end": 85.892
+    "start": 77.98,
+    "end": 78.38
   },
   {
     "word": "by",
-    "start": 85.892,
-    "end": 85.892
+    "start": 78.38,
+    "end": 78.72
   },
   {
     "word": "the",
-    "start": 85.892,
-    "end": 85.892
+    "start": 78.72,
+    "end": 79.06
   },
   {
     "word": "size",
-    "start": 85.892,
-    "end": 85.892
+    "start": 79.06,
+    "end": 79.22
   },
   {
     "word": "of",
-    "start": 85.892,
-    "end": 85.892
+    "start": 79.22,
+    "end": 79.54
   },
   {
     "word": "their",
-    "start": 85.892,
-    "end": 85.892
+    "start": 79.54,
+    "end": 79.8
   },
   {
     "word": "network,",
-    "start": 85.892,
-    "end": 85.892
+    "start": 79.8,
+    "end": 79.94
   },
   {
     "word": "but",
-    "start": 85.892,
-    "end": 85.892
+    "start": 79.94,
+    "end": 80.16
   },
   {
     "word": "by",
-    "start": 85.892,
-    "end": 85.892
+    "start": 80.16,
+    "end": 80.34
   },
   {
     "word": "their",
-    "start": 85.892,
-    "end": 85.892
+    "start": 80.34,
+    "end": 80.48
   },
   {
     "word": "ability",
-    "start": 85.892,
-    "end": 85.892
+    "start": 80.48,
+    "end": 80.86
   },
   {
     "word": "to",
-    "start": 85.892,
-    "end": 85.892
+    "start": 81.26,
+    "end": 81.38
   },
   {
     "word": "monetize",
-    "start": 85.892,
-    "end": 85.892
+    "start": 81.38,
+    "end": 81.6
   },
   {
     "word": "the",
-    "start": 85.892,
-    "end": 85.892
+    "start": 81.6,
+    "end": 81.76
   },
   {
     "word": "digital",
-    "start": 85.892,
-    "end": 85.892
+    "start": 81.76,
+    "end": 82.06
   },
   {
     "word": "services",
-    "start": 85.892,
-    "end": 85.892
+    "start": 82.06,
+    "end": 82.38
   },
   {
     "word": "running",
-    "start": 85.892,
-    "end": 85.892
+    "start": 82.38,
+    "end": 82.9
   },
   {
     "word": "on",
-    "start": 85.892,
-    "end": 85.892
+    "start": 82.9,
+    "end": 83.12
   },
   {
     "word": "top",
-    "start": 85.892,
-    "end": 85.892
+    "start": 83.12,
+    "end": 83.44
   },
   {
     "word": "of",
-    "start": 85.892,
-    "end": 85.892
+    "start": 83.44,
+    "end": 83.94
   },
   {
     "word": "it.",
-    "start": 85.892,
-    "end": 85.892
+    "start": 83.94,
+    "end": 84.32
   }
 ]

@@ -109,3 +109,12 @@ server.listen(PORT, () => {
   console.log(`Live episode discovery — ${count} episode(s) found in episodes/`);
   console.log("Add a folder with text.md, then refresh the browser.");
 });
+
+server.on("error", (error) => {
+  if (error.code === "EADDRINUSE") {
+    console.error(`Port ${PORT} is already in use. Stop the other server or run PORT=${PORT + 1} npm start`);
+    process.exit(1);
+  }
+  console.error(error);
+  process.exit(1);
+});

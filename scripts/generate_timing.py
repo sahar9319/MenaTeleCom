@@ -13,6 +13,13 @@ from faster_whisper import WhisperModel
 ROOT = Path(__file__).resolve().parent.parent
 EPISODES = ROOT / "episodes"
 AUDIO_NAMES = ["audio.mp3", "audio.m4a", "audio.ogg", "audio.wav"]
+SKIP_DIRS = {"glossary", "reference"}
+
+
+def is_episode_folder(name: str) -> bool:
+    if not name or name.startswith(".") or name.startswith("_"):
+        return False
+    return name.lower() not in SKIP_DIRS
 
 
 def strip_inline(text: str) -> str:
@@ -61,7 +68,10 @@ def parse_markdown(md: str) -> str:
 def merge_orphan_punctuation(words: list[str]) -> list[str]:
     merged = []
     for word in words:
-        if merged and re.fullmatch(r"[.,;:!?)\]}\"'»«]+", word):
+        if merged and (
+            re.fullmatch(r"[.,;:!?)\]}\"'»«]+", word)
+            or re.fullmatch(r"[—–-]\S*", word)
+        ):
             merged[-1] += word
             continue
         merged.append(word)
@@ -208,6 +218,38 @@ def interpolate_timing_gaps(timing: list[dict], duration: float) -> list[dict]:
     return timing
 
 
+def align_words_sequential(script_words: list[str], whisper_words: list[dict], duration: float) -> list[dict]:
+    timing = []
+    for index, script_word in enumerate(script_words):
+        if index >= len(whisper_words):
+            break
+        stamp = whisper_words[index]
+        timing.append(
+            {
+                "word": script_word,
+                "start": stamp["start"],
+                "end": max(stamp["end"], stamp["start"] + 0.04),
+            }
+        )
+
+    if len(timing) < len(script_words):
+        cursor = timing[-1]["end"] if timing else 0.0
+        for script_word in script_words[len(timing) :]:
+            estimated = min(duration, cursor + 0.18)
+            timing.append({"word": script_word, "start": round(cursor, 3), "end": round(estimated, 3)})
+            cursor = estimated
+
+    return finalize_timing(timing, duration)
+
+
+def should_align_sequential(script_words: list[str], whisper_words: list[dict]) -> bool:
+    if len(script_words) == len(whisper_words):
+        return True
+    diff = abs(len(script_words) - len(whisper_words))
+    limit = max(15, int(max(len(script_words), len(whisper_words)) * 0.1))
+    return diff <= limit
+
+
 def align_words(script_words: list[str], whisper_words: list[dict], duration: float) -> list[dict]:
     if not script_words:
         return []
@@ -215,14 +257,21 @@ def align_words(script_words: list[str], whisper_words: list[dict], duration: fl
     if not whisper_words:
         return fallback_weighted(script_words, duration)
 
+    if should_align_sequential(script_words, whisper_words):
+        paired = whisper_words[: len(script_words)]
+        while len(paired) < len(script_words):
+            paired.append(whisper_words[-1] if whisper_words else {"start": 0.0, "end": 0.1})
+        return align_words_sequential(script_words, paired, duration)
+
     timing = []
     search_from = 0
     last_end = 0.0
+    search_window = 6
 
     for script_word in script_words:
         best_index = None
         best_score = 0
-        search_end = min(len(whisper_words), search_from + 15)
+        search_end = min(len(whisper_words), search_from + search_window)
 
         for index in range(search_from, search_end):
             score = score_match(script_word, whisper_words[index]["word"])
@@ -253,7 +302,41 @@ def align_words(script_words: list[str], whisper_words: list[dict], duration: fl
                 }
             )
             last_end = timing[-1]["end"]
+            search_from = best_index + 1
             continue
+
+        if search_from < len(whisper_words):
+            stamp = whisper_words[search_from]
+            timing.append(
+                {
+                    "word": script_word,
+                    "start": stamp["start"],
+                    "end": max(stamp["end"], stamp["start"] + 0.04),
+                }
+            )
+            last_end = timing[-1]["end"]
+            search_from += 1
+            continue
+
+        if search_from >= len(whisper_words):
+            remaining = len(script_words) - len(timing)
+            if remaining > 0:
+                available = max(0.05, duration - last_end)
+                slice_len = available / remaining
+                for _ in range(remaining):
+                    script_word = script_words[len(timing)]
+                    start = min(duration - 0.01, last_end)
+                    last_end = min(duration, start + slice_len)
+                    if last_end <= start:
+                        last_end = min(duration, start + 0.05)
+                    timing.append(
+                        {
+                            "word": script_word,
+                            "start": round(start, 3),
+                            "end": round(last_end, 3),
+                        }
+                    )
+            break
 
         if timing:
             previous = timing[-1]
@@ -270,7 +353,34 @@ def align_words(script_words: list[str], whisper_words: list[dict], duration: fl
         timing.append({"word": script_word, "start": last_end, "end": estimated_end})
         last_end = estimated_end
 
-    return interpolate_timing_gaps(timing, duration)
+    return finalize_timing(timing, duration)
+
+
+def clamp_timing_to_duration(timing: list[dict], duration: float) -> list[dict]:
+    if not timing or duration <= 0:
+        return timing
+
+    for item in timing:
+        item["start"] = round(min(float(item["start"]), max(0.0, duration - 0.02)), 3)
+        item["end"] = round(min(float(item["end"]), duration), 3)
+        if item["end"] <= item["start"]:
+            item["end"] = round(min(duration, item["start"] + 0.06), 3)
+
+    for index in range(1, len(timing)):
+        if timing[index]["start"] < timing[index - 1]["end"]:
+            timing[index]["start"] = round(timing[index - 1]["end"], 3)
+        timing[index]["start"] = round(min(timing[index]["start"], max(0.0, duration - 0.02)), 3)
+        timing[index]["end"] = round(
+            min(max(timing[index]["end"], timing[index]["start"] + 0.04), duration),
+            3,
+        )
+
+    timing[-1]["end"] = round(min(duration, max(timing[-1]["end"], timing[-1]["start"] + 0.04)), 3)
+    return timing
+
+
+def finalize_timing(timing: list[dict], duration: float) -> list[dict]:
+    return clamp_timing_to_duration(interpolate_timing_gaps(timing, duration), duration)
 
 
 def fallback_weighted(words: list[str], duration: float) -> list[dict]:
@@ -310,7 +420,9 @@ def main() -> int:
 
     wrote = 0
     for folder in sorted(EPISODES.iterdir()):
-        if not folder.is_dir() or not (folder / "text.md").exists():
+        if not folder.is_dir() or not is_episode_folder(folder.name):
+            continue
+        if not (folder / "text.md").exists():
             continue
 
         audio_path = find_audio(folder)

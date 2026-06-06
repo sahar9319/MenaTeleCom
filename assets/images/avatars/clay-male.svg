@@ -1,62 +1,85 @@
 <svg class="avatar-head-svg" viewBox="0 0 140 168" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
   <defs>
-    <filter id="clayMaleShadow" x="-24%" y="-24%" width="148%" height="148%">
-      <feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#7f95aa" flood-opacity="0.34"/>
-      <feDropShadow dx="0" dy="-4" stdDeviation="5" flood-color="#ffffff" flood-opacity="0.62"/>
+    <filter id="clayMaleShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#6a7d8f" flood-opacity="0.3"/>
+      <feDropShadow dx="0" dy="-3" stdDeviation="4" flood-color="#ffffff" flood-opacity="0.45"/>
     </filter>
-    <radialGradient id="clayMaleFace" cx="36%" cy="24%" r="78%">
-      <stop offset="0" stop-color="#fffaf3"/>
-      <stop offset="0.38" stop-color="var(--avatar-skin-color)"/>
-      <stop offset="1" stop-color="color-mix(in srgb, var(--avatar-skin-color) 68%, #c9956c)"/>
+    <radialGradient id="clayMaleFace" cx="42%" cy="30%" r="78%">
+      <stop offset="0" stop-color="#f5e6d4"/>
+      <stop offset="0.45" stop-color="#ddb892"/>
+      <stop offset="1" stop-color="#c9956c"/>
     </radialGradient>
-    <linearGradient id="clayMaleHair" x1="24" y1="10" x2="116" y2="58">
-      <stop stop-color="#263445"/>
-      <stop offset="0.55" stop-color="#3f5368"/>
-      <stop offset="1" stop-color="#556b82"/>
+    <radialGradient id="clayMaleFaceShadow" cx="50%" cy="85%" r="55%">
+      <stop offset="0" stop-color="transparent"/>
+      <stop offset="1" stop-color="#a87850" stop-opacity="0.22"/>
+    </radialGradient>
+    <linearGradient id="clayMaleHair" x1="28" y1="6" x2="112" y2="56">
+      <stop stop-color="#2a3440"/>
+      <stop offset="0.55" stop-color="#3f4f5e"/>
+      <stop offset="1" stop-color="#354452"/>
     </linearGradient>
-    <linearGradient id="clayMaleHeadset" x1="20" y1="18" x2="120" y2="112">
-      <stop stop-color="color-mix(in srgb, var(--primary) 48%, white)"/>
+    <linearGradient id="clayMaleHeadset" x1="24" y1="20" x2="116" y2="108">
+      <stop stop-color="color-mix(in srgb, var(--secondary) 50%, white)"/>
       <stop offset="1" stop-color="var(--avatar-headset-color)"/>
     </linearGradient>
-    <linearGradient id="clayMaleBase" x1="18" y1="146" x2="122" y2="168">
-      <stop stop-color="color-mix(in srgb, var(--surface) 90%, var(--primary))"/>
-      <stop offset="1" stop-color="color-mix(in srgb, var(--clay-dark) 72%, var(--primary))"/>
+    <linearGradient id="clayMaleBase" x1="20" y1="148" x2="120" y2="168">
+      <stop stop-color="color-mix(in srgb, var(--surface) 92%, var(--secondary))"/>
+      <stop offset="1" stop-color="color-mix(in srgb, var(--clay-dark) 65%, var(--secondary))"/>
     </linearGradient>
-    <radialGradient id="clayMaleCheekL" cx="50%" cy="50%" r="50%">
-      <stop offset="0" stop-color="color-mix(in srgb, var(--accent) 18%, transparent)"/>
-      <stop offset="1" stop-color="transparent"/>
+    <radialGradient id="clayMaleIrisL" cx="42%" cy="40%" r="60%">
+      <stop offset="0" stop-color="#8a7355"/>
+      <stop offset="1" stop-color="#4a3828"/>
     </radialGradient>
-    <radialGradient id="clayMaleCheekR" cx="50%" cy="50%" r="50%">
-      <stop offset="0" stop-color="color-mix(in srgb, var(--accent) 16%, transparent)"/>
-      <stop offset="1" stop-color="transparent"/>
+    <radialGradient id="clayMaleIrisR" cx="42%" cy="40%" r="60%">
+      <stop offset="0" stop-color="#8a7355"/>
+      <stop offset="1" stop-color="#4a3828"/>
     </radialGradient>
   </defs>
-  <ellipse class="avatar-base" cx="70" cy="158" rx="48" ry="10" fill="url(#clayMaleBase)" opacity="0.94"/>
+  <ellipse class="avatar-base" cx="70" cy="160" rx="44" ry="8" fill="url(#clayMaleBase)" opacity="0.9"/>
   <g filter="url(#clayMaleShadow)">
-    <path d="M30 40c8-24 72-24 80 0 5 14 2 26-6 34-12 12-52 12-68 0-8-8-11-20-6-34z" fill="url(#clayMaleHair)"/>
-    <path d="M36 44c4-12 68-12 68 0 2 8-2 14-8 18-10 8-52 8-62 0-6-4-10-10-8-18z" fill="#ffffff" opacity="0.08"/>
-    <ellipse cx="70" cy="90" rx="41" ry="45" fill="url(#clayMaleFace)"/>
-    <ellipse cx="70" cy="94" rx="35" ry="37" fill="#ffffff" opacity="0.22"/>
-    <ellipse cx="52" cy="100" rx="10" ry="7" fill="url(#clayMaleCheekL)" opacity="0.9"/>
-    <ellipse cx="88" cy="100" rx="10" ry="7" fill="url(#clayMaleCheekR)" opacity="0.9"/>
-    <ellipse class="avatar-eye avatar-eye-left" cx="56" cy="82" rx="9.5" ry="7.5" fill="#fffdf8"/>
-    <ellipse class="avatar-eye avatar-eye-right" cx="84" cy="82" rx="9.5" ry="7.5" fill="#fffdf8"/>
-    <circle class="avatar-pupil" cx="57" cy="83" r="3.8" fill="var(--ink)"/>
-    <circle class="avatar-pupil" cx="83" cy="83" r="3.8" fill="var(--ink)"/>
-    <circle cx="58.5" cy="81" r="1.4" fill="#fff" opacity="0.95"/>
-    <circle cx="84.5" cy="81" r="1.4" fill="#fff" opacity="0.95"/>
-    <path class="avatar-brow avatar-brow-left" d="M45 69c8-6 13-6 20-1" stroke="var(--ink)" stroke-width="3.4" stroke-linecap="round"/>
-    <path class="avatar-brow avatar-brow-right" d="M75 68c8-5 13-5 20 0" stroke="var(--ink)" stroke-width="3.4" stroke-linecap="round"/>
-    <ellipse class="avatar-mouth" cx="70" cy="103" rx="12" ry="5.5" fill="color-mix(in srgb, var(--ink) 74%, #5c3d2e)"/>
-    <ellipse cx="70" cy="102" rx="7" ry="2.2" fill="#ffffff" opacity="0.14"/>
-    <path d="M32 86c0-30 18-46 38-46s38 16 38 46" stroke="url(#clayMaleHeadset)" stroke-width="8.5" stroke-linecap="round"/>
-    <rect x="22" y="80" width="17" height="28" rx="8.5" fill="url(#clayMaleHeadset)"/>
-    <rect x="101" y="80" width="17" height="28" rx="8.5" fill="url(#clayMaleHeadset)"/>
-    <rect x="25" y="84" width="11" height="18" rx="5.5" fill="#ffffff" opacity="0.12"/>
-    <rect x="104" y="84" width="11" height="18" rx="5.5" fill="#ffffff" opacity="0.12"/>
-    <path d="M107 104c0 15-13 24-28 24" stroke="url(#clayMaleHeadset)" stroke-width="5.8" stroke-linecap="round"/>
-    <circle cx="89" cy="126" r="5" fill="var(--secondary)"/>
-    <circle cx="89" cy="126" r="2.2" fill="#ffffff" opacity="0.45"/>
-    <path d="M64 35V22M57 35h14M64 22l-7-7M64 22l7-7" stroke="var(--secondary)" stroke-width="3" stroke-linecap="round"/>
+    <!-- short masculine hair -->
+    <path d="M28 52c4-28 80-28 84 0 2 10-2 18-10 22-8 6-68 6-76 0-8-4-12-12-10-22z" fill="url(#clayMaleHair)"/>
+    <path d="M34 44c6-14 66-14 72 0 2 8-4 14-14 16-10 4-52 4-62 0-10-2-16-8-14-16z" fill="url(#clayMaleHair)"/>
+    <path d="M38 40c4-8 60-8 64 0 2 5-2 9-10 11-8 2-48 2-56 0-8-2-10-6-8-11z" fill="#4a5a68" opacity="0.35"/>
+    <!-- ears -->
+    <ellipse cx="30" cy="92" rx="5" ry="8" fill="#c9956c"/>
+    <ellipse cx="110" cy="92" rx="5" ry="8" fill="#c9956c"/>
+    <ellipse cx="30" cy="92" rx="3" ry="5" fill="#ddb892"/>
+    <ellipse cx="110" cy="92" rx="3" ry="5" fill="#ddb892"/>
+    <!-- jaw + masculine face -->
+    <path d="M70 48c26 0 38 18 38 44 0 22-14 36-38 40-24-4-38-18-38-40 0-26 12-44 38-44z" fill="url(#clayMaleFace)"/>
+    <path d="M70 48c26 0 38 18 38 44 0 22-14 36-38 40-24-4-38-18-38-40 0-26 12-44 38-44z" fill="url(#clayMaleFaceShadow)"/>
+    <!-- cheekbone / jaw line -->
+    <path d="M38 98c6 14 20 22 32 22s26-8 32-22" stroke="#a87850" stroke-width="1.2" opacity="0.18" stroke-linecap="round"/>
+    <path d="M44 108c8 8 18 12 26 12s18-4 26-12" stroke="#8f6040" stroke-width="1" opacity="0.12" stroke-linecap="round"/>
+    <!-- subtle stubble -->
+    <ellipse cx="70" cy="118" rx="18" ry="8" fill="#8a6848" opacity="0.06"/>
+    <!-- nose -->
+    <path d="M70 88v12" stroke="#b88868" stroke-width="2.2" stroke-linecap="round" opacity="0.55"/>
+    <path d="M64 98c3 2 6 2 6 2s3 0 6-2" stroke="#b88868" stroke-width="1.8" stroke-linecap="round" opacity="0.45"/>
+    <!-- eyes — proportional, human -->
+    <ellipse class="avatar-eye avatar-eye-left" cx="54" cy="84" rx="9" ry="6.5" fill="#faf6f0"/>
+    <ellipse class="avatar-eye avatar-eye-right" cx="86" cy="84" rx="9" ry="6.5" fill="#faf6f0"/>
+    <ellipse cx="54" cy="84.5" rx="5.5" ry="5" fill="url(#clayMaleIrisL)"/>
+    <ellipse cx="86" cy="84.5" rx="5.5" ry="5" fill="url(#clayMaleIrisR)"/>
+    <circle class="avatar-pupil" cx="54.5" cy="85" r="2.6" fill="#1e1814"/>
+    <circle class="avatar-pupil" cx="85.5" cy="85" r="2.6" fill="#1e1814"/>
+    <circle cx="56.5" cy="82.5" r="1.3" fill="#fff" opacity="0.85"/>
+    <circle cx="87.5" cy="82.5" r="1.3" fill="#fff" opacity="0.85"/>
+    <!-- thick masculine brows -->
+    <path class="avatar-brow avatar-brow-left" d="M42 73c8-4 14-4 22 0" stroke="#2e3844" stroke-width="4" stroke-linecap="round"/>
+    <path class="avatar-brow avatar-brow-right" d="M76 73c8-4 14-4 22 0" stroke="#2e3844" stroke-width="4" stroke-linecap="round"/>
+    <!-- natural mouth -->
+    <ellipse class="avatar-mouth" cx="70" cy="109" rx="8" ry="3.2" fill="#a06850"/>
+    <path d="M62 108.5c4 2 12 2 16 0" stroke="#7a5040" stroke-width="1.4" stroke-linecap="round" opacity="0.45"/>
+    <!-- headset -->
+    <path d="M34 88c0-32 16-50 36-50s36 18 36 50" stroke="url(#clayMaleHeadset)" stroke-width="7" stroke-linecap="round"/>
+    <rect x="24" y="82" width="15" height="24" rx="7.5" fill="url(#clayMaleHeadset)"/>
+    <rect x="101" y="82" width="15" height="24" rx="7.5" fill="url(#clayMaleHeadset)"/>
+    <rect x="27" y="86" width="9" height="14" rx="4.5" fill="#fff" opacity="0.14"/>
+    <rect x="104" y="86" width="9" height="14" rx="4.5" fill="#fff" opacity="0.14"/>
+    <path d="M106 106c0 12-11 20-24 20" stroke="url(#clayMaleHeadset)" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="90" cy="124" r="4.5" fill="var(--secondary)"/>
+    <circle cx="90" cy="124" r="2" fill="#fff" opacity="0.45"/>
   </g>
 </svg>

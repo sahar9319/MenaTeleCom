@@ -2,1191 +2,1191 @@
   {
     "word": "While",
     "start": 0.0,
-    "end": 0.42
+    "end": 0.4
   },
   {
     "word": "consumer",
-    "start": 0.42,
-    "end": 0.82
+    "start": 0.4,
+    "end": 0.76
   },
   {
     "word": "GenAI",
-    "start": 0.82,
-    "end": 1.24
+    "start": 0.76,
+    "end": 1.3
   },
   {
     "word": "dominates",
-    "start": 1.24,
-    "end": 1.34
+    "start": 1.3,
+    "end": 1.84
   },
   {
     "word": "headlines,",
-    "start": 1.92,
-    "end": 2.44
+    "start": 1.84,
+    "end": 2.26
   },
   {
     "word": "MENA",
-    "start": 2.44,
-    "end": 2.52
+    "start": 2.64,
+    "end": 3.36
   },
   {
     "word": "telecom",
-    "start": 3.44,
-    "end": 3.68
+    "start": 3.36,
+    "end": 3.64
   },
   {
     "word": "leaders",
-    "start": 3.68,
-    "end": 4.0
+    "start": 3.64,
+    "end": 3.88
   },
   {
     "word": "are",
-    "start": 4.0,
-    "end": 4.34
+    "start": 3.88,
+    "end": 4.24
   },
   {
     "word": "quietly",
-    "start": 4.34,
+    "start": 4.24,
     "end": 4.68
   },
   {
     "word": "shifting",
     "start": 4.68,
-    "end": 5.14
+    "end": 5.08
   },
   {
     "word": "capital",
-    "start": 5.14,
-    "end": 5.58
+    "start": 5.08,
+    "end": 5.42
   },
   {
     "word": "away",
-    "start": 5.58,
-    "end": 5.94
+    "start": 5.42,
+    "end": 5.68
   },
   {
     "word": "from",
-    "start": 5.94,
-    "end": 6.18
+    "start": 5.68,
+    "end": 6.04
   },
   {
     "word": "physical",
-    "start": 6.18,
-    "end": 6.54
+    "start": 6.04,
+    "end": 6.4
   },
   {
     "word": "tower",
-    "start": 6.54,
-    "end": 6.98
+    "start": 6.4,
+    "end": 6.88
   },
   {
     "word": "infrastructure",
-    "start": 6.98,
-    "end": 7.48
+    "start": 6.88,
+    "end": 7.28
   },
   {
     "word": "and",
-    "start": 7.48,
-    "end": 7.98
+    "start": 7.28,
+    "end": 7.56
   },
   {
     "word": "moving",
-    "start": 7.98,
-    "end": 8.22
+    "start": 7.56,
+    "end": 7.8
   },
   {
     "word": "it",
-    "start": 8.22,
-    "end": 8.44
+    "start": 7.8,
+    "end": 7.94
   },
   {
     "word": "deep",
-    "start": 8.44,
-    "end": 8.66
+    "start": 7.94,
+    "end": 8.18
   },
   {
     "word": "into",
-    "start": 8.66,
-    "end": 8.88
+    "start": 8.18,
+    "end": 8.38
   },
   {
     "word": "the",
-    "start": 8.88,
-    "end": 9.08
+    "start": 8.38,
+    "end": 8.62
   },
   {
     "word": "AI-driven",
-    "start": 9.08,
-    "end": 9.32
+    "start": 8.62,
+    "end": 8.9
   },
   {
     "word": "OSS",
-    "start": 9.58,
-    "end": 10.48
+    "start": 8.9,
+    "end": 9.66
   },
   {
     "word": "(Operations",
-    "start": 10.84,
-    "end": 11.12
+    "start": 9.88,
+    "end": 10.24
   },
   {
     "word": "Support",
-    "start": 11.12,
-    "end": 11.66
+    "start": 10.24,
+    "end": 10.7
   },
   {
     "word": "Systems)",
-    "start": 11.66,
-    "end": 12.18
+    "start": 10.7,
+    "end": 11.08
   },
   {
     "word": "layer.",
-    "start": 12.52,
-    "end": 12.8
+    "start": 11.38,
+    "end": 11.66
   },
   {
     "word": "In",
-    "start": 13.84,
-    "end": 13.92
+    "start": 12.66,
+    "end": 12.76
   },
   {
     "word": "a",
-    "start": 13.92,
-    "end": 14.08
+    "start": 12.76,
+    "end": 12.94
   },
   {
     "word": "mature",
-    "start": 14.08,
-    "end": 14.32
+    "start": 12.94,
+    "end": 13.16
   },
   {
     "word": "5G",
-    "start": 14.32,
-    "end": 14.86
+    "start": 13.16,
+    "end": 13.8
   },
   {
     "word": "market,",
-    "start": 14.86,
-    "end": 15.32
+    "start": 13.8,
+    "end": 14.16
   },
   {
     "word": "hardware",
-    "start": 15.82,
-    "end": 15.86
+    "start": 14.68,
+    "end": 14.72
   },
   {
     "word": "differentiation",
-    "start": 15.86,
-    "end": 16.62
+    "start": 14.72,
+    "end": 15.46
   },
   {
     "word": "has",
-    "start": 16.62,
-    "end": 17.0
+    "start": 15.46,
+    "end": 15.88
   },
   {
     "word": "hit",
-    "start": 17.0,
-    "end": 17.24
+    "start": 15.88,
+    "end": 16.12
   },
   {
     "word": "diminishing",
-    "start": 17.24,
-    "end": 17.72
+    "start": 16.12,
+    "end": 16.66
   },
   {
     "word": "returns.",
-    "start": 17.72,
-    "end": 18.34
+    "start": 16.66,
+    "end": 17.2
   },
   {
     "word": "The",
-    "start": 19.36,
-    "end": 19.46
+    "start": 18.22,
+    "end": 18.36
   },
   {
     "word": "new",
-    "start": 19.46,
-    "end": 19.68
+    "start": 18.36,
+    "end": 18.54
   },
   {
     "word": "frontier",
-    "start": 19.68,
-    "end": 20.04
+    "start": 18.54,
+    "end": 18.92
   },
   {
     "word": "for",
-    "start": 20.04,
-    "end": 20.32
+    "start": 18.92,
+    "end": 19.24
   },
   {
     "word": "margin",
-    "start": 20.32,
-    "end": 20.6
+    "start": 19.24,
+    "end": 19.54
   },
   {
     "word": "expansion",
-    "start": 20.6,
-    "end": 21.16
+    "start": 19.54,
+    "end": 20.02
   },
   {
     "word": "is",
-    "start": 21.16,
-    "end": 21.56
+    "start": 20.02,
+    "end": 20.32
   },
   {
     "word": "Closed-Loop",
-    "start": 21.56,
-    "end": 21.84
+    "start": 20.32,
+    "end": 20.58
   },
   {
     "word": "Automation\u2014turning",
-    "start": 22.12,
-    "end": 22.66
+    "start": 20.58,
+    "end": 20.9
   },
   {
     "word": "the",
-    "start": 23.26,
-    "end": 23.48
+    "start": 20.9,
+    "end": 21.3
   },
   {
     "word": "network",
-    "start": 23.48,
-    "end": 23.72
+    "start": 21.58,
+    "end": 21.78
   },
   {
     "word": "into",
-    "start": 23.72,
-    "end": 24.06
+    "start": 21.78,
+    "end": 22.02
   },
   {
     "word": "a",
-    "start": 24.06,
-    "end": 24.22
+    "start": 22.02,
+    "end": 22.26
   },
   {
     "word": "zero-touch,",
-    "start": 24.22,
-    "end": 24.48
+    "start": 22.26,
+    "end": 22.56
   },
   {
     "word": "self-healing",
-    "start": 25.32,
-    "end": 25.46
+    "start": 22.56,
+    "end": 22.76
   },
   {
     "word": "utility.",
-    "start": 25.78,
-    "end": 26.26
+    "start": 22.76,
+    "end": 22.98
   },
   {
     "word": "from",
-    "start": 26.26,
-    "end": 27.46
+    "start": 22.98,
+    "end": 23.28
   },
   {
     "word": "Traditional",
-    "start": 27.46,
-    "end": 28.0
+    "start": 23.56,
+    "end": 23.72
   },
   {
     "word": "Telco",
-    "start": 28.0,
-    "end": 28.46
+    "start": 23.72,
+    "end": 23.94
   },
   {
     "word": "Portfolio",
-    "start": 28.46,
-    "end": 28.94
+    "start": 23.94,
+    "end": 24.46
   },
   {
     "word": "which",
-    "start": 28.94,
-    "end": 29.34
+    "start": 25.52,
+    "end": 26.26
   },
   {
     "word": "was",
-    "start": 29.34,
-    "end": 29.6
+    "start": 26.26,
+    "end": 26.78
   },
   {
     "word": "Hardware",
-    "start": 29.6,
-    "end": 29.94
+    "start": 26.78,
+    "end": 27.16
   },
   {
     "word": "/",
-    "start": 29.94,
-    "end": 30.02
+    "start": 27.16,
+    "end": 27.62
   },
   {
     "word": "Tower",
-    "start": 30.38,
-    "end": 30.78
+    "start": 27.62,
+    "end": 27.96
   },
   {
     "word": "CapEx",
-    "start": 30.78,
-    "end": 31.3
+    "start": 27.96,
+    "end": 28.22
   },
   {
     "word": "it",
-    "start": 31.4,
-    "end": 31.46
+    "start": 28.22,
+    "end": 28.54
   },
   {
     "word": "has",
-    "start": 31.46,
-    "end": 31.66
+    "start": 28.54,
+    "end": 28.96
   },
   {
     "word": "bin",
-    "start": 31.66,
-    "end": 31.74
+    "start": 28.96,
+    "end": 29.3
   },
   {
     "word": "shifted",
-    "start": 31.84,
-    "end": 32.1
+    "start": 29.3,
+    "end": 29.74
   },
   {
     "word": "to",
-    "start": 32.1,
-    "end": 32.4
+    "start": 29.74,
+    "end": 29.92
   },
   {
     "word": "the",
-    "start": 32.4,
-    "end": 32.5
+    "start": 29.92,
+    "end": 30.08
   },
   {
     "word": "Modern",
-    "start": 32.5,
-    "end": 32.78
+    "start": 30.08,
+    "end": 30.26
   },
   {
     "word": "Autonomous",
-    "start": 32.78,
-    "end": 33.3
+    "start": 30.26,
+    "end": 30.46
   },
   {
     "word": "Operator",
-    "start": 33.3,
-    "end": 33.9
+    "start": 30.46,
+    "end": 30.78
   },
   {
     "word": "knowing",
-    "start": 34.16,
-    "end": 34.3
+    "start": 30.78,
+    "end": 30.88
   },
   {
     "word": "as",
-    "start": 34.3,
-    "end": 34.68
+    "start": 30.88,
+    "end": 31.1
   },
   {
     "word": "AI-Driven",
-    "start": 34.68,
-    "end": 35.04
+    "start": 31.1,
+    "end": 31.6
   },
   {
     "word": "OSS",
-    "start": 35.36,
-    "end": 36.04
+    "start": 31.6,
+    "end": 32.16
   },
   {
     "word": "Layer.",
-    "start": 36.04,
-    "end": 36.38
+    "start": 32.16,
+    "end": 32.5
   },
   {
     "word": "Why",
-    "start": 37.42,
-    "end": 37.46
+    "start": 32.5,
+    "end": 32.82
   },
   {
     "word": "Capital",
-    "start": 37.46,
-    "end": 37.84
+    "start": 32.82,
+    "end": 33.08
   },
   {
     "word": "is",
-    "start": 37.84,
-    "end": 38.04
+    "start": 33.08,
+    "end": 33.34
   },
   {
     "word": "Moving",
-    "start": 38.04,
-    "end": 38.34
+    "start": 33.34,
+    "end": 33.94
   },
   {
     "word": "Behind",
-    "start": 38.34,
-    "end": 38.64
+    "start": 33.94,
+    "end": 34.44
   },
   {
     "word": "the",
-    "start": 38.64,
-    "end": 38.86
+    "start": 35.94,
+    "end": 36.0
   },
   {
     "word": "Dashboard",
-    "start": 38.86,
-    "end": 39.36
+    "start": 36.0,
+    "end": 36.38
   },
   {
     "word": "Compounding",
-    "start": 40.54,
-    "end": 40.72
+    "start": 36.38,
+    "end": 36.64
   },
   {
     "word": "Efficiency:",
-    "start": 40.72,
-    "end": 41.28
+    "start": 36.64,
+    "end": 36.98
   },
   {
     "word": "Traditional",
-    "start": 41.72,
-    "end": 42.08
+    "start": 36.98,
+    "end": 37.34
   },
   {
     "word": "operations",
-    "start": 42.08,
-    "end": 42.62
+    "start": 37.34,
+    "end": 37.6
   },
   {
     "word": "scale",
-    "start": 42.62,
-    "end": 43.12
+    "start": 37.6,
+    "end": 37.98
   },
   {
     "word": "linearly",
-    "start": 43.12,
-    "end": 43.56
+    "start": 39.74,
+    "end": 40.1
   },
   {
     "word": "(more",
-    "start": 43.92,
-    "end": 44.08
+    "start": 40.1,
+    "end": 40.64
   },
   {
     "word": "nodes",
-    "start": 44.08,
-    "end": 44.34
+    "start": 41.12,
+    "end": 41.44
   },
   {
     "word": "=",
-    "start": 44.34,
-    "end": 44.42
+    "start": 41.44,
+    "end": 42.0
   },
   {
     "word": "more",
-    "start": 44.62,
-    "end": 45.0
+    "start": 42.0,
+    "end": 42.5
   },
   {
     "word": "engineers).",
-    "start": 45.0,
-    "end": 45.52
+    "start": 42.5,
+    "end": 42.96
   },
   {
     "word": "Autonomous",
-    "start": 46.72,
-    "end": 47.08
+    "start": 43.3,
+    "end": 43.46
   },
   {
     "word": "OSS",
-    "start": 47.08,
-    "end": 47.62
+    "start": 43.46,
+    "end": 43.72
   },
   {
     "word": "decouples",
-    "start": 47.62,
-    "end": 48.04
+    "start": 43.72,
+    "end": 43.98
   },
   {
     "word": "this,",
-    "start": 48.04,
-    "end": 48.44
+    "start": 43.98,
+    "end": 44.36
   },
   {
     "word": "allowing",
-    "start": 48.7,
-    "end": 48.94
+    "start": 44.36,
+    "end": 44.9
   },
   {
     "word": "capacity",
-    "start": 48.94,
-    "end": 49.46
+    "start": 46.1,
+    "end": 46.44
   },
   {
     "word": "to",
-    "start": 49.46,
-    "end": 49.78
+    "start": 46.44,
+    "end": 47.0
   },
   {
     "word": "scale",
-    "start": 49.78,
-    "end": 50.0
+    "start": 47.0,
+    "end": 47.4
   },
   {
     "word": "exponentially",
-    "start": 50.0,
-    "end": 50.64
+    "start": 47.4,
+    "end": 47.82
   },
   {
     "word": "while",
-    "start": 50.64,
-    "end": 51.06
+    "start": 48.06,
+    "end": 48.3
   },
   {
     "word": "flattening",
-    "start": 51.06,
-    "end": 51.44
+    "start": 48.3,
+    "end": 48.82
   },
   {
     "word": "OpEx.",
-    "start": 51.44,
-    "end": 51.52
+    "start": 48.82,
+    "end": 49.14
   },
   {
     "word": "Predictive",
-    "start": 51.52,
-    "end": 51.6
+    "start": 49.14,
+    "end": 49.38
   },
   {
     "word": "Mitigation:",
-    "start": 53.34,
-    "end": 53.82
+    "start": 49.38,
+    "end": 50.0
   },
   {
     "word": "Next-gen",
-    "start": 54.2,
-    "end": 54.54
+    "start": 50.0,
+    "end": 50.42
   },
   {
     "word": "platforms",
-    "start": 54.82,
-    "end": 55.22
+    "start": 50.42,
+    "end": 50.9
   },
   {
     "word": "resolve",
-    "start": 55.22,
-    "end": 55.74
+    "start": 50.9,
+    "end": 51.32
   },
   {
     "word": "network",
-    "start": 55.74,
-    "end": 56.12
+    "start": 52.6,
+    "end": 53.28
   },
   {
     "word": "degradation",
-    "start": 56.12,
-    "end": 56.62
+    "start": 53.28,
+    "end": 53.8
   },
   {
     "word": "by",
-    "start": 56.62,
-    "end": 57.0
+    "start": 54.12,
+    "end": 54.36
   },
   {
     "word": "30\u201340%",
-    "start": 57.0,
-    "end": 57.34
+    "start": 54.36,
+    "end": 54.56
   },
   {
     "word": "before",
-    "start": 58.28,
-    "end": 58.56
+    "start": 54.56,
+    "end": 55.0
   },
   {
     "word": "it",
-    "start": 58.56,
-    "end": 58.76
+    "start": 55.0,
+    "end": 55.48
   },
   {
     "word": "impacts",
-    "start": 58.76,
-    "end": 59.08
+    "start": 55.48,
+    "end": 55.84
   },
   {
     "word": "the",
-    "start": 59.08,
-    "end": 59.4
+    "start": 55.84,
+    "end": 56.32
   },
   {
     "word": "end-user,",
-    "start": 59.4,
-    "end": 59.58
+    "start": 56.32,
+    "end": 56.7
   },
   {
     "word": "shifting",
-    "start": 60.2,
-    "end": 60.48
+    "start": 56.7,
+    "end": 56.98
   },
   {
     "word": "operators",
-    "start": 60.48,
-    "end": 60.98
+    "start": 56.98,
+    "end": 57.16
   },
   {
     "word": "from",
-    "start": 60.98,
-    "end": 61.34
+    "start": 57.16,
+    "end": 57.5
   },
   {
     "word": "reactive",
-    "start": 61.34,
-    "end": 61.76
+    "start": 57.5,
+    "end": 57.9
   },
   {
     "word": "troubleshooting",
-    "start": 61.76,
-    "end": 62.3
+    "start": 57.9,
+    "end": 58.18
   },
   {
     "word": "to",
-    "start": 62.3,
-    "end": 62.64
+    "start": 58.18,
+    "end": 58.36
   },
   {
     "word": "proactive",
-    "start": 62.64,
-    "end": 63.04
+    "start": 58.36,
+    "end": 58.62
   },
   {
     "word": "anomaly",
-    "start": 63.04,
-    "end": 63.48
+    "start": 58.62,
+    "end": 58.94
   },
   {
     "word": "management.",
-    "start": 63.48,
-    "end": 64.18
+    "start": 58.94,
+    "end": 59.04
   },
   {
     "word": "Dynamic",
-    "start": 65.26,
-    "end": 65.44
+    "start": 59.04,
+    "end": 59.38
   },
   {
     "word": "Power",
-    "start": 65.44,
-    "end": 65.94
+    "start": 59.72,
+    "end": 59.92
   },
   {
     "word": "Savings:",
-    "start": 65.94,
-    "end": 66.38
+    "start": 59.92,
+    "end": 60.4
   },
   {
     "word": "AI",
-    "start": 66.84,
-    "end": 67.04
+    "start": 60.4,
+    "end": 60.8
   },
   {
     "word": "models",
-    "start": 67.04,
-    "end": 67.36
+    "start": 60.8,
+    "end": 61.16
   },
   {
     "word": "dynamically",
-    "start": 67.36,
-    "end": 67.96
+    "start": 61.16,
+    "end": 61.72
   },
   {
     "word": "put",
-    "start": 67.96,
-    "end": 68.34
+    "start": 61.72,
+    "end": 62.04
   },
   {
     "word": "cells",
-    "start": 68.34,
-    "end": 68.66
+    "start": 62.04,
+    "end": 62.42
   },
   {
     "word": "into",
-    "start": 68.66,
-    "end": 68.94
+    "start": 62.42,
+    "end": 62.84
   },
   {
     "word": "micro-sleep",
-    "start": 68.94,
-    "end": 69.3
+    "start": 62.84,
+    "end": 63.52
   },
   {
     "word": "modes",
-    "start": 69.56,
-    "end": 69.94
+    "start": 65.2,
+    "end": 65.36
   },
   {
     "word": "based",
-    "start": 69.94,
-    "end": 70.3
+    "start": 65.36,
+    "end": 65.76
   },
   {
     "word": "on",
-    "start": 70.3,
-    "end": 70.5
+    "start": 65.76,
+    "end": 66.08
   },
   {
     "word": "real-time",
-    "start": 70.5,
-    "end": 70.76
+    "start": 66.38,
+    "end": 66.62
   },
   {
     "word": "traffic",
-    "start": 71.02,
-    "end": 71.42
+    "start": 66.62,
+    "end": 66.96
   },
   {
     "word": "density,",
-    "start": 71.42,
-    "end": 71.9
+    "start": 66.96,
+    "end": 67.5
   },
   {
     "word": "driving",
-    "start": 72.32,
-    "end": 72.52
+    "start": 67.5,
+    "end": 67.86
   },
   {
     "word": "double-digit",
-    "start": 72.52,
-    "end": 72.86
+    "start": 67.86,
+    "end": 68.16
   },
   {
     "word": "drops",
-    "start": 73.14,
-    "end": 73.5
+    "start": 68.16,
+    "end": 68.36
   },
   {
     "word": "in",
-    "start": 73.5,
-    "end": 73.74
+    "start": 68.36,
+    "end": 68.68
   },
   {
     "word": "heavy",
-    "start": 73.74,
-    "end": 73.96
+    "start": 68.68,
+    "end": 68.94
   },
   {
     "word": "RAN",
-    "start": 73.96,
-    "end": 74.22
+    "start": 68.94,
+    "end": 69.22
   },
   {
     "word": "energy",
-    "start": 74.22,
-    "end": 74.62
+    "start": 69.22,
+    "end": 69.56
   },
   {
     "word": "costs.",
-    "start": 74.62,
-    "end": 75.4
+    "start": 69.56,
+    "end": 69.74
   },
   {
     "word": "Vendor",
-    "start": 76.26,
-    "end": 76.5
+    "start": 69.74,
+    "end": 69.94
   },
   {
     "word": "Landscape",
-    "start": 76.5,
-    "end": 76.94
+    "start": 69.94,
+    "end": 70.14
   },
   {
     "word": "Positioning",
-    "start": 76.94,
-    "end": 77.7
+    "start": 70.14,
+    "end": 70.52
   },
   {
     "word": "Partner",
-    "start": 77.7,
-    "end": 78.84
+    "start": 70.52,
+    "end": 70.96
   },
   {
     "word": "selection",
-    "start": 78.84,
-    "end": 79.34
+    "start": 71.3,
+    "end": 71.52
   },
   {
     "word": "now",
-    "start": 79.34,
-    "end": 79.62
+    "start": 71.52,
+    "end": 71.88
   },
   {
     "word": "defines",
-    "start": 79.62,
-    "end": 80.0
+    "start": 71.88,
+    "end": 72.18
   },
   {
     "word": "an",
-    "start": 80.0,
-    "end": 80.32
+    "start": 72.18,
+    "end": 72.46
   },
   {
     "word": "operator's",
-    "start": 80.32,
-    "end": 80.86
+    "start": 72.46,
+    "end": 72.7
   },
   {
     "word": "architectural",
-    "start": 80.86,
-    "end": 81.34
+    "start": 72.7,
+    "end": 72.9
   },
   {
     "word": "trajectory:",
-    "start": 81.34,
-    "end": 82.3
+    "start": 72.9,
+    "end": 73.18
   },
   {
     "word": "Netcracker:",
-    "start": 83.42,
-    "end": 83.94
+    "start": 73.18,
+    "end": 73.52
   },
   {
     "word": "Heavyweight",
-    "start": 84.26,
-    "end": 84.62
+    "start": 73.52,
+    "end": 74.14
   },
   {
     "word": "for",
-    "start": 84.62,
-    "end": 84.8
+    "start": 75.72,
+    "end": 75.98
   },
   {
     "word": "complex",
-    "start": 84.8,
-    "end": 85.18
+    "start": 75.98,
+    "end": 76.38
   },
   {
     "word": "legacy",
-    "start": 85.18,
-    "end": 85.66
+    "start": 76.38,
+    "end": 77.12
   },
   {
     "word": "modernization",
-    "start": 85.66,
-    "end": 86.26
+    "start": 78.16,
+    "end": 78.92
   },
   {
     "word": "and",
-    "start": 86.26,
-    "end": 86.62
+    "start": 78.92,
+    "end": 79.44
   },
   {
     "word": "cloud-native",
-    "start": 86.62,
-    "end": 86.86
+    "start": 79.44,
+    "end": 79.78
   },
   {
     "word": "transitions.",
-    "start": 87.12,
-    "end": 87.76
+    "start": 79.78,
+    "end": 80.06
   },
   {
     "word": "Nokia:",
-    "start": 89.42,
-    "end": 89.86
+    "start": 80.06,
+    "end": 80.4
   },
   {
     "word": "Leader",
-    "start": 90.34,
-    "end": 90.5
+    "start": 80.4,
+    "end": 81.04
   },
   {
     "word": "in",
-    "start": 90.5,
-    "end": 90.72
+    "start": 81.04,
+    "end": 81.5
   },
   {
     "word": "network",
-    "start": 90.72,
-    "end": 91.0
+    "start": 81.5,
+    "end": 82.56
   },
   {
     "word": "analytics",
-    "start": 91.0,
-    "end": 91.52
+    "start": 84.14,
+    "end": 84.48
   },
   {
     "word": "and",
-    "start": 91.52,
-    "end": 91.96
+    "start": 84.94,
+    "end": 85.14
   },
   {
     "word": "software-driven",
-    "start": 91.96,
-    "end": 92.28
+    "start": 85.14,
+    "end": 85.34
   },
   {
     "word": "complexity",
-    "start": 92.6,
-    "end": 93.18
+    "start": 85.34,
+    "end": 85.72
   },
   {
     "word": "abstraction.",
-    "start": 93.18,
-    "end": 94.0
+    "start": 85.72,
+    "end": 86.22
   },
   {
     "word": "Ericsson:",
-    "start": 95.58,
-    "end": 96.12
+    "start": 86.22,
+    "end": 86.8
   },
   {
     "word": "Preeminent",
-    "start": 96.56,
-    "end": 96.96
+    "start": 86.8,
+    "end": 87.18
   },
   {
     "word": "for",
-    "start": 96.96,
-    "end": 97.22
+    "start": 87.18,
+    "end": 87.42
   },
   {
     "word": "deep,",
-    "start": 97.22,
-    "end": 97.56
+    "start": 87.42,
+    "end": 87.68
   },
   {
     "word": "closed-loop",
-    "start": 97.98,
-    "end": 98.22
+    "start": 87.68,
+    "end": 88.52
   },
   {
     "word": "RAN",
-    "start": 98.52,
-    "end": 98.74
+    "start": 90.2,
+    "end": 90.36
   },
   {
     "word": "automation",
-    "start": 98.74,
-    "end": 99.28
+    "start": 90.8,
+    "end": 90.84
   },
   {
     "word": "on",
-    "start": 99.28,
-    "end": 99.64
+    "start": 90.84,
+    "end": 91.08
   },
   {
     "word": "proprietary",
-    "start": 99.64,
-    "end": 100.22
+    "start": 91.08,
+    "end": 91.38
   },
   {
     "word": "silicon.",
-    "start": 100.22,
-    "end": 100.92
+    "start": 91.38,
+    "end": 91.92
   },
   {
     "word": "Blue",
-    "start": 102.18,
-    "end": 102.44
+    "start": 91.92,
+    "end": 92.28
   },
   {
     "word": "Planet:",
-    "start": 102.44,
-    "end": 102.74
+    "start": 92.28,
+    "end": 92.6
   },
   {
     "word": "The",
-    "start": 103.0,
-    "end": 103.16
+    "start": 92.6,
+    "end": 93.04
   },
   {
     "word": "premier",
-    "start": 103.16,
-    "end": 103.46
+    "start": 93.04,
+    "end": 93.64
   },
   {
     "word": "open-API",
-    "start": 103.46,
-    "end": 103.76
+    "start": 93.64,
+    "end": 94.5
   },
   {
     "word": "brain",
-    "start": 104.16,
-    "end": 104.48
+    "start": 96.12,
+    "end": 96.4
   },
   {
     "word": "for",
-    "start": 104.48,
-    "end": 104.66
+    "start": 96.7,
+    "end": 97.08
   },
   {
     "word": "vendor-neutral,",
-    "start": 104.66,
-    "end": 104.94
+    "start": 97.08,
+    "end": 97.36
   },
   {
     "word": "best-of-breed",
-    "start": 105.7,
-    "end": 105.82
+    "start": 97.36,
+    "end": 97.62
   },
   {
     "word": "infrastructure.",
-    "start": 106.24,
-    "end": 106.76
+    "start": 97.94,
+    "end": 98.14
   },
   {
     "word": "The",
-    "start": 107.9,
-    "end": 108.0
+    "start": 98.14,
+    "end": 98.42
   },
   {
     "word": "telecom",
-    "start": 108.0,
-    "end": 108.5
+    "start": 98.42,
+    "end": 98.6
   },
   {
     "word": "war",
-    "start": 108.5,
-    "end": 108.72
+    "start": 98.6,
+    "end": 99.12
   },
   {
     "word": "in",
-    "start": 108.72,
-    "end": 108.86
+    "start": 99.12,
+    "end": 99.46
   },
   {
     "word": "MENA",
-    "start": 108.86,
-    "end": 108.94
+    "start": 99.46,
+    "end": 99.94
   },
   {
     "word": "is",
-    "start": 109.14,
-    "end": 109.44
+    "start": 99.94,
+    "end": 100.32
   },
   {
     "word": "no",
-    "start": 109.44,
-    "end": 109.64
+    "start": 101.7,
+    "end": 102.34
   },
   {
     "word": "longer",
-    "start": 109.64,
-    "end": 109.94
+    "start": 102.34,
+    "end": 102.68
   },
   {
     "word": "about",
-    "start": 109.94,
-    "end": 110.32
+    "start": 102.92,
+    "end": 103.08
   },
   {
     "word": "steel",
-    "start": 110.32,
-    "end": 110.58
+    "start": 103.08,
+    "end": 103.38
   },
   {
     "word": "and",
-    "start": 110.58,
-    "end": 110.86
+    "start": 103.38,
+    "end": 103.7
   },
   {
     "word": "concrete.",
-    "start": 110.86,
-    "end": 111.4
+    "start": 103.7,
+    "end": 104.1
   },
   {
     "word": "Operators",
-    "start": 112.54,
-    "end": 112.86
+    "start": 104.1,
+    "end": 104.42
   },
   {
     "word": "that",
-    "start": 112.86,
-    "end": 113.14
+    "start": 104.42,
+    "end": 104.62
   },
   {
     "word": "master",
-    "start": 113.14,
-    "end": 113.42
+    "start": 104.62,
+    "end": 104.92
   },
   {
     "word": "the",
-    "start": 113.42,
-    "end": 113.72
+    "start": 104.92,
+    "end": 105.3
   },
   {
     "word": "OSS",
-    "start": 113.72,
-    "end": 114.2
+    "start": 105.6,
+    "end": 105.74
   },
   {
     "word": "layer",
-    "start": 114.2,
-    "end": 114.44
+    "start": 105.74,
+    "end": 105.94
   },
   {
     "word": "will",
-    "start": 114.44,
-    "end": 114.74
+    "start": 105.94,
+    "end": 106.14
   },
   {
     "word": "command",
-    "start": 114.74,
-    "end": 115.04
+    "start": 106.14,
+    "end": 106.8
   },
   {
     "word": "a",
-    "start": 115.04,
-    "end": 115.26
+    "start": 108.58,
+    "end": 108.64
   },
   {
     "word": "structurally",
-    "start": 115.26,
-    "end": 115.76
+    "start": 108.64,
+    "end": 109.12
   },
   {
     "word": "superior",
-    "start": 115.76,
-    "end": 116.28
+    "start": 109.12,
+    "end": 109.34
   },
   {
     "word": "cost",
-    "start": 116.28,
-    "end": 116.7
+    "start": 109.34,
+    "end": 109.48
   },
   {
     "word": "model.",
-    "start": 116.7,
-    "end": 117.1
+    "start": 109.48,
+    "end": 109.76
   },
   {
     "word": "The",
-    "start": 118.06,
-    "end": 118.22
+    "start": 109.76,
+    "end": 110.0
   },
   {
     "word": "future",
-    "start": 118.22,
-    "end": 118.54
+    "start": 110.0,
+    "end": 110.2
   },
   {
     "word": "belongs",
-    "start": 118.54,
-    "end": 118.92
+    "start": 110.2,
+    "end": 110.48
   },
   {
     "word": "to",
-    "start": 118.92,
-    "end": 119.2
+    "start": 110.48,
+    "end": 110.88
   },
   {
     "word": "the",
-    "start": 119.2,
-    "end": 119.32
+    "start": 110.88,
+    "end": 111.14
   },
   {
     "word": "autonomous",
-    "start": 119.32,
-    "end": 119.68
+    "start": 111.14,
+    "end": 111.44
   },
   {
     "word": "network.",
-    "start": 119.68,
-    "end": 120.24
+    "start": 111.44,
+    "end": 111.9
   }
 ]
