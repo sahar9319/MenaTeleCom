@@ -100,6 +100,13 @@
         transform: translateX(-50%);
       }
 
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        flex: 0 0 auto;
+        gap: 10px;
+      }
+
       .brand {
         display: flex;
         align-items: center;
@@ -437,6 +444,233 @@
         white-space: nowrap;
       }
 
+      .view-panel {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+        transition: opacity 260ms var(--ease), transform 260ms var(--ease);
+      }
+
+      .view-panel.is-exiting {
+        opacity: 0;
+        transform: translate3d(0, 10px, 0);
+      }
+
+      .glossary-head {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 18px;
+        padding: clamp(22px, 5vw, 46px) 0 clamp(18px, 4vw, 30px);
+      }
+
+      .glossary-copy {
+        max-width: 760px;
+      }
+
+      .glossary-copy h2 {
+        margin: 0;
+        font-size: clamp(2rem, 5vw, 4rem);
+        line-height: 1;
+      }
+
+      .glossary-copy p {
+        max-width: 650px;
+        margin: 14px 0 0;
+        color: var(--muted);
+        font-size: clamp(1rem, 1.8vw, 1.12rem);
+        line-height: 1.65;
+      }
+
+      .glossary-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        align-items: start;
+        gap: clamp(18px, 3vw, 28px);
+      }
+
+      @media (min-width: 768px) {
+        .glossary-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (min-width: 1024px) {
+        .glossary-grid {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+
+      .glossary-tile {
+        position: relative;
+        overflow: hidden;
+        border-radius: 18px;
+        background:
+          radial-gradient(circle at 14% 12%, color-mix(in srgb, var(--tertiary) 16%, transparent), transparent 9rem),
+          linear-gradient(135deg, color-mix(in srgb, var(--surface) 86%, var(--secondary)), color-mix(in srgb, var(--surface) 88%, var(--primary)));
+        box-shadow: var(--shadow);
+        opacity: 0;
+        transform: translate3d(0, 12px, 0);
+        transition: opacity 320ms var(--ease), transform 320ms var(--ease), box-shadow 180ms var(--ease);
+      }
+
+      .glossary-tile.ready {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+      }
+
+      .glossary-tile.is-pressing {
+        transform: translate3d(0, 1px, 0) scale(0.97);
+        box-shadow: var(--shadow-pressed);
+      }
+
+      .glossary-tile.is-playing::after {
+        content: "";
+        position: absolute;
+        inset: 50% auto auto 50%;
+        width: 36px;
+        height: 36px;
+        border-radius: 999px;
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+        animation: radarPulse 1.8s var(--ease) infinite;
+      }
+
+      @keyframes radarPulse {
+        0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--secondary) 34%, transparent), 0 0 0 0 color-mix(in srgb, var(--primary) 22%, transparent); opacity: 0.9; }
+        100% { box-shadow: 0 0 0 34px transparent, 0 0 0 62px transparent; opacity: 0; }
+      }
+
+      .glossary-trigger {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        gap: 14px;
+        width: 100%;
+        min-height: 168px;
+        padding: 18px;
+        background: transparent;
+        color: var(--ink);
+        text-align: left;
+      }
+
+      .glossary-icon {
+        display: grid;
+        place-items: center;
+        width: 54px;
+        height: 54px;
+        border-radius: 18px;
+        color: #fff;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        box-shadow: var(--shadow-soft);
+      }
+
+      .glossary-icon svg {
+        width: 28px;
+        height: 28px;
+        stroke-width: 2.25;
+      }
+
+      .glossary-title {
+        display: block;
+        margin: 4px 0 8px;
+        font-size: 1rem;
+        font-weight: 850;
+        line-height: 1.22;
+      }
+
+      .glossary-snippet {
+        position: relative;
+        display: block;
+        max-height: 4.7em;
+        overflow: hidden;
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.92rem;
+        line-height: 1.55;
+      }
+
+      .glossary-snippet::after {
+        content: "";
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: 42%;
+        height: 1.6em;
+        background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--surface) 90%, var(--primary)));
+      }
+
+      .glossary-panel {
+        display: grid;
+        grid-template-rows: 0fr;
+        transition: grid-template-rows 300ms var(--ease);
+      }
+
+      .glossary-tile.expanded .glossary-panel {
+        grid-template-rows: 1fr;
+      }
+
+      .glossary-panel-inner {
+        min-height: 0;
+        overflow: hidden;
+      }
+
+      .glossary-detail {
+        max-height: min(44vh, 360px);
+        overflow-y: auto;
+        margin: 0 18px 14px;
+        padding: 18px;
+        border-radius: 18px;
+        background: color-mix(in srgb, var(--surface) 74%, transparent);
+        box-shadow: var(--shadow-soft);
+        color: var(--ink);
+        font-size: clamp(1rem, 1.2vw, 1.08rem);
+        line-height: 1.68;
+      }
+
+      .glossary-detail h1,
+      .glossary-detail h2,
+      .glossary-detail h3 {
+        margin: 0 0 10px;
+        font-size: 1.1rem;
+        line-height: 1.2;
+      }
+
+      .glossary-detail p,
+      .glossary-detail ul {
+        margin: 0 0 14px;
+      }
+
+      .glossary-player {
+        display: grid;
+        grid-template-columns: auto auto minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 10px;
+        margin: 0 18px 18px;
+        padding: 11px;
+        border-radius: 20px;
+        background: linear-gradient(135deg, color-mix(in srgb, var(--secondary) 18%, var(--surface)), color-mix(in srgb, var(--primary) 12%, var(--surface)));
+        box-shadow: var(--shadow-soft);
+      }
+
+      .glossary-close {
+        width: auto;
+        min-width: max-content;
+        height: 42px;
+        padding: 0 14px;
+        border-radius: 14px;
+        color: #fff;
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        box-shadow: var(--shadow-soft);
+        font-weight: 820;
+        transition: transform 180ms var(--ease), box-shadow 180ms var(--ease);
+      }
+
+      .glossary-close:active {
+        transform: translate3d(0, 1px, 0) scale(0.98);
+        box-shadow: var(--shadow-pressed);
+      }
+
       .quick-view {
         position: absolute;
         top: 22px;
@@ -746,6 +980,15 @@
           padding: 9px;
         }
 
+        .nav-actions {
+          gap: 8px;
+        }
+
+        .home-button {
+          min-height: 44px;
+          padding: 0 14px;
+        }
+
         .brand-tagline,
         .flag-wrap {
           display: none;
@@ -800,6 +1043,30 @@
           padding: 10px;
         }
 
+        .glossary-head {
+          align-items: start;
+          flex-direction: column;
+          padding-top: 16px;
+        }
+
+        .glossary-trigger {
+          min-height: 150px;
+          padding: 16px;
+        }
+
+        .glossary-player {
+          grid-template-columns: auto auto 1fr;
+        }
+
+        .glossary-player .time {
+          grid-column: 1 / -1;
+        }
+
+        .glossary-close {
+          grid-column: 1 / -1;
+          width: 100%;
+        }
+
         .player .time {
           grid-column: 1 / -1;
         }
@@ -843,42 +1110,61 @@
           </div>
           <div class="flag-wrap hidden" id="flagWrap" aria-hidden="true"></div>
         </div>
-        <button class="clay-button home-button" id="homeBtn" type="button" aria-label="Home">
-          <span>Home</span>
-        </button>
+        <nav class="nav-actions" aria-label="Primary">
+          <button class="clay-button home-button" id="homeBtn" type="button" aria-label="Home">
+            <span>Home</span>
+          </button>
+          <button class="clay-button home-button" id="glossaryBtn" type="button" aria-label="Glossary">
+            <span>Glossary</span>
+          </button>
+        </nav>
       </header>
 
       <main class="page" id="top">
-        <section class="hero" aria-labelledby="heroTitle">
-          <div class="hero-copy">
-            <p class="eyebrow" id="heroEyebrow">Research Broadcast</p>
-            <h1 id="heroTitle">Telecom Research Log</h1>
-            <p id="heroDescription">Soft, focused research episodes on telecom operators, market signals, AI, and infrastructure shifts across the region.</p>
-          </div>
+        <section id="episodesView" class="view-panel">
+          <section class="hero" aria-labelledby="heroTitle">
+            <div class="hero-copy">
+              <p class="eyebrow" id="heroEyebrow">Research Broadcast</p>
+              <h1 id="heroTitle">Telecom Research Log</h1>
+              <p id="heroDescription">Soft, focused research episodes on telecom operators, market signals, AI, and infrastructure shifts across the region.</p>
+            </div>
 
-          <div class="icon-row" aria-hidden="true">
-            <div class="clay-icon" style="--tone: var(--primary)">
-              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor"><path d="M24 42V20M16 42h16M24 20 15 9M24 20l9-11"/><path d="M12 17c-5 7-5 14 0 21M36 17c5 7 5 14 0 21"/></svg>
+            <div class="icon-row" aria-hidden="true">
+              <div class="clay-icon" style="--tone: var(--primary)">
+                <svg viewBox="0 0 48 48" fill="none" stroke="currentColor"><path d="M24 42V20M16 42h16M24 20 15 9M24 20l9-11"/><path d="M12 17c-5 7-5 14 0 21M36 17c5 7 5 14 0 21"/></svg>
+              </div>
+              <div class="clay-icon" style="--tone: var(--secondary)">
+                <svg viewBox="0 0 48 48" fill="none" stroke="currentColor"><path d="M17 12h14v24H17z"/><path d="M21 17h6M21 23h6M21 29h6M20 39h8"/><path d="M33 15c4 4 4 14 0 18M15 15c-4 4-4 14 0 18"/></svg>
+              </div>
+              <div class="clay-icon" style="--tone: var(--tertiary)">
+                <svg viewBox="0 0 48 48" fill="none" stroke="currentColor"><path d="M12 30c7-7 17-7 24 0M8 22c9-10 23-10 32 0M4 14c12-13 28-13 40 0"/><path d="M24 35v7"/></svg>
+              </div>
+              <div class="clay-icon" style="--tone: var(--success)">
+                <svg viewBox="0 0 48 48" fill="none" stroke="currentColor"><path d="M16 9h16v30H16z"/><path d="M21 35h6M20 14h8M20 20h8M20 26h8"/></svg>
+              </div>
             </div>
-            <div class="clay-icon" style="--tone: var(--secondary)">
-              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor"><path d="M17 12h14v24H17z"/><path d="M21 17h6M21 23h6M21 29h6M20 39h8"/><path d="M33 15c4 4 4 14 0 18M15 15c-4 4-4 14 0 18"/></svg>
-            </div>
-            <div class="clay-icon" style="--tone: var(--tertiary)">
-              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor"><path d="M12 30c7-7 17-7 24 0M8 22c9-10 23-10 32 0M4 14c12-13 28-13 40 0"/><path d="M24 35v7"/></svg>
-            </div>
-            <div class="clay-icon" style="--tone: var(--success)">
-              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor"><path d="M16 9h16v30H16z"/><path d="M21 35h6M20 14h8M20 20h8M20 26h8"/></svg>
-            </div>
-          </div>
+          </section>
+
+          <div id="status" class="status" role="status" aria-live="polite"></div>
+          <section id="skeleton" class="skeleton-grid" aria-label="Loading episodes" aria-busy="true">
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+          </section>
+          <section id="grid" class="grid hidden" aria-label="Research episodes"></section>
         </section>
 
-        <div id="status" class="status" role="status" aria-live="polite"></div>
-        <section id="skeleton" class="skeleton-grid" aria-label="Loading episodes" aria-busy="true">
-          <div class="skeleton-card"></div>
-          <div class="skeleton-card"></div>
-          <div class="skeleton-card"></div>
+        <section id="glossaryView" class="view-panel hidden" aria-labelledby="glossaryTitle">
+          <header class="glossary-head">
+            <div class="glossary-copy">
+              <p class="eyebrow" id="glossaryEyebrow">Audio Glossary</p>
+              <h2 id="glossaryTitle">Audio Glossary Table</h2>
+              <p id="glossaryDescription">Tap a telecom term to hear the field note and read the elaboration.</p>
+            </div>
+          </header>
+          <div id="glossaryStatus" class="status" role="status" aria-live="polite"></div>
+          <section id="glossaryGrid" class="glossary-grid" aria-label="Audio glossary"></section>
         </section>
-        <section id="grid" class="grid hidden" aria-label="Research episodes"></section>
       </main>
     </div>
 
@@ -936,6 +1222,16 @@
         eyebrow: "Research Broadcast",
         description: "Browse field notes, recordings, and visual research from each episode.",
         homeButtonText: "Home",
+        glossaryButtonText: "Glossary",
+        glossaryEyebrow: "Audio Glossary",
+        glossaryTitle: "Audio Glossary Table",
+        glossaryDescription: "Tap a telecom term to hear the field note and read the elaboration.",
+        glossaryAriaLabel: "Audio glossary",
+        glossaryLoadingLabel: "Loading glossary",
+        glossaryError: "Glossary could not be loaded. Check that glossary.json exists and that you are using a local server.",
+        glossaryEmpty: "No glossary entries are available yet.",
+        glossaryCloseText: "Close",
+        glossaryAutoClose: false,
         backButtonText: "Back to main page",
         quickViewTooltip: "Quick preview",
         errorImageMissing: "Image not available",
@@ -982,6 +1278,7 @@
       const root = document.documentElement;
       const appShell = document.querySelector(".app-shell");
       const homeBtn = document.querySelector("#homeBtn");
+      const glossaryBtn = document.querySelector("#glossaryBtn");
       const brandTitle = document.querySelector("#brandTitle");
       const brandTagline = document.querySelector("#brandTagline");
       const logoWrap = document.querySelector("#logoWrap");
@@ -989,6 +1286,13 @@
       const heroEyebrow = document.querySelector("#heroEyebrow");
       const heroTitle = document.querySelector("#heroTitle");
       const heroDescription = document.querySelector("#heroDescription");
+      const episodesView = document.querySelector("#episodesView");
+      const glossaryView = document.querySelector("#glossaryView");
+      const glossaryEyebrow = document.querySelector("#glossaryEyebrow");
+      const glossaryTitle = document.querySelector("#glossaryTitle");
+      const glossaryDescription = document.querySelector("#glossaryDescription");
+      const glossaryStatus = document.querySelector("#glossaryStatus");
+      const glossaryGrid = document.querySelector("#glossaryGrid");
       const grid = document.querySelector("#grid");
       const skeleton = document.querySelector("#skeleton");
       const audioPlayer = document.querySelector("#audioPlayer");
@@ -1018,9 +1322,13 @@
       const motionDuration = (name) => reduceMotion.matches ? 0 : TIMING[name];
       const scheduleIdle = window.requestIdleCallback || ((callback) => setTimeout(callback, 1));
       const markdownCache = new Map();
+      const glossaryAudioState = new WeakMap();
 
       let config = DEFAULT_CONFIG;
       let episodes = [];
+      let glossaryEntries = null;
+      let currentView = "episodes";
+      let activeGlossaryTile = null;
       let activeSourceCard = null;
       let isExpanded = false;
       let isClosing = false;
@@ -1056,6 +1364,11 @@
         heroDescription.textContent = config.description;
         homeBtn.querySelector("span").textContent = config.homeButtonText;
         homeBtn.setAttribute("aria-label", config.homeButtonText);
+        glossaryBtn.querySelector("span").textContent = config.glossaryButtonText;
+        glossaryBtn.setAttribute("aria-label", config.glossaryButtonText);
+        glossaryEyebrow.textContent = config.glossaryEyebrow;
+        glossaryTitle.textContent = config.glossaryTitle;
+        glossaryDescription.textContent = config.glossaryDescription;
         readerHomeBtn.querySelector("span").textContent = config.homeButtonText;
         readerHomeBtn.setAttribute("aria-label", config.homeButtonText);
         backBtn.querySelector("span").textContent = config.backButtonText;
@@ -1065,6 +1378,7 @@
         muteBtn.title = config.muteTitle;
         grid.setAttribute("aria-label", config.episodesAriaLabel);
         skeleton.setAttribute("aria-label", config.loadingEpisodesLabel);
+        glossaryGrid.setAttribute("aria-label", config.glossaryAriaLabel);
         audioPlayer.setAttribute("aria-label", config.audioPlayerLabel);
         progress.setAttribute("aria-label", config.audioProgressLabel);
         volumeLabel.textContent = config.volumeLabel;
@@ -1095,8 +1409,27 @@
         statusBox.classList.toggle("visible", Boolean(message));
       };
 
+      const setGlossaryStatus = (message) => {
+        glossaryStatus.textContent = message;
+        glossaryStatus.classList.toggle("visible", Boolean(message));
+      };
+
       const setBackgroundInert = (inert) => {
         appShell.inert = inert;
+      };
+
+      const switchView = async (view) => {
+        if (currentView === view) return;
+        const leaving = currentView === "glossary" ? glossaryView : episodesView;
+        const entering = view === "glossary" ? glossaryView : episodesView;
+
+        leaving.classList.add("is-exiting");
+        await wait(motionDuration("fade"));
+        leaving.classList.add("hidden");
+        leaving.classList.remove("is-exiting");
+        entering.classList.remove("hidden");
+        requestAnimationFrame(() => entering.classList.remove("is-exiting"));
+        currentView = view;
       };
 
       const goHome = async () => {
@@ -1106,6 +1439,10 @@
         if (isExpanded) {
           await closeEpisode(false);
         }
+        if (activeGlossaryTile) {
+          closeGlossaryTile(activeGlossaryTile);
+        }
+        await switchView("episodes");
         setBackgroundInert(false);
         document.querySelector("#top").scrollIntoView({ behavior: reduceMotion.matches ? "auto" : "smooth", block: "start" });
         homeBtn.focus({ preventScroll: true });
@@ -1178,6 +1515,207 @@
         const minutes = Math.floor(seconds / 60);
         const secs = Math.floor(seconds % 60).toString().padStart(2, "0");
         return `${minutes}:${secs}`;
+      };
+
+      const telecomIcon = (name = "signal") => {
+        const icons = {
+          antenna: '<path d="M12 21V10"/><path d="M8 21h8"/><path d="M12 10 8 4M12 10l4-6"/><path d="M5 8c-2 3-2 6 0 9M19 8c2 3 2 6 0 9"/>',
+          signal: '<path d="M4 17c5-5 11-5 16 0"/><path d="M7 13c3-3 7-3 10 0"/><path d="M10 9c1.4-1.2 2.6-1.2 4 0"/><path d="M12 20v1"/>',
+          tower: '<path d="M12 21V8"/><path d="M8 21h8"/><path d="M9 13h6M8 17h8"/><path d="M12 8 8 4M12 8l4-4"/><path d="M5 7c-2 3-2 6 0 9M19 7c2 3 2 6 0 9"/>',
+          satellite: '<path d="M7 15c3-5 7-8 12-10"/><path d="M8 16l5 5"/><path d="M4 20c2-2 4-2 6 0"/><path d="M15 5c2 2 3 4 3 7"/><path d="M18 3c2 1 3 3 3 5"/>',
+          handset: '<path d="M7 5c5 8 4 9 12 12l-3 4c-7-2-11-6-13-13l4-3z"/><path d="M15 5c3 1 5 3 6 6"/><path d="M16 9c1 .5 2 1.5 2.5 2.5"/>',
+          radio: '<path d="M6 11h12v9H6z"/><path d="M9 16h3"/><circle cx="16" cy="16" r="1.6"/><path d="M8 11 17 4"/><path d="M5 8c-2 3-2 6 0 9M20 8c2 3 2 6 0 9"/>'
+        };
+        return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">${icons[name] || icons.signal}</svg>`;
+      };
+
+      const plainMarkdown = (text) => String(text || "")
+        .replace(/\[([^\]]+)]\(([^)]+)\)/g, "$1")
+        .replace(/[#*_`>-]/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
+
+      const glossarySnippet = (text) => {
+        const plain = plainMarkdown(text);
+        return plain.length > 100 ? `${plain.slice(0, 100).trim()}...` : plain;
+      };
+
+      const updateGlossaryTime = (state) => {
+        const duration = state.audio.duration || 0;
+        const current = state.audio.currentTime || 0;
+        state.progress.value = duration ? String((current / duration) * 100) : "0";
+        state.time.textContent = `${formatTime(current)} / ${formatTime(duration)}`;
+      };
+
+      const updateGlossaryPlayState = (tile) => {
+        const state = glossaryAudioState.get(tile);
+        if (!state) return;
+        const playing = !state.audio.paused;
+        state.playBtn.setAttribute("aria-label", playing ? config.audioPauseLabel : config.audioPlayLabel);
+        state.playIcon.innerHTML = playing ? telecomIcon("tower") : telecomIcon("signal");
+        tile.classList.toggle("is-playing", playing);
+      };
+
+      const updateGlossaryMuteState = (tile) => {
+        const state = glossaryAudioState.get(tile);
+        if (!state) return;
+        const muted = state.audio.muted;
+        state.muteBtn.setAttribute("aria-label", muted ? config.unmuteTitle : config.muteTitle);
+        state.muteBtn.title = muted ? config.unmuteTitle : config.muteTitle;
+        state.muteIcon.innerHTML = muted
+          ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M4 17c5-5 11-5 16 0"/><path d="m5 5 14 14"/></svg>'
+          : telecomIcon("signal");
+      };
+
+      function closeGlossaryTile(tile) {
+        const state = glossaryAudioState.get(tile);
+        if (state) {
+          clearTimeout(state.closeTimer);
+          state.audio.pause();
+          state.audio.currentTime = 0;
+          updateGlossaryTime(state);
+          updateGlossaryPlayState(tile);
+        }
+        tile.classList.remove("expanded", "is-playing");
+        const trigger = tile.querySelector(".glossary-trigger");
+        if (trigger) trigger.setAttribute("aria-expanded", "false");
+        if (activeGlossaryTile === tile) activeGlossaryTile = null;
+      }
+
+      const expandGlossaryTile = async (tile) => {
+        if (activeGlossaryTile && activeGlossaryTile !== tile) {
+          closeGlossaryTile(activeGlossaryTile);
+        }
+        tile.classList.add("is-pressing");
+        await wait(150);
+        tile.classList.remove("is-pressing");
+        tile.classList.add("expanded");
+        tile.querySelector(".glossary-trigger").setAttribute("aria-expanded", "true");
+        activeGlossaryTile = tile;
+      };
+
+      const createGlossaryPlayer = (tile, entry) => {
+        const player = document.createElement("div");
+        player.className = "glossary-player";
+        player.setAttribute("role", "group");
+        player.setAttribute("aria-label", config.audioPlayerLabel);
+        player.innerHTML = `
+          <button class="round-btn" type="button" aria-label="${escapeHtml(config.audioPlayLabel)}">
+            <span class="glossary-play-icon">${telecomIcon("signal")}</span>
+          </button>
+          <button class="round-btn" type="button" aria-label="${escapeHtml(config.muteTitle)}" title="${escapeHtml(config.muteTitle)}">
+            <span class="glossary-mute-icon">${telecomIcon("signal")}</span>
+          </button>
+          <div class="ranges">
+            <input class="glossary-progress" type="range" min="0" max="100" value="0" aria-label="${escapeHtml(config.audioProgressLabel)}">
+          </div>
+          <span class="time" aria-live="polite">0:00 / 0:00</span>
+          <button class="glossary-close" type="button">${escapeHtml(config.glossaryCloseText)}</button>
+          <audio preload="metadata"></audio>
+        `;
+
+        const state = {
+          audio: player.querySelector("audio"),
+          playBtn: player.querySelector(".round-btn"),
+          muteBtn: player.querySelectorAll(".round-btn")[1],
+          playIcon: player.querySelector(".glossary-play-icon"),
+          muteIcon: player.querySelector(".glossary-mute-icon"),
+          progress: player.querySelector(".glossary-progress"),
+          time: player.querySelector(".time"),
+          closeTimer: null
+        };
+        state.audio.src = entry.audio || "";
+        glossaryAudioState.set(tile, state);
+
+        state.playBtn.addEventListener("click", async (event) => {
+          event.stopPropagation();
+          if (!state.audio.src) return;
+          if (state.audio.paused) {
+            try {
+              await state.audio.play();
+            } catch (error) {
+              setGlossaryStatus(config.audioError);
+            }
+          } else {
+            state.audio.pause();
+          }
+          updateGlossaryPlayState(tile);
+        });
+
+        state.muteBtn.addEventListener("click", (event) => {
+          event.stopPropagation();
+          state.audio.muted = !state.audio.muted;
+          updateGlossaryMuteState(tile);
+        });
+
+        state.progress.addEventListener("input", () => {
+          if (!state.audio.duration) return;
+          state.audio.currentTime = (Number(state.progress.value) / 100) * state.audio.duration;
+        });
+
+        player.querySelector(".glossary-close").addEventListener("click", (event) => {
+          event.stopPropagation();
+          closeGlossaryTile(tile);
+          tile.querySelector(".glossary-trigger").focus({ preventScroll: true });
+        });
+
+        state.audio.addEventListener("play", () => updateGlossaryPlayState(tile));
+        state.audio.addEventListener("pause", () => updateGlossaryPlayState(tile));
+        state.audio.addEventListener("volumechange", () => updateGlossaryMuteState(tile));
+        state.audio.addEventListener("loadedmetadata", () => updateGlossaryTime(state));
+        state.audio.addEventListener("timeupdate", () => updateGlossaryTime(state));
+        state.audio.addEventListener("error", () => {
+          state.time.textContent = config.audioUnavailable;
+        });
+        state.audio.addEventListener("ended", () => {
+          updateGlossaryPlayState(tile);
+          if (config.glossaryAutoClose) {
+            state.closeTimer = setTimeout(() => closeGlossaryTile(tile), 2000);
+          }
+        });
+
+        return player;
+      };
+
+      const buildGlossaryTile = (entry, index) => {
+        const article = document.createElement("article");
+        article.className = "glossary-tile";
+        article.dataset.id = entry.id || `glossary-${index}`;
+
+        const trigger = document.createElement("button");
+        trigger.className = "glossary-trigger";
+        trigger.type = "button";
+        trigger.setAttribute("aria-expanded", "false");
+        trigger.setAttribute("aria-label", entry.title || config.glossaryTitle);
+        trigger.innerHTML = `
+          <span class="glossary-icon">${telecomIcon(entry.icon)}</span>
+          <span>
+            <span class="glossary-title">${escapeHtml(entry.title || config.glossaryTitle)}</span>
+            <span class="glossary-snippet">${escapeHtml(glossarySnippet(entry.text))}</span>
+          </span>
+        `;
+
+        const panel = document.createElement("div");
+        panel.className = "glossary-panel";
+        const inner = document.createElement("div");
+        inner.className = "glossary-panel-inner";
+        const detail = document.createElement("div");
+        detail.className = "glossary-detail";
+        detail.innerHTML = parseMarkdown(entry.text || config.errorTextMissing);
+        inner.append(detail, createGlossaryPlayer(article, entry));
+        panel.append(inner);
+        article.append(trigger, panel);
+
+        trigger.addEventListener("click", () => {
+          if (article.classList.contains("expanded")) {
+            closeGlossaryTile(article);
+          } else {
+            expandGlossaryTile(article);
+          }
+        });
+
+        setTimeout(() => article.classList.add("ready"), reduceMotion.matches ? 0 : index * 60);
+        return article;
       };
 
       const updateTime = () => {
@@ -1312,6 +1850,37 @@
           skeleton.setAttribute("aria-busy", "false");
           setStatus(config.errorEpisodesMissing);
         }
+      };
+
+      const loadGlossary = async () => {
+        if (glossaryEntries) return glossaryEntries;
+        setGlossaryStatus(config.glossaryLoadingLabel);
+        try {
+          const response = await fetch("glossary.json", { cache: "no-store" });
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          glossaryEntries = await response.json();
+          glossaryGrid.replaceChildren(...glossaryEntries.map(buildGlossaryTile));
+          setGlossaryStatus(glossaryEntries.length ? "" : config.glossaryEmpty);
+          return glossaryEntries;
+        } catch (error) {
+          glossaryEntries = [];
+          glossaryGrid.replaceChildren();
+          setGlossaryStatus(config.glossaryError);
+          return glossaryEntries;
+        }
+      };
+
+      const showGlossary = async () => {
+        if (lightbox.classList.contains("active")) {
+          await closeQuickView(false);
+        }
+        if (isExpanded) {
+          await closeEpisode(false);
+        }
+        await loadGlossary();
+        await switchView("glossary");
+        document.querySelector("#top").scrollIntoView({ behavior: reduceMotion.matches ? "auto" : "smooth", block: "start" });
+        glossaryBtn.focus({ preventScroll: true });
       };
 
       const viewportRect = () => ({
@@ -1480,6 +2049,7 @@
       });
       readerHomeBtn.addEventListener("click", goHome);
       homeBtn.addEventListener("click", goHome);
+      glossaryBtn.addEventListener("click", showGlossary);
       audio.addEventListener("play", setPlayState);
       audio.addEventListener("pause", setPlayState);
       audio.addEventListener("volumechange", setMuteState);
