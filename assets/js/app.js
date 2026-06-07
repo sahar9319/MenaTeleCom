@@ -1158,14 +1158,13 @@ const renderAvatarForSpeaker = (speaker = {}) => {
 };
 
 const setPhotoBlink = (lids, amount) => {
-  const opacity = amount > 0.5 ? "0.92" : "0";
-  const scale = amount > 0.5 ? "1.08" : "0.04";
-  const shift = amount > 0.5 ? "-52%" : "-58%";
+  const closed = amount > 0.5;
   lids.forEach((lid) => {
-    lid.style.setProperty("--photo-blink-opacity", opacity);
-    lid.style.setProperty("--photo-blink-scale", scale);
-    lid.style.setProperty("--photo-blink-shift", shift);
-    lid.classList.toggle("is-closed", amount > 0.5);
+    lid.style.opacity = closed ? "0.92" : "0";
+    lid.style.transform = closed
+      ? "translate(-50%, -52%) scaleY(1.08)"
+      : "translate(-50%, -58%) scaleY(0.04)";
+    lid.classList.toggle("is-closed", closed);
   });
 };
 
