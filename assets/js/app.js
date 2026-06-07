@@ -190,6 +190,7 @@ let avatarTimingIndex = 0;
 let activeSpeaker = null;
 let activeEpisode = null;
 let talkPulse = 0;
+let blinkSequence = 0;
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const clamp = (value, min = 0, max = 1) => Math.max(min, Math.min(max, value));
@@ -1156,6 +1157,18 @@ const renderAvatarForSpeaker = (speaker = {}) => {
   renderAvatarSvg(resolved.url, resolved.voice);
 };
 
+const setPhotoBlink = (lids, amount) => {
+  const opacity = amount > 0.5 ? "0.92" : "0";
+  const scale = amount > 0.5 ? "1.08" : "0.04";
+  const shift = amount > 0.5 ? "-52%" : "-58%";
+  lids.forEach((lid) => {
+    lid.style.setProperty("--photo-blink-opacity", opacity);
+    lid.style.setProperty("--photo-blink-scale", scale);
+    lid.style.setProperty("--photo-blink-shift", shift);
+    lid.classList.toggle("is-closed", amount > 0.5);
+  });
+};
+
 const setAvatarExpression = (speaking) => {
   const mouth = avatarHost.querySelector(".avatar-mouth, .avatar-photo-mouth");
   const brows = avatarHost.querySelectorAll(".avatar-brow");
@@ -1213,21 +1226,39 @@ const setAvatarExpression = (speaking) => {
 const blinkAvatar = () => {
   const eyes = avatarHost.querySelectorAll(".avatar-eye, .avatar-pupil");
   const lids = avatarHost.querySelectorAll(".avatar-photo-lid");
+  const sequence = blinkSequence + 1;
+  blinkSequence = sequence;
+  const duration = 96 + Math.random() * 42;
+  const doubleBlink = Math.random() < 0.12;
+
   eyes.forEach((eye) => {
     eye.style.transform = "scaleY(0.1)";
   });
   lids.forEach((lid) => {
     lid.classList.add("is-closed");
   });
+  setPhotoBlink(lids, 1);
+
   setTimeout(() => {
+    if (blinkSequence !== sequence) return;
     eyes.forEach((eye) => {
       eye.style.transform = "";
     });
-    lids.forEach((lid) => {
-      lid.classList.remove("is-closed");
-    });
-  }, 110);
-  scheduleBlink();
+    setPhotoBlink(lids, 0);
+    if (doubleBlink) {
+      setTimeout(() => {
+        if (blinkSequence !== sequence) return;
+        setPhotoBlink(lids, 1);
+        setTimeout(() => {
+          if (blinkSequence !== sequence) return;
+          setPhotoBlink(lids, 0);
+          scheduleBlink();
+        }, 74);
+      }, 118);
+      return;
+    }
+    scheduleBlink();
+  }, duration);
 };
 
 const scheduleBlink = () => {
@@ -1250,12 +1281,14 @@ const stopAvatar = (audioElement = activeAudio) => {
   lastRms = 0;
   avatarHost.style.setProperty("--avatar-y", "0px");
   avatarHost.style.setProperty("--avatar-rotate", "0deg");
+  setPhotoBlink(avatarHost.querySelectorAll(".avatar-photo-lid"), 0);
   setAvatarExpression(false);
   if (avatarFrame !== null) {
     cancelAnimationFrame(avatarFrame);
     avatarFrame = null;
   }
   clearTimeout(blinkTimer);
+  blinkSequence += 1;
 };
 
 const ensureAvatarAnalyser = async (audioElement) => {
