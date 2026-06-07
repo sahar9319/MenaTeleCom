@@ -172,6 +172,8 @@ let avatarFrame = null;
 let blinkTimer = null;
 let mouthLevel = 0;
 let mouthWidth = 0;
+let mouthRound = 0;
+let mouthTeeth = 0;
 let browLevel = 0;
 let nodLevel = 0;
 let lastRms = 0;
@@ -183,11 +185,28 @@ let highlightFrame = null;
 let highlightRaf = null;
 let pendingEstimatedHighlight = false;
 let activeTiming = [];
+let avatarTiming = [];
+let avatarTimingIndex = 0;
 let activeSpeaker = null;
 let activeEpisode = null;
 let talkPulse = 0;
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const clamp = (value, min = 0, max = 1) => Math.max(min, Math.min(max, value));
+
+const averageBand = (data, startRatio, endRatio) => {
+  if (!data?.length) return 0;
+
+  const start = Math.max(0, Math.min(data.length - 1, Math.floor(data.length * startRatio)));
+  const end = Math.max(start + 1, Math.min(data.length, Math.floor(data.length * endRatio)));
+  let sum = 0;
+
+  for (let index = start; index < end; index += 1) {
+    sum += data[index] / 255;
+  }
+
+  return sum / (end - start);
+};
 
 const resolveAssets = () => {
   const merged = {
@@ -231,8 +250,8 @@ const collectAssetPaths = (assets) => {
     ...Object.values(assets.ui),
     ...Object.values(assets.telecom),
     ...assets.heroIcons.map((item) => item.src),
-    ...assets.avatars.male,
-    ...assets.avatars.female
+    ...assets.avatars.male.filter((path) => /\.svg(?:[?#]|$)/i.test(path)),
+    ...assets.avatars.female.filter((path) => /\.svg(?:[?#]|$)/i.test(path))
   ]);
   return [...paths].filter(Boolean);
 };
@@ -496,11 +515,11 @@ const episodeNumber = (episode) => {
 
 const sortEpisodes = (list) => [...list].sort((a, b) => {
   if (a.date && b.date && a.date !== b.date) {
-    return b.date.localeCompare(a.date);
+    return a.date.localeCompare(b.date);
   }
-  const diff = episodeNumber(b) - episodeNumber(a);
+  const diff = episodeNumber(a) - episodeNumber(b);
   if (diff !== 0) return diff;
-  return String(b.id || "").localeCompare(String(a.id || ""), undefined, {
+  return String(a.id || "").localeCompare(String(b.id || ""), undefined, {
     numeric: true,
     sensitivity: "base",
   });
@@ -582,9 +601,122 @@ const normalizeTimingToAudio = (timing, duration) => {
   }));
 };
 
+const cleanAvatarWord = (word) => normalizeHighlightToken(word)
+  .replace(/&/g, "and")
+  .replace(/[^a-z0-9]/g, "");
+
+const avatarWordShape = (word, progress, duration) => {
+  const text = cleanAvatarWord(word);
+  if (!text) {
+    return { active: false, open: 0, wide: 0.08, round: 0.12, teeth: 0 };
+  }
+
+  const p = clamp(progress);
+  const vowels = text.match(/[aeiouy]/g) || [];
+  const vowelDensity = vowels.length / Math.max(1, text.length);
+  const wideVowels = text.match(/[aeiy]/g) || [];
+  const roundedVowels = text.match(/[ouw]/g) || [];
+  const roundedDensity = roundedVowels.length / Math.max(1, vowels.length || 1);
+  const wideDensity = wideVowels.length / Math.max(1, vowels.length || 1);
+  const durationBoost = duration < 0.16 ? 0.8 : duration < 0.28 ? 0.94 : 1;
+  const envelope = clamp(Math.sin(Math.PI * p) * 1.12) * durationBoost;
+  const bilabialStart = /^[bmp]/.test(text) ? clamp(1 - p / 0.2) : 0;
+  const bilabialEnd = /[bmp]$/.test(text) ? clamp((p - 0.76) / 0.24) : 0;
+  const closed = Math.max(bilabialStart, bilabialEnd);
+  const fricative = /(f|v|th|s|z|sh|ch|j|x)/.test(text);
+  const softTeeth = /(f|v|th)/.test(text) ? 0.75 : /(s|z|sh|ch|j)/.test(text) ? 0.34 : 0;
+  const rounded = clamp((roundedDensity * 0.72 + (/^w/.test(text) ? 0.22 : 0)) * envelope * (1 - closed * 0.72));
+  const wide = clamp((0.08 + wideDensity * 0.28 + (fricative ? 0.12 : 0) + (/[r]/.test(text) ? 0.05 : 0)) * envelope);
+  const openBase = 0.12 + vowelDensity * 0.42 + (/[a]/.test(text) ? 0.08 : 0) + (/[o]/.test(text) ? 0.05 : 0);
+  const open = clamp(openBase * envelope * (1 - closed * 0.92), 0, 0.74);
+  const teeth = clamp(softTeeth * envelope * (1 - closed), 0, 0.72);
+
+  return { active: true, open, wide, round: rounded, teeth };
+};
+
+const avatarTimingShape = (audioElement) => {
+  if (audioElement !== audio || !avatarTiming.length) {
+    return { hasTiming: false, active: false, open: 0, wide: 0.08, round: 0.12, teeth: 0 };
+  }
+
+  const current = Math.max(0, (audioElement.currentTime || 0) + 0.045);
+  while (avatarTimingIndex > 0 && current < avatarTiming[avatarTimingIndex].start - 0.12) {
+    avatarTimingIndex -= 1;
+  }
+  while (avatarTimingIndex < avatarTiming.length - 1 && current > avatarTiming[avatarTimingIndex].end + 0.03) {
+    avatarTimingIndex += 1;
+  }
+
+  const stamp = avatarTiming[avatarTimingIndex];
+  if (stamp && current >= stamp.start - 0.035 && current <= stamp.end + 0.045) {
+    const duration = Math.max(0.08, stamp.end - stamp.start);
+    const progress = clamp((current - stamp.start) / duration);
+    return { hasTiming: true, word: stamp.word, ...avatarWordShape(stamp.word, progress, duration) };
+  }
+
+  return { hasTiming: true, active: false, open: 0, wide: 0.08, round: 0.12, teeth: 0 };
+};
+
 const extractLineWords = (element) => mergeOrphanPunctuation(
   (element.textContent.match(/\S+/g) || [])
 );
+
+const sentenceBoundaries = (text) => {
+  const source = String(text || "");
+  if (!source.trim()) return [];
+
+  const trimBoundary = ({ start, end }) => {
+    let trimmedStart = start;
+    let trimmedEnd = end;
+    while (trimmedStart < trimmedEnd && /\s/.test(source[trimmedStart])) trimmedStart += 1;
+    while (trimmedEnd > trimmedStart && /\s/.test(source[trimmedEnd - 1])) trimmedEnd -= 1;
+    return { start: trimmedStart, end: trimmedEnd };
+  };
+
+  const usable = (boundary) => /[A-Za-z0-9]/.test(source.slice(boundary.start, boundary.end));
+
+  if (window.Intl?.Segmenter) {
+    const segmenter = new Intl.Segmenter("en", { granularity: "sentence" });
+    return [...segmenter.segment(source)]
+      .map((segment) => trimBoundary({
+        start: segment.index,
+        end: segment.index + segment.segment.length
+      }))
+      .filter((boundary) => boundary.end > boundary.start && usable(boundary));
+  }
+
+  const boundaries = [];
+  const pattern = /[^.!?]+[.!?]+["')\]]*|[^.!?]+$/g;
+  let match;
+  while ((match = pattern.exec(source)) !== null) {
+    const boundary = trimBoundary({ start: match.index, end: pattern.lastIndex });
+    if (boundary.end > boundary.start && usable(boundary)) boundaries.push(boundary);
+  }
+  return boundaries;
+};
+
+const textNodesFor = (element) => {
+  const nodes = [];
+  const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+  while (walker.nextNode()) {
+    nodes.push(walker.currentNode);
+  }
+  return nodes;
+};
+
+const textPositionAt = (nodes, targetOffset) => {
+  let cursor = 0;
+  for (const node of nodes) {
+    const next = cursor + node.nodeValue.length;
+    if (targetOffset <= next) {
+      return { node, offset: Math.max(0, targetOffset - cursor) };
+    }
+    cursor = next;
+  }
+
+  const fallback = nodes[nodes.length - 1];
+  return fallback ? { node: fallback, offset: fallback.nodeValue.length } : null;
+};
 
 const splitParagraphLines = () => {
   markdownBody.querySelectorAll("p:not(.text-line)").forEach((paragraph) => {
@@ -608,8 +740,42 @@ const splitParagraphLines = () => {
   });
 };
 
+const splitHighlightSentences = () => {
+  markdownBody.querySelectorAll("p, li, h1, h2, h3, h4, blockquote").forEach((element) => {
+    if (element.dataset.sentencesWrapped === "true" || element.querySelector(".text-sentence")) return;
+
+    const text = element.textContent;
+    const boundaries = sentenceBoundaries(text);
+    const nodes = textNodesFor(element);
+    if (!boundaries.length || !nodes.length) return;
+
+    boundaries.slice().reverse().forEach((boundary) => {
+      const start = textPositionAt(nodes, boundary.start);
+      const end = textPositionAt(nodes, boundary.end);
+      if (!start || !end) return;
+
+      const range = document.createRange();
+      range.setStart(start.node, start.offset);
+      range.setEnd(end.node, end.offset);
+
+      const sentence = document.createElement("span");
+      sentence.className = "text-sentence";
+      sentence.append(range.extractContents());
+      range.insertNode(sentence);
+    });
+
+    element.dataset.sentencesWrapped = "true";
+  });
+};
+
 const collectHighlightLineElements = () => {
   splitParagraphLines();
+  splitHighlightSentences();
+  const sentences = [...markdownBody.querySelectorAll(".text-sentence")]
+    .filter((element) => element.textContent.trim().length > 0);
+
+  if (sentences.length) return sentences;
+
   return [...markdownBody.querySelectorAll("p, li, h1, h2, h3, h4, blockquote, p.text-line")]
     .filter((element) => element.textContent.trim().length > 0);
 };
@@ -781,15 +947,19 @@ const applyHighlightTiming = (wordTiming) => {
   const lines = collectHighlightLineElements();
   if (!lines.length) {
     markdownBody.dataset.highlighting = "false";
+    avatarTiming = [];
+    avatarTimingIndex = 0;
     return;
   }
 
   const duration = Number.isFinite(audio.duration) && audio.duration > 0
     ? audio.duration
     : (activeTiming[activeTiming.length - 1]?.end || 0);
+  avatarTiming = activeTiming.length ? normalizeTimingToAudio(activeTiming, duration) : [];
+  avatarTimingIndex = 0;
 
-  const lineTimings = activeTiming.length
-    ? buildLineTimingFromWords(activeTiming, lines, duration)
+  const lineTimings = avatarTiming.length
+    ? buildLineTimingFromWords(avatarTiming, lines, duration)
     : buildWeightedLineTiming(lines, duration);
 
   enableLineHighlighting(lineTimings, lines);
@@ -909,18 +1079,33 @@ const resolveSpeakerVoice = (speaker = {}) => {
   return "male";
 };
 
+const isPhotoAvatarAsset = (url) => /\.(png|jpe?g|webp|gif)(?:[?#]|$)/i.test(String(url || ""));
+
+const resolveAvatarAsset = (url) => ({
+  mode: isPhotoAvatarAsset(url) ? "photo" : "svg",
+  url
+});
+
 const resolveSpeakerAvatar = (speaker = {}) => {
   const voice = resolveSpeakerVoice(speaker);
   const assets = resolveAssets();
 
-  if (speaker.avatarMode === "photo" && speaker.avatar) {
+  const variant = Number.isFinite(speaker.avatarVariant) ? speaker.avatarVariant : 0;
+  const pool = assets.avatars[voice] || assets.avatars.male || [];
+  const voiceUrl = pool[variant % pool.length] || pool[0];
+  if (voiceUrl) {
+    return { ...resolveAvatarAsset(voiceUrl), voice };
+  }
+
+  if (speaker.avatar) {
     return { mode: "photo", url: speaker.avatar, voice };
   }
 
-  const variant = Number.isFinite(speaker.avatarVariant) ? speaker.avatarVariant : 0;
-  const pool = assets.avatars[voice] || assets.avatars.male || [];
-  const url = pool[variant % pool.length] || pool[0];
-  return { mode: "svg", url, voice };
+  if (config.avatarImageUrl) {
+    return { mode: "photo", url: config.avatarImageUrl, voice };
+  }
+
+  return { mode: "svg", url: "", voice };
 };
 
 const renderAvatarSvg = (url, voice = "male") => {
@@ -935,16 +1120,29 @@ const renderAvatarSvg = (url, voice = "male") => {
   avatarHost.dataset.voice = voice;
 };
 
-const renderAvatarPhoto = (url) => {
+const renderAvatarPhoto = (url, voice = "male") => {
   avatarHost.innerHTML = `
-    <div class="avatar-photo">
+    <div class="avatar-photo" data-voice="${escapeHtml(voice)}">
       <img src="${escapeHtml(url)}" alt="">
-      <span class="avatar-photo-mouth"></span>
+      <span class="avatar-photo-mouth" aria-hidden="true">
+        <span class="avatar-photo-mouth-cover"></span>
+        <span class="avatar-photo-mouth-cavity"></span>
+        <span class="avatar-photo-mouth-line"></span>
+        <span class="avatar-photo-lip avatar-photo-lip-top"></span>
+        <span class="avatar-photo-lip avatar-photo-lip-bottom"></span>
+        <span class="avatar-photo-teeth"></span>
+      </span>
+      <span class="avatar-photo-lid avatar-photo-lid-left" aria-hidden="true"></span>
+      <span class="avatar-photo-lid avatar-photo-lid-right" aria-hidden="true"></span>
     </div>
   `;
   avatarHost.dataset.avatarMode = "photo";
   const img = avatarHost.querySelector("img");
-  img.onerror = () => renderAvatarForSpeaker(activeSpeaker || {});
+  img.onerror = () => {
+    const assets = resolveAssets();
+    const pool = assets.avatars[voice] || assets.avatars.male || [];
+    renderAvatarSvg(pool[0], voice);
+  };
 };
 
 const renderAvatarForSpeaker = (speaker = {}) => {
@@ -952,7 +1150,7 @@ const renderAvatarForSpeaker = (speaker = {}) => {
   const resolved = resolveSpeakerAvatar(speaker);
   avatarHost.dataset.voice = resolved.voice;
   if (resolved.mode === "photo") {
-    renderAvatarPhoto(resolved.url);
+    renderAvatarPhoto(resolved.url, resolved.voice);
     return;
   }
   renderAvatarSvg(resolved.url, resolved.voice);
@@ -964,13 +1162,40 @@ const setAvatarExpression = (speaking) => {
   const jaw = avatarHost.querySelector(".avatar-jaw");
 
   if (mouth) {
-    const pulse = speaking ? Math.sin(performance.now() / 70) * 0.18 * mouthLevel : 0;
+    const pulse = speaking
+      ? Math.sin(performance.now() / 78) * 0.035 * mouthLevel
+      : 0;
     talkPulse = pulse;
-    const openY = 1 + mouthLevel * 3.2 + pulse;
-    const openX = 1 + mouthWidth * 1.35 + (speaking ? pulse * 0.35 : 0);
-    mouth.style.setProperty("--mouth-x", String(openX));
-    mouth.style.setProperty("--mouth-y", String(openY));
-    mouth.classList.toggle("is-talking", speaking && mouthLevel > 0.04);
+    const isPhoto = mouth.classList.contains("avatar-photo-mouth");
+
+    if (isPhoto) {
+      const open = speaking
+        ? clamp(mouthLevel * 1.12 + Math.max(0, pulse) * 0.65, 0, 0.72)
+        : 0;
+      const round = speaking ? clamp(mouthRound + open * 0.18 - mouthWidth * 0.12, 0, 1) : 0.16;
+      const wide = speaking
+        ? clamp(0.16 + mouthWidth * 1.25 + (1 - round) * 0.14 + open * 0.12, 0.16, 0.76)
+        : 0.16;
+      mouth.style.setProperty("--photo-mouth-scale-x", (0.97 + wide * 0.12 - round * 0.045).toFixed(3));
+      mouth.style.setProperty("--photo-cavity-width", `${(32 + wide * 27 - round * 7).toFixed(2)}%`);
+      mouth.style.setProperty("--photo-cavity-height", `${(5 + open * 42 + round * 8).toFixed(2)}%`);
+      mouth.style.setProperty("--photo-cavity-top", `${(53 + open * 1.4 + round * 0.6).toFixed(2)}%`);
+      mouth.style.setProperty("--photo-lip-width", `${(54 + wide * 17 - round * 7).toFixed(2)}%`);
+      mouth.style.setProperty("--photo-top-lip-top", `${(44 - open * 6.2 - round * 1.3).toFixed(2)}%`);
+      mouth.style.setProperty("--photo-bottom-lip-top", `${(56 + open * 7.2 + round * 1.6).toFixed(2)}%`);
+      mouth.style.setProperty("--photo-line-opacity", String(open > 0.16 ? Math.max(0.08, 0.5 - open * 0.72) : 0.52));
+      mouth.style.setProperty("--photo-mouth-line-width", `${(50 + wide * 21 - round * 9).toFixed(2)}%`);
+      mouth.style.setProperty("--photo-teeth-opacity", String(open > 0.2 && round < 0.58 ? Math.min(0.32, mouthTeeth * 0.56 + Math.max(0, open - 0.42) * 0.22) : 0));
+      mouth.style.setProperty("--photo-rig-opacity", speaking ? String(0.56 + Math.min(0.18, open * 0.24)) : "0.5");
+      mouth.classList.toggle("is-talking", speaking && open > 0.045);
+    } else {
+      const openY = 1 + mouthLevel * 2.55 + pulse;
+      const openX = 1 + mouthWidth * 1.05 - mouthRound * 0.14 + (speaking ? pulse * 0.2 : 0);
+      mouth.style.setProperty("--mouth-x", String(openX));
+      mouth.style.setProperty("--mouth-y", String(openY));
+      mouth.style.opacity = speaking ? String(0.52 + Math.min(0.4, mouthLevel * 0.85)) : "";
+      mouth.classList.toggle("is-talking", speaking && mouthLevel > 0.025);
+    }
   }
 
   if (jaw) {
@@ -987,12 +1212,19 @@ const setAvatarExpression = (speaking) => {
 
 const blinkAvatar = () => {
   const eyes = avatarHost.querySelectorAll(".avatar-eye, .avatar-pupil");
+  const lids = avatarHost.querySelectorAll(".avatar-photo-lid");
   eyes.forEach((eye) => {
     eye.style.transform = "scaleY(0.1)";
+  });
+  lids.forEach((lid) => {
+    lid.classList.add("is-closed");
   });
   setTimeout(() => {
     eyes.forEach((eye) => {
       eye.style.transform = "";
+    });
+    lids.forEach((lid) => {
+      lid.classList.remove("is-closed");
     });
   }, 110);
   scheduleBlink();
@@ -1011,6 +1243,8 @@ const stopAvatar = (audioElement = activeAudio) => {
   activeAudio = null;
   mouthLevel = 0;
   mouthWidth = 0;
+  mouthRound = 0;
+  mouthTeeth = 0;
   browLevel = 0;
   nodLevel = 0;
   lastRms = 0;
@@ -1036,7 +1270,7 @@ const ensureAvatarAnalyser = async (audioElement) => {
   if (!avatarAnalyser) {
     avatarAnalyser = audioContext.createAnalyser();
     avatarAnalyser.fftSize = 256;
-    avatarAnalyser.smoothingTimeConstant = 0.72;
+    avatarAnalyser.smoothingTimeConstant = 0.54;
     avatarData = new Uint8Array(avatarAnalyser.fftSize);
     avatarFreqData = new Uint8Array(avatarAnalyser.frequencyBinCount);
     avatarAnalyser.connect(audioContext.destination);
@@ -1081,18 +1315,39 @@ const animateAvatar = () => {
     const normalized = (avatarData[index] - 128) / 128;
     sum += normalized * normalized;
   }
-  let high = 0;
-  const highStart = Math.floor(avatarFreqData.length * 0.55);
-  for (let index = highStart; index < avatarFreqData.length; index += 1) {
-    high += avatarFreqData[index] / 255;
-  }
   const rms = Math.sqrt(sum / avatarData.length);
-  const volume = Math.max(0, Math.min(1, (rms - 0.018) * 10));
-  const highEnergy = high / Math.max(1, avatarFreqData.length - highStart);
+  const volume = clamp((rms - 0.01) * 14);
+  const lowEnergy = averageBand(avatarFreqData, 0.03, 0.16);
+  const midEnergy = averageBand(avatarFreqData, 0.16, 0.52);
+  const highEnergy = averageBand(avatarFreqData, 0.52, 0.95);
+  const voicedEnergy = clamp(midEnergy * 1.25 + lowEnergy * 0.35);
+  const brightEnergy = clamp(highEnergy * 1.55);
+  const wordShape = avatarTimingShape(sourceAudio);
+  let roundTarget = clamp(voicedEnergy * 0.86 - brightEnergy * 0.32 + volume * 0.12);
+  let mouthTarget = clamp(volume * 0.72 + voicedEnergy * 0.22 + brightEnergy * 0.1, 0, 0.92);
+  let widthTarget = clamp(0.08 + brightEnergy * 0.34 + highEnergy * 0.28 + volume * 0.12, 0.08, 0.48);
+  let teethTarget = clamp(brightEnergy * 0.16);
+
+  if (wordShape.hasTiming) {
+    if (wordShape.active) {
+      mouthTarget = clamp(mouthTarget * 0.34 + wordShape.open * 0.7 + volume * 0.1, 0, 0.82);
+      widthTarget = clamp(widthTarget * 0.38 + wordShape.wide * 0.66, 0.06, 0.46);
+      roundTarget = clamp(roundTarget * 0.32 + wordShape.round * 0.72, 0, 0.88);
+      teethTarget = clamp(wordShape.teeth * 0.55 + brightEnergy * 0.08, 0, 0.5);
+    } else {
+      mouthTarget = clamp(volume * 0.1, 0, 0.12);
+      widthTarget = clamp(0.07 + brightEnergy * 0.06, 0.06, 0.14);
+      roundTarget = clamp(roundTarget * 0.18, 0, 0.18);
+      teethTarget = 0;
+    }
+  }
+
   const peak = volume - lastRms > 0.18;
   lastRms = volume;
-  mouthLevel += (volume - mouthLevel) * 0.34;
-  mouthWidth += (Math.min(0.42, highEnergy * 0.55) - mouthWidth) * 0.28;
+  mouthLevel += (mouthTarget - mouthLevel) * (mouthTarget > mouthLevel ? 0.62 : 0.38);
+  mouthWidth += (widthTarget - mouthWidth) * 0.42;
+  mouthRound += (roundTarget - mouthRound) * 0.34;
+  mouthTeeth += (teethTarget - mouthTeeth) * (teethTarget > mouthTeeth ? 0.46 : 0.34);
   browLevel += (volume - browLevel) * 0.18;
   nodLevel += ((peak ? 1 : 0) - nodLevel) * 0.32;
   const speakingY = idleY + (nodLevel * 1.4);
@@ -1617,6 +1872,8 @@ async function closeEpisode(restoreFocus = true) {
   markdownBody.dataset.highlighting = "false";
   pendingEstimatedHighlight = false;
   activeTiming = [];
+  avatarTiming = [];
+  avatarTimingIndex = 0;
   stopHighlightLoop();
 
   const sourceRect = activeSourceCard.getBoundingClientRect();

@@ -45,7 +45,7 @@
   "clayDark": "#B7C9D3",
   "avatarSkinColor": "#FDDCB5",
   "avatarHeadsetColor": "#3D5A80",
-  "avatarImageUrl": "episodes/ep1/avatar.png",
+  "avatarImageUrl": "",
   "highlightColor": "rgba(224, 122, 95, 0.26)",
   "logoUrl": "assets/images/logo.svg",
   "flagIconUrl": "assets/images/flag.svg",
@@ -76,8 +76,8 @@
       "radio": "assets/icons/telecom/radio.svg"
     },
     "avatars": {
-      "male": ["assets/images/avatars/clay-male.svg"],
-      "female": ["assets/images/avatars/clay-female.svg"]
+      "male": ["assets/images/avatars/male-mena.png"],
+      "female": ["assets/images/avatars/female-mena.png"]
     }
   },
   "highlightLeadIn": 0.08,

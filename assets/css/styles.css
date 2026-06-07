@@ -855,8 +855,17 @@ a:focus-visible {
 }
 
 .markdown-body .highlight-line {
+  border-radius: 9px;
+  transition:
+    background-color 180ms var(--ease),
+    box-shadow 180ms var(--ease),
+    color 180ms var(--ease);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.markdown-body :not(.text-sentence).highlight-line {
   display: block;
-  border-radius: 14px;
   padding: 0.42em 0.72em;
   margin: 0.12em 0;
   border-left: 3px solid transparent;
@@ -867,13 +876,18 @@ a:focus-visible {
     color 180ms var(--ease);
 }
 
-.markdown-body li.highlight-line {
+.markdown-body li:not(.text-sentence).highlight-line {
   margin-left: -0.35em;
+}
+
+.markdown-body .text-sentence.highlight-line {
+  display: inline;
+  padding: 0.12em 0.28em;
+  margin: 0 -0.04em;
 }
 
 .markdown-body .highlight-line.active {
   color: var(--ink);
-  border-left-color: var(--accent);
   background: linear-gradient(
     135deg,
     color-mix(in srgb, var(--highlight-color) 92%, white),
@@ -883,6 +897,10 @@ a:focus-visible {
     inset 2px 2px 8px rgba(255, 255, 255, 0.68),
     inset -1px -2px 6px color-mix(in srgb, var(--accent) 12%, transparent),
     0 3px 12px color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.markdown-body :not(.text-sentence).highlight-line.active {
+  border-left-color: var(--accent);
 }
 
 .player {
@@ -985,16 +1003,17 @@ body.modal-lock .floating-avatar.speaking {
 }
 
 .avatar-photo {
+  --avatar-photo-mask: radial-gradient(ellipse 64% 68% at 50% 52%, #000 78%, transparent 99%);
   position: relative;
   width: 100%;
   height: 100%;
   overflow: hidden;
   border: 0;
-  border-radius: 42% 42% 48% 48%;
+  border-radius: 47% 47% 50% 50%;
   background: transparent;
   box-shadow: none;
-  -webkit-mask-image: radial-gradient(ellipse 78% 88% at 50% 48%, #000 72%, transparent 88%);
-  mask-image: radial-gradient(ellipse 78% 88% at 50% 48%, #000 72%, transparent 88%);
+  -webkit-mask-image: var(--avatar-photo-mask);
+  mask-image: var(--avatar-photo-mask);
 }
 
 .avatar-photo img {
@@ -1002,26 +1021,195 @@ body.modal-lock .floating-avatar.speaking {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 50% 28%;
-  transform: scale(1.58);
-  transform-origin: 50% 28%;
+  object-position: 50% 50%;
+  transform: scale(1.08);
+  transform-origin: 50% 50%;
 }
 
 .avatar-photo-mouth {
   position: absolute;
-  left: 50.5%;
-  top: 67%;
-  width: 18%;
-  height: 5%;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--ink) 86%, black);
-  opacity: 0.82;
-  transform: translate(-50%, -50%) scale(var(--mouth-x, 1), var(--mouth-y, 1));
+  left: var(--photo-mouth-left, 50%);
+  top: var(--photo-mouth-top, 66%);
+  width: var(--photo-mouth-width, 17%);
+  height: var(--photo-mouth-height, 4.5%);
+  opacity: var(--photo-rig-opacity, 0.72);
+  overflow: visible;
+  transform: translate(-50%, -50%) scaleX(var(--photo-mouth-scale-x, 0.98));
   transform-origin: center;
-  transition: transform 60ms linear, opacity 100ms var(--ease), border-radius 80ms var(--ease);
+  transition: transform 54ms linear, opacity 70ms linear;
 }
 
-.avatar-photo-mouth.is-talking,
+.avatar-photo-mouth-cover,
+.avatar-photo-mouth-cavity,
+.avatar-photo-mouth-line,
+.avatar-photo-lip,
+.avatar-photo-teeth {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.avatar-photo-mouth-cover {
+  z-index: 0;
+  top: var(--photo-mouth-cover-top, 51%);
+  width: var(--photo-mouth-cover-width, 96%);
+  height: var(--photo-mouth-cover-height, 118%);
+  border-radius: 50%;
+  background:
+    radial-gradient(ellipse at center, var(--photo-mouth-cover-color, #d7a083) 0 54%, color-mix(in srgb, var(--photo-mouth-cover-color, #d7a083) 68%, transparent) 64%, transparent 82%);
+  filter: blur(0.9px);
+  opacity: var(--photo-mouth-cover-opacity, 0.84);
+}
+
+.avatar-photo-mouth-cavity {
+  z-index: 2;
+  top: var(--photo-cavity-top, 52%);
+  width: var(--photo-cavity-width, 42%);
+  height: var(--photo-cavity-height, 8%);
+  border-radius: 46% 46% 58% 58%;
+  background:
+    radial-gradient(ellipse at 50% 58%, #16080a 0 44%, #3f151b 74%, color-mix(in srgb, var(--photo-lip-color, #8f6061) 52%, #2b090d) 100%);
+  box-shadow: inset 0 1px 1.5px rgba(0, 0, 0, 0.42);
+  transition: width 54ms linear, height 54ms linear, top 54ms linear;
+}
+
+.avatar-photo-mouth-line {
+  z-index: 5;
+  top: var(--photo-mouth-line-top, 52.5%);
+  width: var(--photo-mouth-line-width, 58%);
+  height: var(--photo-mouth-line-height, 16%);
+  border-bottom: 1.4px solid color-mix(in srgb, var(--photo-lip-color, #8f6061) 72%, #3b1418);
+  border-radius: 0 0 999px 999px;
+  opacity: var(--photo-line-opacity, 0.5);
+  filter: blur(0.15px);
+  transition: opacity 54ms linear, width 54ms linear;
+}
+
+.avatar-photo-lip {
+  z-index: 4;
+  width: var(--photo-lip-width, 58%);
+  height: 21%;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--photo-lip-color, #8f6061) 54%, white), color-mix(in srgb, var(--photo-lip-color, #8f6061) 78%, #6f3a3f));
+  box-shadow: inset 0 -0.5px 0.8px rgba(70, 22, 29, 0.18);
+  filter: blur(0.15px);
+  opacity: var(--photo-lip-opacity, 0.78);
+  transition: top 54ms linear, width 54ms linear;
+}
+
+.avatar-photo-lip-top {
+  top: var(--photo-top-lip-top, 43%);
+  border-radius: 52% 52% 40% 40%;
+}
+
+.avatar-photo-lip-bottom {
+  top: var(--photo-bottom-lip-top, 56%);
+  border-radius: 40% 40% 56% 56%;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--photo-lip-color, #8f6061) 82%, #6a3036), color-mix(in srgb, var(--photo-lip-color, #8f6061) 58%, white));
+}
+
+.avatar-photo-teeth {
+  z-index: 3;
+  top: 46%;
+  width: 36%;
+  height: 12%;
+  border-radius: 0 0 999px 999px;
+  background: rgba(255, 244, 226, 0.82);
+  opacity: var(--photo-teeth-opacity, 0);
+  transition: opacity 50ms linear;
+}
+
+.avatar-photo-mouth.is-talking .avatar-photo-lip {
+  box-shadow:
+    inset 0 -1px 1px rgba(70, 22, 29, 0.24),
+    0 1px 2px rgba(70, 22, 29, 0.14);
+}
+
+.avatar-photo-lid {
+  position: absolute;
+  top: var(--photo-eye-top, 46%);
+  width: var(--photo-eye-width, 11%);
+  height: var(--photo-eye-height, 6%);
+  border-radius: 58% 58% 48% 48%;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--photo-lid-color, #d49a7d) 82%, white), var(--photo-lid-color, #d49a7d));
+  box-shadow: inset 0 -1px 1px rgba(72, 34, 25, 0.18), 0 1px 1px rgba(72, 34, 25, 0.08);
+  opacity: 0;
+  transform: translate(-50%, -50%) scaleY(0.08);
+  transform-origin: center top;
+  transition: transform 80ms ease-in, opacity 80ms ease-in;
+}
+
+.avatar-photo-lid-left {
+  left: var(--photo-left-eye-left, 42%);
+}
+
+.avatar-photo-lid-right {
+  left: var(--photo-right-eye-left, 58%);
+}
+
+.avatar-photo-lid.is-closed {
+  opacity: 0.96;
+  transform: translate(-50%, -50%) scaleY(1);
+}
+
+.floating-avatar[data-voice="female"] {
+  --photo-mouth-left: 50.3%;
+  --photo-mouth-top: 67.6%;
+  --photo-mouth-width: 22.4%;
+  --photo-mouth-height: 5.9%;
+  --photo-mouth-cover-top: 50%;
+  --photo-mouth-cover-width: 124%;
+  --photo-mouth-cover-height: 156%;
+  --photo-mouth-cover-opacity: 0.96;
+  --photo-mouth-cover-color: #d09a80;
+  --photo-lip-color: #8e5a5d;
+  --photo-lip-opacity: 0.64;
+  --photo-mouth-line-width: 56%;
+  --photo-eye-top: 51.2%;
+  --photo-left-eye-left: 42.1%;
+  --photo-right-eye-left: 58.8%;
+  --photo-eye-width: 12.5%;
+  --photo-eye-height: 6.2%;
+  --photo-lid-color: #c98d71;
+}
+
+.floating-avatar[data-voice="female"] .avatar-photo {
+  --avatar-photo-mask: radial-gradient(ellipse 62% 51% at 50% 40%, #000 73%, transparent 89%);
+}
+
+.floating-avatar[data-voice="male"] {
+  --photo-mouth-left: 50.1%;
+  --photo-mouth-top: 60.4%;
+  --photo-mouth-width: 21.2%;
+  --photo-mouth-height: 6.2%;
+  --photo-mouth-cover-width: 106%;
+  --photo-mouth-cover-height: 124%;
+  --photo-mouth-cover-opacity: 0.86;
+  --photo-mouth-cover-color: #d0a082;
+  --photo-lip-color: #8b5b5c;
+  --photo-lip-opacity: 0.68;
+  --photo-mouth-line-width: 56%;
+  --photo-eye-top: 43.6%;
+  --photo-left-eye-left: 41.8%;
+  --photo-right-eye-left: 58.4%;
+  --photo-eye-width: 11.4%;
+  --photo-eye-height: 5.8%;
+  --photo-lid-color: #d2a082;
+}
+
+.floating-avatar[data-voice="female"] .avatar-photo img {
+  object-position: 50% 50%;
+  transform: translateY(-4%) scale(1.12);
+}
+
+.floating-avatar[data-voice="male"] .avatar-photo img {
+  object-position: 50% 49%;
+  transform: scale(1.08);
+}
+
 .avatar-mouth.is-talking {
   border-radius: 42% 42% 48% 48%;
 }

@@ -83,7 +83,7 @@ const buildEpisodesManifest = (rootDir) => {
       if (Number.isFinite(meta.avatarVariant)) {
         episode.avatarVariant = meta.avatarVariant;
       }
-      if (meta.avatarMode === "photo" && avatar) {
+      if (avatar) {
         episode.avatar = toRelative(rootDir, avatar);
         episode.avatarMode = "photo";
       }

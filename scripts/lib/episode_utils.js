@@ -83,14 +83,14 @@ const episodeNumber = (episode) => {
   return match ? Number(match[1]) : 0;
 };
 
-/** Newest episode first (ep3, ep2, ep1 left → right on the main page). */
+/** Episode order follows the folder/date sequence (ep1, ep2, ep3 left to right). */
 const compareEpisodes = (a, b) => {
   if (a.date && b.date && a.date !== b.date) {
-    return b.date.localeCompare(a.date);
+    return a.date.localeCompare(b.date);
   }
-  const diff = episodeNumber(b) - episodeNumber(a);
+  const diff = episodeNumber(a) - episodeNumber(b);
   if (diff !== 0) return diff;
-  return String(b.id || "").localeCompare(String(a.id || ""), undefined, {
+  return String(a.id || "").localeCompare(String(b.id || ""), undefined, {
     numeric: true,
     sensitivity: "base",
   });
