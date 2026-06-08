@@ -1131,13 +1131,14 @@ body.modal-lock .floating-avatar.speaking {
   position: absolute;
   top: var(--photo-eye-top, 46%);
   width: var(--photo-eye-width, 11%);
-  height: var(--photo-eye-height, 6%);
-  border-radius: 60% 60% 46% 46%;
+  height: var(--photo-eye-height, 2.4%);
+  border-radius: 999px;
   background:
-    linear-gradient(180deg, color-mix(in srgb, var(--photo-lid-color, #d49a7d) 84%, white), color-mix(in srgb, var(--photo-lid-color, #d49a7d) 96%, #7c4f42));
+    linear-gradient(180deg, color-mix(in srgb, var(--photo-lid-color, #d49a7d) 50%, transparent), color-mix(in srgb, var(--photo-lid-color, #d49a7d) 88%, white));
+  border-bottom: 1px solid color-mix(in srgb, var(--photo-lash-color, #5f382f) 64%, transparent);
   box-shadow:
-    inset 0 -0.6px 0.8px rgba(72, 34, 25, 0.2),
-    0 0.8px 1px rgba(72, 34, 25, 0.08);
+    inset 0 -0.4px 0.5px rgba(72, 34, 25, 0.12),
+    0 0.5px 0.8px rgba(72, 34, 25, 0.06);
   opacity: var(--photo-blink-opacity, 0);
   transform: translate(-50%, var(--photo-blink-shift, -58%)) scaleY(var(--photo-blink-scale, 0.04));
   transform-origin: center top;
@@ -1181,9 +1182,10 @@ body.modal-lock .floating-avatar.speaking {
   --photo-eye-top: 51.2%;
   --photo-left-eye-left: 42.1%;
   --photo-right-eye-left: 58.8%;
-  --photo-eye-width: 12.5%;
-  --photo-eye-height: 6.2%;
+  --photo-eye-width: 11.2%;
+  --photo-eye-height: 2.45%;
   --photo-lid-color: #c98d71;
+  --photo-lash-color: #4d2c2a;
 }
 
 .floating-avatar[data-voice="female"] .avatar-photo {
@@ -1205,9 +1207,10 @@ body.modal-lock .floating-avatar.speaking {
   --photo-eye-top: 43.6%;
   --photo-left-eye-left: 41.8%;
   --photo-right-eye-left: 58.4%;
-  --photo-eye-width: 11.4%;
-  --photo-eye-height: 5.8%;
+  --photo-eye-width: 10.3%;
+  --photo-eye-height: 2.25%;
   --photo-lid-color: #d2a082;
+  --photo-lash-color: #4c3129;
 }
 
 .floating-avatar[data-voice="female"] .avatar-photo img {
