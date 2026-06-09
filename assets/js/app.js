@@ -1,5 +1,5 @@
 const DEFAULT_CONFIG = {
-  siteTitle: "Research Episodes",
+  siteTitle: "MENA Telecom Market",
   tagline: "Signal stories",
   eyebrow: "Research Broadcast",
   description: "Browse field notes, recordings, and visual research from each episode.",
@@ -32,19 +32,19 @@ const DEFAULT_CONFIG = {
   audioError: "Audio could not be played. Try interacting with the page first or check the audio file.",
   loadingText: "Loading episode notes...",
   volumeLabel: "Volume",
-  primaryColor: "#1E3A5F",
-  accentColor: "#E07A5F",
-  secondaryColor: "#2A9D8F",
-  tertiaryColor: "#D9A441",
-  successColor: "#5FA8A0",
-  backgroundColor: "#EEF2EF",
-  surfaceColor: "#F4F1EA",
-  inkColor: "#1F2D3A",
-  mutedColor: "#66747A",
-  clayLight: "#F4F1EA",
-  clayDark: "#B7C9D3",
+  primaryColor: "#123A4C",
+  accentColor: "#E76F51",
+  secondaryColor: "#0E9F94",
+  tertiaryColor: "#D98E35",
+  successColor: "#3FA66F",
+  backgroundColor: "#F3F7F4",
+  surfaceColor: "#FBFCF7",
+  inkColor: "#17292F",
+  mutedColor: "#60727A",
+  clayLight: "#FBFCF7",
+  clayDark: "#C7D7D2",
   avatarSkinColor: "#FDDCB5",
-  avatarHeadsetColor: "#3D5A80",
+  avatarHeadsetColor: "#123A4C",
   avatarImageUrl: "episodes/ep1/avatar.png",
   highlightColor: "rgba(224, 122, 95, 0.26)",
   highlightLeadIn: 0.08,
@@ -97,6 +97,75 @@ const TIMING = {
   autoReturnDelay: 1000
 };
 const SWIPE_DISMISS_DISTANCE = 80;
+const EP4_WAIT_MS = 500;
+const EP4_YEARS = [2025, 2026, 2027, 2028, 2029, 2030];
+const EP4_METRICS = [
+  { id: "total", label: "Total", color: "#7C83DB" },
+  { id: "legacy", label: "Legacy", color: "#E89B73" },
+  { id: "newServices", label: "New", color: "#56C6A0" },
+];
+const EP4_OPERATOR_TONES = {
+  stc: "#4D36C9",
+  eand: "#087A66",
+  ooredoo: "#CF123F",
+  zain: "#8E35A8",
+};
+const EP4_ROWS = [
+  {
+    id: "stc",
+    label: "STC",
+    logo: "stc",
+    logoImage: "assets/images/operators/stc.png",
+    series: {
+      total: [9.0, 9.3, 9.7, 10.2, 10.8, 11.6],
+      legacy: [2.0, 1.8, 1.6, 1.4, 1.2, 1.0],
+      newServices: [20.5, 19.8, 19.3, 19.0, 19.0, 19.3],
+    },
+  },
+  {
+    id: "eand",
+    label: "e&",
+    logo: "e&",
+    logoImage: "assets/images/operators/eand.png",
+    series: {
+      total: [12.4, 13.1, 11.5, 12.2, 13.1, 14.3],
+      legacy: [2.5, 2.2, 2.0, 1.8, 1.5, 1.2],
+      newServices: [25.4, 24.9, 19.9, 20.1, 20.5, 21.3],
+    },
+  },
+  {
+    id: "ooredoo",
+    label: "Ooredoo",
+    logo: "Ooredoo",
+    logoImage: "assets/images/operators/ooredoo.png",
+    series: {
+      total: [6.6, 8.5, 8.8, 9.1, 9.7, 7.9],
+      legacy: [1.8, 1.6, 1.4, 1.2, 1.1, 1.0],
+      newServices: [16.1, 20.2, 19.4, 18.8, 18.7, 14.0],
+    },
+  },
+  {
+    id: "zain",
+    label: "Zain",
+    logo: "Zain",
+    logoImage: "assets/images/operators/zain.png",
+    series: {
+      total: [11.2, 9.7, 10.1, 10.6, 11.3, 12.1],
+      legacy: [2.2, 2.0, 1.8, 1.6, 1.4, 1.2],
+      newServices: [25.8, 19.9, 19.5, 19.3, 19.4, 19.7],
+    },
+  },
+];
+const EP4_ICON_BACK = `
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M15 6 9 12l6 6"></path>
+    <path d="M10 12h10"></path>
+  </svg>`;
+const EP4_ICON_CLOSE = `
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="m7 7 10 10"></path>
+    <path d="M17 7 7 17"></path>
+  </svg>`;
 
 const root = document.documentElement;
 const appShell = document.querySelector(".app-shell");
@@ -191,6 +260,15 @@ let activeSpeaker = null;
 let activeEpisode = null;
 let talkPulse = 0;
 let blinkSequence = 0;
+let ep4DrilldownTimer = null;
+let operatorInsightTrigger = null;
+let operatorInsightUtterance = null;
+
+const OPERATOR_METRIC_EXPLANATIONS = {
+  total: "Total growth shows the operator's overall expansion outlook across the forecast window.",
+  legacy: "Legacy services track mature connectivity and voice-linked revenue layers that are gradually tapering.",
+  newServices: "New services represent digital, platform, cloud, AI, fintech, and adjacent growth engines."
+};
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const clamp = (value, min = 0, max = 1) => Math.max(min, Math.min(max, value));
@@ -332,12 +410,20 @@ const applyHeroIcons = () => {
   const heroRow = document.querySelector("#heroIcons");
   if (!heroRow) return;
 
-  const assets = resolveAssets();
-  heroRow.replaceChildren(...assets.heroIcons.map((item) => {
-    const tile = document.createElement("div");
-    tile.className = "clay-icon";
-    tile.style.setProperty("--tone", item.tone);
-    tile.innerHTML = svgIcon(item.src) || `<img src="${escapeHtml(item.src)}" alt="">`;
+  heroRow.replaceChildren(...EP4_ROWS.map((row) => {
+    const tile = document.createElement("button");
+    tile.className = "clay-icon operator-shortcut";
+    tile.type = "button";
+    tile.style.setProperty("--tone", EP4_OPERATOR_TONES[row.id] || row.seriesColor || "var(--secondary)");
+    tile.setAttribute("aria-label", `Open ${row.label} growth, legacy, and new services table`);
+    tile.innerHTML = `
+      ${ep4Logo(row, "ep4-logo--hero")}
+      <span class="operator-shortcut-copy">
+        <strong>${escapeHtml(row.label)}</strong>
+        <span>${escapeHtml(ep4Format(ep4Value(row, "total")))}</span>
+      </span>
+    `;
+    tile.addEventListener("click", () => openOperatorDrilldown(row, tile));
     return tile;
   }));
 };
@@ -536,6 +622,21 @@ const assetCacheKey = (episode, field, fallback) => {
   const path = episode[field] || fallback;
   const version = episode[`${field}Updated`] || episode.textUpdated || "";
   return `${path}?v=${version}`;
+};
+
+const isSvgAsset = (url) => /\.svg(?:[?#]|$)/i.test(String(url || ""));
+const isDrilldownEpisode = (episode) => episode?.mode === "drilldown" || episode?.id === "ep4";
+
+const setEpisodeImageSource = (image, episode, altText) => {
+  const hasImage = Boolean(episode.image);
+  image.alt = altText;
+  image.classList.toggle("svg-cover", isSvgAsset(episode.image));
+  if (hasImage) {
+    image.src = assetCacheKey(episode, "image", episode.image);
+  } else {
+    image.removeAttribute("src");
+  }
+  return hasImage;
 };
 
 const fetchEpisodeTiming = async (episode) => {
@@ -1667,6 +1768,9 @@ const buildCard = (episode, index) => {
   const article = document.createElement("article");
   article.className = "episode-card";
   article.dataset.id = episode.id;
+  if (isDrilldownEpisode(episode)) {
+    article.dataset.mode = "drilldown";
+  }
 
   const imageButton = document.createElement("button");
   imageButton.className = "image-button";
@@ -1677,43 +1781,49 @@ const buildCard = (episode, index) => {
   cover.className = "cover";
 
   const image = document.createElement("img");
-  image.src = episode.image;
-  image.alt = `${episode.title} cover image`;
-  image.loading = index === 0 ? "eager" : "lazy";
+  const hasImage = setEpisodeImageSource(image, episode, `${episode.title} cover image`);
+  image.loading = index === 0 || isSvgAsset(episode.image) ? "eager" : "lazy";
   image.decoding = "async";
   if (index === 0) image.fetchPriority = "high";
-  image.onerror = () => {
+  const showImageFallback = () => {
     cover.classList.add("has-error");
     if (!cover.querySelector(".image-fallback")) {
       cover.insertAdjacentHTML("afterbegin", `<div class="image-fallback">${escapeHtml(config.errorImageMissing)}</div>`);
     }
   };
+  image.onerror = showImageFallback;
+  if (!hasImage) showImageFallback();
 
   const title = document.createElement("div");
   title.className = "title-overlay";
   title.innerHTML = `<h2>${escapeHtml(episode.title)}</h2>${episode.date ? `<time datetime="${escapeHtml(episode.date)}">${escapeHtml(episode.date)}</time>` : ""}`;
 
-  const quick = document.createElement("button");
-  quick.className = "quick-view";
-  quick.type = "button";
-  quick.setAttribute("aria-label", `${config.quickViewTooltip}: ${episode.title}`);
-  setElementIcon(quick, resolveAssets().ui.quickView);
-
   cover.append(image, title);
   imageButton.append(cover);
-  article.append(imageButton, quick);
+  article.append(imageButton);
 
-  imageButton.addEventListener("click", () => openEpisode(episode, article));
+  const openFromCard = () => {
+    openEpisode(episode, article);
+  };
+
+  imageButton.addEventListener("click", openFromCard);
   imageButton.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      openEpisode(episode, article);
-    }
+    if (event.key !== "Enter" && event.key !== " ") return;
+    event.preventDefault();
+    openFromCard();
   });
-  quick.addEventListener("click", (event) => {
-    event.stopPropagation();
-    openQuickView(episode);
-  });
+  if (!isDrilldownEpisode(episode)) {
+    const quick = document.createElement("button");
+    quick.className = "quick-view";
+    quick.type = "button";
+    quick.setAttribute("aria-label", `${config.quickViewTooltip}: ${episode.title}`);
+    setElementIcon(quick, resolveAssets().ui.quickView);
+    quick.addEventListener("click", (event) => {
+      event.stopPropagation();
+      openQuickView(episode);
+    });
+    article.append(quick);
+  }
 
   return article;
 };
@@ -1753,7 +1863,9 @@ const loadEpisodes = async ({ refresh = false } = {}) => {
         setTimeout(() => card.classList.add("ready"), reduceMotion.matches ? 0 : index * 70);
       });
     });
-    scheduleIdle(() => episodes.forEach((episode) => fetchMarkdownHtml(episode)));
+    scheduleIdle(() => episodes.forEach((episode) => {
+      if (!isDrilldownEpisode(episode)) fetchMarkdownHtml(episode);
+    }));
   } catch (error) {
     skeleton.classList.add("hidden");
     skeleton.setAttribute("aria-busy", "false");
@@ -1823,42 +1935,601 @@ const normalizeShellTo = (rect) => {
   flipShell.style.transition = previousTransition;
 };
 
-async function openEpisode(episode, sourceCard) {
+const ep4Value = (row, metricId, yearIndex = EP4_YEARS.length - 1) => row.series[metricId][yearIndex];
+const ep4Format = (value) => `${Number(value).toFixed(1)}%`;
+const ep4BarsFor = (row) => EP4_YEARS.flatMap((year, yearIndex) =>
+  EP4_METRICS.map((metric) => ({
+    row,
+    year,
+    metric,
+    value: ep4Value(row, metric.id, yearIndex),
+  }))
+);
+const ep4Contribution = (bar, bars) => {
+  const total = bars.reduce((sum, item) => sum + item.value, 0);
+  return total ? (bar.value / total) * 100 : 0;
+};
+const ep4Rank = (bar, bars) => (
+  [...bars].sort((a, b) => b.value - a.value)
+    .findIndex((item) => item.metric.id === bar.metric.id && item.year === bar.year) + 1
+);
+const ep4PeakNew = (row) => Math.max(...row.series.newServices);
+const ep4Logo = (row, modifier = "") => `
+  <span class="ep4-logo ep4-logo--${escapeHtml(row.id)} ${modifier}" aria-hidden="true">
+    ${row.logoImage
+      ? `<img src="${escapeHtml(row.logoImage)}" alt="">`
+      : `<span>${escapeHtml(row.logo)}</span>`}
+  </span>`;
+const ep4MetricLabel = (metric) => {
+  if (metric.id === "total") return "Total growth";
+  if (metric.id === "legacy") return "Legacy services";
+  if (metric.id === "newServices") return "New services";
+  return metric.label;
+};
+const ep4MetricDelta = (row, metric) => (
+  ep4Value(row, metric.id, EP4_YEARS.length - 1) - ep4Value(row, metric.id, 0)
+);
+const ep4YearTotal = (row, yearIndex) => (
+  EP4_METRICS.reduce((sum, metric) => sum + ep4Value(row, metric.id, yearIndex), 0)
+);
+const ep4FinalTotal = (row) => ep4YearTotal(row, EP4_YEARS.length - 1);
+const ep4Share = (value, total) => (total ? (value / total) * 100 : 0);
+const ep4PointDeltaLabel = (delta) => `${delta >= 0 ? "+" : ""}${delta.toFixed(1)} pts`;
+const ep4MetricExplanation = (metric) => OPERATOR_METRIC_EXPLANATIONS[metric.id] || `${metric.label} is one of the tracked operator growth indicators.`;
+const stopOperatorNarration = () => {
+  if (operatorInsightUtterance) {
+    operatorInsightUtterance.onstart = null;
+    operatorInsightUtterance.onend = null;
+    operatorInsightUtterance.onerror = null;
+    operatorInsightUtterance = null;
+  }
+  if ("speechSynthesis" in window) {
+    window.speechSynthesis.cancel();
+  }
+  markdownBody.querySelector(".operator-insight-popup")?.classList.remove("is-speaking");
+};
+const speakOperatorNarration = (text, popup) => {
+  stopOperatorNarration();
+  if (!("speechSynthesis" in window) || !text) return;
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = "en-US";
+  utterance.rate = 0.94;
+  utterance.pitch = 1;
+  utterance.volume = 1;
+  utterance.onstart = () => popup?.classList.add("is-speaking");
+  utterance.onend = utterance.onerror = () => {
+    popup?.classList.remove("is-speaking");
+    if (operatorInsightUtterance === utterance) {
+      operatorInsightUtterance = null;
+    }
+  };
+  operatorInsightUtterance = utterance;
+  window.speechSynthesis.speak(utterance);
+};
+const hideOperatorInsight = (host, restoreFocus = true) => {
+  const popup = host?.querySelector(".operator-insight-popup");
+  stopOperatorNarration();
+  if (!popup) return;
+  popup.classList.remove("is-visible", "is-speaking");
+  popup.hidden = true;
+  popup.replaceChildren();
+  if (restoreFocus && operatorInsightTrigger && typeof operatorInsightTrigger.focus === "function") {
+    operatorInsightTrigger.focus({ preventScroll: true });
+  }
+  operatorInsightTrigger = null;
+};
+const renderOperatorInsightPopup = (host, trigger, payload) => {
+  const popup = host.querySelector(".operator-insight-popup");
+  if (!popup) return;
+
+  operatorInsightTrigger = trigger;
+  popup.hidden = false;
+  popup.classList.remove("is-visible", "is-speaking");
+  popup.innerHTML = `
+    <button class="operator-insight-close" type="button" aria-label="Close insight">${EP4_ICON_CLOSE}</button>
+    <div class="operator-insight-head">
+      <span class="operator-insight-kind">${escapeHtml(payload.kindLabel)}</span>
+      <span class="operator-insight-voice">
+        <i></i>
+        Narrator
+      </span>
+    </div>
+    <div class="operator-insight-main">${escapeHtml(payload.main)}</div>
+    <div class="operator-insight-value">${escapeHtml(payload.valueLabel)}</div>
+    <div class="operator-insight-grid">
+      <span>
+        <strong>Contribution</strong>
+        <em>${escapeHtml(payload.contributionLabel)}</em>
+      </span>
+      <span>
+        <strong>Context</strong>
+        <em>${escapeHtml(payload.contextLabel)}</em>
+      </span>
+    </div>
+    <p>${escapeHtml(payload.explanation)}</p>
+    <button class="operator-insight-replay" type="button">Replay narration</button>
+  `;
+
+  popup.querySelector(".operator-insight-close").addEventListener("click", () => hideOperatorInsight(host));
+  popup.querySelector(".operator-insight-replay").addEventListener("click", () => speakOperatorNarration(payload.narration, popup));
+  requestAnimationFrame(() => popup.classList.add("is-visible"));
+  speakOperatorNarration(payload.narration, popup);
+};
+const buildOperatorBarInsight = (row, metric, yearIndex) => {
+  const year = EP4_YEARS[yearIndex];
+  const value = ep4Value(row, metric.id, yearIndex);
+  const yearTotal = ep4YearTotal(row, yearIndex);
+  const share = ep4Share(value, yearTotal);
+  const yearBars = EP4_METRICS.map((candidate) => ({
+    row,
+    year,
+    metric: candidate,
+    value: ep4Value(row, candidate.id, yearIndex),
+  }));
+  const rank = ep4Rank({ row, year, metric, value }, yearBars);
+  const deltaFromStart = value - ep4Value(row, metric.id, 0);
+  const contextLabel = yearIndex === 0
+    ? `#${rank} of 3 in ${year} · baseline year`
+    : `#${rank} of 3 in ${year} · ${ep4PointDeltaLabel(deltaFromStart)} vs ${EP4_YEARS[0]}`;
+  return {
+    kindLabel: "Bar insight",
+    main: `${row.label} · ${year} · ${ep4MetricLabel(metric)}`,
+    valueLabel: ep4Format(value),
+    contributionLabel: `${share.toFixed(1)}% of ${year} tracked total`,
+    contextLabel,
+    explanation: `${ep4MetricExplanation(metric)} In ${year}, ${row.label} posts ${ep4Format(value)} for this line.`,
+    narration: `${row.label}, ${year}. ${ep4MetricLabel(metric)} is ${ep4Format(value)}. It contributes ${share.toFixed(1)} percent of the ${year} tracked total and ranks number ${rank} out of 3. ${ep4MetricExplanation(metric)}`
+  };
+};
+const buildOperatorSliceInsight = (row, metric) => {
+  const value = ep4Value(row, metric.id);
+  const finalBars = EP4_METRICS.map((candidate) => ({
+    row,
+    year: EP4_YEARS[EP4_YEARS.length - 1],
+    metric: candidate,
+    value: ep4Value(row, candidate.id),
+  }));
+  const rank = ep4Rank({
+    row,
+    year: EP4_YEARS[EP4_YEARS.length - 1],
+    metric,
+    value,
+  }, finalBars);
+  const share = ep4Share(value, ep4FinalTotal(row));
+  return {
+    kindLabel: "Slice insight",
+    main: `${row.label} · 2030 · ${ep4MetricLabel(metric)} slice`,
+    valueLabel: `${ep4Format(value)} · ${share.toFixed(1)}% share`,
+    contributionLabel: `${share.toFixed(1)}% share of 2030 combined indicators`,
+    contextLabel: `#${rank} of 3 in the final-year mix · ${ep4PointDeltaLabel(ep4MetricDelta(row, metric))} vs ${EP4_YEARS[0]}`,
+    explanation: `${ep4MetricExplanation(metric)} This slice shows how much of ${row.label}'s 2030 indicator mix comes from ${ep4MetricLabel(metric).toLowerCase()}.`,
+    narration: `${row.label}, 2030 composition. ${ep4MetricLabel(metric)} is ${ep4Format(value)} and holds ${share.toFixed(1)} percent of the combined final-year indicators. It ranks number ${rank} out of 3. ${ep4MetricExplanation(metric)}`
+  };
+};
+const showOperatorBarInsight = (host, trigger, row, metricId, yearIndex) => {
+  const metric = EP4_METRICS.find((item) => item.id === metricId);
+  if (!metric) return;
+  renderOperatorInsightPopup(host, trigger, buildOperatorBarInsight(row, metric, Number(yearIndex)));
+};
+const showOperatorSliceInsight = (host, trigger, row, metricId) => {
+  const metric = EP4_METRICS.find((item) => item.id === metricId);
+  if (!metric) return;
+  renderOperatorInsightPopup(host, trigger, buildOperatorSliceInsight(row, metric));
+};
+
+const renderOperatorDrilldown = (host, row) => {
+  const operatorTone = EP4_OPERATOR_TONES[row.id] || EP4_METRICS[0].color;
+  const maxValue = Math.max(30, ...EP4_METRICS.flatMap((metric) => row.series[metric.id]));
+  const finalTotal = ep4FinalTotal(row) || 1;
+  let sliceStart = 0;
+  const finalSlices = EP4_METRICS.map((metric) => {
+    const value = ep4Value(row, metric.id);
+    const share = ep4Share(value, finalTotal);
+    const midpoint = ((sliceStart + (share / 2)) / 100) * (Math.PI * 2) - (Math.PI / 2);
+    const slice = {
+      metric,
+      end: sliceStart + share,
+      share,
+      hotspotX: 50 + (Math.cos(midpoint) * 32),
+      hotspotY: 50 + (Math.sin(midpoint) * 32),
+    };
+    sliceStart += share;
+    return slice;
+  });
+
+  host.classList.add("interactive-host");
+  host.dataset.highlighting = "false";
+  host.innerHTML = `
+    <section class="operator-stage" style="--operator-tone:${operatorTone}">
+      <button class="ep4-icon-btn operator-close" type="button" aria-label="Back">${EP4_ICON_BACK}</button>
+      <div class="operator-page-shell">
+        <header class="operator-page-head">
+          <div class="operator-page-brand">
+            ${ep4Logo(row, "ep4-logo--large operator-logo")}
+            <div>
+              <p class="operator-kicker">Operator growth page</p>
+              <h2>${escapeHtml(row.label)}</h2>
+            </div>
+          </div>
+          <div class="operator-hero-metric">
+            <span>2030 total</span>
+            <strong>${escapeHtml(ep4Format(ep4Value(row, "total")))}</strong>
+          </div>
+        </header>
+
+        <div class="operator-summary-grid">
+          ${EP4_METRICS.map((metric) => {
+            const first = ep4Value(row, metric.id, 0);
+            const last = ep4Value(row, metric.id);
+            const delta = ep4MetricDelta(row, metric);
+            return `
+              <article class="operator-summary-card" style="--metric-color:${metric.color}">
+                <span>${escapeHtml(ep4MetricLabel(metric))}</span>
+                <strong>${escapeHtml(ep4Format(last))}</strong>
+                <small>${escapeHtml(`${delta >= 0 ? "+" : ""}${delta.toFixed(1)} pts from ${EP4_YEARS[0]}`)}</small>
+                <i style="--spark-size:${Math.max(8, (last / maxValue) * 100)}%"></i>
+              </article>
+            `;
+          }).join("")}
+        </div>
+
+        <div class="operator-chart-suite">
+          <section class="operator-grouped-card">
+            <header class="operator-section-head">
+              <div>
+                <span>Grouped growth chart</span>
+                <strong>Legacy, new services, and total growth by year</strong>
+              </div>
+            </header>
+            <div class="operator-grouped-chart" aria-label="${escapeHtml(row.label)} grouped growth chart">
+              ${EP4_YEARS.map((year, yearIndex) => `
+                <div class="operator-year-cluster">
+                  <div class="operator-year-bars">
+                    ${EP4_METRICS.map((metric) => {
+                      const value = ep4Value(row, metric.id, yearIndex);
+                      return `
+                        <button class="operator-cluster-bar operator-insight-trigger" type="button" data-insight-kind="bar" data-metric-id="${escapeHtml(metric.id)}" data-year-index="${escapeHtml(String(yearIndex))}" style="--metric-color:${metric.color};--bar-size:${Math.max(4, (value / maxValue) * 100)}%" aria-label="${escapeHtml(`${row.label} ${year} ${ep4MetricLabel(metric)} ${ep4Format(value)}`)}" title="${escapeHtml(`${ep4MetricLabel(metric)} ${year}: ${ep4Format(value)}`)}">
+                          <i></i>
+                        </button>
+                      `;
+                    }).join("")}
+                  </div>
+                  <strong>${escapeHtml(String(year))}</strong>
+                </div>
+              `).join("")}
+            </div>
+            <div class="operator-legend">
+              ${EP4_METRICS.map((metric) => `
+                <span style="--metric-color:${metric.color}"><i></i>${escapeHtml(ep4MetricLabel(metric))}</span>
+              `).join("")}
+            </div>
+          </section>
+
+          <section class="operator-donut-card">
+            <header class="operator-section-head">
+              <div>
+                <span>2030 composition</span>
+                <strong>Relative weight of the final-year indicators</strong>
+              </div>
+            </header>
+            <div class="operator-donut"
+              style="
+                --slice-one:${finalSlices[0].end.toFixed(2)}%;
+                --slice-two:${finalSlices[1].end.toFixed(2)}%;
+              ">
+              ${finalSlices.map((slice) => `
+                <button
+                  class="operator-donut-hotspot operator-insight-trigger"
+                  type="button"
+                  data-insight-kind="slice"
+                  data-metric-id="${escapeHtml(slice.metric.id)}"
+                  aria-label="${escapeHtml(`${row.label} 2030 ${ep4MetricLabel(slice.metric)} slice ${slice.share.toFixed(1)} percent share`)}"
+                  style="--metric-color:${slice.metric.color};--slice-x:${slice.hotspotX.toFixed(2)}%;--slice-y:${slice.hotspotY.toFixed(2)}%"
+                  title="${escapeHtml(`${ep4MetricLabel(slice.metric)} share: ${slice.share.toFixed(1)}%`)}">
+                  <span></span>
+                </button>
+              `).join("")}
+              <span>${escapeHtml(ep4Format(ep4Value(row, "total")))}</span>
+            </div>
+            <div class="operator-donut-list">
+              ${EP4_METRICS.map((metric) => `
+                <button class="operator-donut-legend operator-insight-trigger" type="button" data-insight-kind="slice" data-metric-id="${escapeHtml(metric.id)}" style="--metric-color:${metric.color}" aria-label="${escapeHtml(`${row.label} 2030 ${ep4MetricLabel(metric)} slice details`)}">
+                  <i></i>
+                  <strong>${escapeHtml(ep4MetricLabel(metric))}</strong>
+                  <em>${escapeHtml(ep4Format(ep4Value(row, metric.id)))}</em>
+                </button>
+              `).join("")}
+            </div>
+          </section>
+        </div>
+        <div class="operator-insight-popup" hidden></div>
+      </div>
+    </section>
+  `;
+
+  host.querySelectorAll(".operator-insight-trigger").forEach((trigger) => {
+    trigger.addEventListener("click", () => {
+      if (trigger.dataset.insightKind === "bar") {
+        showOperatorBarInsight(host, trigger, row, trigger.dataset.metricId, trigger.dataset.yearIndex);
+        return;
+      }
+      showOperatorSliceInsight(host, trigger, row, trigger.dataset.metricId);
+    });
+  });
+  host.querySelector(".operator-close").addEventListener("click", () => closeEpisode());
+  host.querySelector(".operator-close")?.focus({ preventScroll: true });
+};
+
+const hideEp4Popup = (popup) => {
+  if (!popup) return;
+  popup.classList.remove("is-visible");
+  popup.hidden = true;
+  popup.replaceChildren();
+};
+
+const showEp4Popup = (chartView, button, bar, bars) => {
+  const popup = chartView.querySelector(".ep4-popup");
+  const chartRect = chartView.getBoundingClientRect();
+  const barRect = button.getBoundingClientRect();
+  const contribution = ep4Contribution(bar, bars);
+  const rank = ep4Rank(bar, bars);
+
+  popup.hidden = false;
+  popup.classList.remove("is-visible");
+  popup.style.left = `${barRect.left + (barRect.width / 2) - chartRect.left}px`;
+  popup.style.top = `${barRect.top - chartRect.top}px`;
+  popup.innerHTML = `
+    <button class="ep4-popup-close" type="button" aria-label="Close">${EP4_ICON_CLOSE}</button>
+    <div class="ep4-popup-main">${escapeHtml(bar.row.label)} · ${escapeHtml(String(bar.year))} · ${escapeHtml(bar.metric.label)}</div>
+    <div class="ep4-popup-value">${escapeHtml(ep4Format(bar.value))}</div>
+    <div class="ep4-popup-meta">${escapeHtml(`${contribution.toFixed(1)}% · #${rank}`)}</div>
+  `;
+  popup.querySelector(".ep4-popup-close").addEventListener("click", () => hideEp4Popup(popup));
+  requestAnimationFrame(() => popup.classList.add("is-visible"));
+};
+
+const restoreEp4Table = (stage) => {
+  clearTimeout(ep4DrilldownTimer);
+  ep4DrilldownTimer = null;
+  stage.classList.remove("is-loading", "is-armed");
+  stage.dataset.view = "table";
+  delete stage.dataset.pendingRow;
+  stage.querySelector(".ep4-table-view").hidden = false;
+  const chartView = stage.querySelector(".ep4-chart-view");
+  chartView.hidden = true;
+  chartView.replaceChildren();
+  const selectedRow = stage.querySelector(".ep4-row.is-active") || stage.querySelector(".ep4-row");
+  selectedRow?.focus({ preventScroll: true });
+};
+
+const renderEp4Chart = (stage, row) => {
+  const tableView = stage.querySelector(".ep4-table-view");
+  const chartView = stage.querySelector(".ep4-chart-view");
+  const bars = ep4BarsFor(row);
+  const maxValue = Math.max(30, ...bars.map((bar) => bar.value));
+
+  stage.classList.remove("is-loading");
+  stage.dataset.view = "chart";
+  tableView.hidden = true;
+  chartView.hidden = false;
+  chartView.innerHTML = `
+    <button class="ep4-icon-btn ep4-chart-back" type="button" aria-label="Back">${EP4_ICON_BACK}</button>
+    <div class="ep4-page-actions ep4-page-actions--chart" role="group" aria-label="EP4 navigation">
+      <button class="ep4-action-btn ep4-home-action" type="button">${escapeHtml(config.homeButtonText)}</button>
+      <button class="ep4-action-btn ep4-back-action" type="button">${escapeHtml(config.backButtonText)}</button>
+    </div>
+    <div class="ep4-chart-shell">
+      <div class="ep4-chart-head">
+        <div class="ep4-chart-brand">
+          ${ep4Logo(row, "ep4-logo--large")}
+          <span class="ep4-chart-title">${escapeHtml(row.label)}</span>
+        </div>
+        <div class="ep4-legend" aria-hidden="true">
+          ${EP4_METRICS.map((metric) => `
+            <span style="--legend-color:${metric.color}"><i></i>${escapeHtml(metric.label)}</span>
+          `).join("")}
+        </div>
+      </div>
+      <div class="ep4-plot">
+        <div class="ep4-y-axis" aria-hidden="true">
+          <span>30%</span>
+          <span>20%</span>
+          <span>10%</span>
+          <span>0%</span>
+        </div>
+        <div class="ep4-bar-area"></div>
+      </div>
+    </div>
+    <div class="ep4-popup" hidden></div>
+  `;
+
+  const barArea = chartView.querySelector(".ep4-bar-area");
+  EP4_YEARS.forEach((year, yearIndex) => {
+    const group = document.createElement("div");
+    group.className = "ep4-year-group";
+    const barsWrap = document.createElement("div");
+    barsWrap.className = "ep4-year-bars";
+
+    EP4_METRICS.forEach((metric) => {
+      const bar = {
+        row,
+        year,
+        metric,
+        value: ep4Value(row, metric.id, yearIndex),
+      };
+      const button = document.createElement("button");
+      button.className = "ep4-bar";
+      button.type = "button";
+      button.style.setProperty("--bar-color", metric.color);
+      button.style.setProperty("--bar-size", `${Math.max(2, (bar.value / maxValue) * 100)}%`);
+      button.setAttribute("aria-label", `${row.label} ${year} ${metric.label} ${ep4Format(bar.value)}`);
+      button.innerHTML = `
+        <span class="ep4-bar-value">${escapeHtml(bar.value.toFixed(1))}</span>
+        <span class="ep4-bar-fill"></span>
+      `;
+      button.addEventListener("click", () => showEp4Popup(chartView, button, bar, bars));
+      barsWrap.append(button);
+    });
+
+    const label = document.createElement("span");
+    label.className = "ep4-year-label";
+    label.textContent = String(year);
+    group.append(barsWrap, label);
+    barArea.append(group);
+  });
+
+  chartView.querySelector(".ep4-chart-back").addEventListener("click", () => restoreEp4Table(stage));
+  chartView.querySelector(".ep4-home-action").addEventListener("click", goHome);
+  chartView.querySelector(".ep4-back-action").addEventListener("click", () => closeEpisode());
+  chartView.focus({ preventScroll: true });
+};
+
+const startEp4Drilldown = (stage, row, rowElement) => {
+  if (stage.classList.contains("is-loading")) return;
+
+  clearTimeout(ep4DrilldownTimer);
+  ep4DrilldownTimer = null;
+  stage.classList.remove("is-loading", "is-armed");
+  delete stage.dataset.pendingRow;
+  stage.querySelectorAll(".ep4-row").forEach((item) => item.classList.remove("is-active"));
+  rowElement.classList.add("is-active");
+  renderEp4Chart(stage, row);
+};
+
+const renderEpisodeDrilldown = (host) => {
+  clearTimeout(ep4DrilldownTimer);
+  ep4DrilldownTimer = null;
+  host.classList.add("interactive-host");
+  host.dataset.highlighting = "false";
+  host.innerHTML = `
+    <div class="ep4-stage" data-view="table">
+      <section class="ep4-table-view">
+        <button class="ep4-icon-btn ep4-table-exit" type="button" aria-label="Back">${EP4_ICON_BACK}</button>
+        <div class="ep4-page-actions" role="group" aria-label="EP4 navigation">
+          <button class="ep4-action-btn ep4-home-action" type="button">${escapeHtml(config.homeButtonText)}</button>
+          <button class="ep4-action-btn ep4-back-action" type="button">${escapeHtml(config.backButtonText)}</button>
+        </div>
+        <div class="ep4-table-shell">
+          <table class="ep4-table">
+            <thead>
+              <tr>
+                <th>Operator</th>
+                <th>2030</th>
+                <th>Legacy</th>
+                <th>New</th>
+                <th>Peak</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+      <section class="ep4-chart-view" tabindex="-1" hidden></section>
+      <div class="ep4-wait" aria-hidden="true"><span></span></div>
+    </div>
+  `;
+
+  const stage = host.querySelector(".ep4-stage");
+  const tbody = host.querySelector("tbody");
+  EP4_ROWS.forEach((row) => {
+    const tableRow = document.createElement("tr");
+    tableRow.className = "ep4-row";
+    tableRow.tabIndex = 0;
+    tableRow.setAttribute("role", "button");
+    tableRow.setAttribute("aria-label", row.label);
+    tableRow.innerHTML = `
+      <td>
+        <span class="ep4-operator-cell">
+          ${ep4Logo(row)}
+          <strong>${escapeHtml(row.label)}</strong>
+        </span>
+      </td>
+      <td>${escapeHtml(ep4Format(ep4Value(row, "total")))}</td>
+      <td>${escapeHtml(ep4Format(ep4Value(row, "legacy")))}</td>
+      <td>${escapeHtml(ep4Format(ep4Value(row, "newServices")))}</td>
+      <td>${escapeHtml(ep4Format(ep4PeakNew(row)))}</td>
+    `;
+    tableRow.addEventListener("click", () => startEp4Drilldown(stage, row, tableRow));
+    tableRow.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      startEp4Drilldown(stage, row, tableRow);
+    });
+    tbody.append(tableRow);
+  });
+
+  host.querySelector(".ep4-table-exit").addEventListener("click", () => closeEpisode());
+  host.querySelector(".ep4-home-action").addEventListener("click", goHome);
+  host.querySelector(".ep4-back-action").addEventListener("click", () => closeEpisode());
+  host.querySelector(".ep4-row")?.focus({ preventScroll: true });
+};
+
+const waitForEp4ImageClick = (episode) => new Promise((resolve) => {
+  let done = false;
+  const advance = () => {
+    if (done || !isExpanded || activeEpisode !== episode) return;
+    done = true;
+    frontFace.removeEventListener("click", onClick);
+    flipCard.removeEventListener("keydown", onKeyDown);
+    frontFace.removeAttribute("role");
+    frontFace.removeAttribute("tabindex");
+    frontFace.removeAttribute("aria-label");
+    frontFace.classList.remove("is-awaiting-click");
+    resolve();
+  };
+  const onClick = () => advance();
+  const onKeyDown = (event) => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    event.preventDefault();
+    advance();
+  };
+
+  frontFace.classList.add("is-awaiting-click");
+  frontFace.setAttribute("role", "button");
+  frontFace.setAttribute("tabindex", "0");
+  frontFace.setAttribute("aria-label", episode.title);
+  frontFace.addEventListener("click", onClick);
+  flipCard.addEventListener("keydown", onKeyDown);
+  frontFace.focus({ preventScroll: true });
+});
+
+async function openOperatorDrilldown(row, sourceCard) {
   if (isExpanded || isClosing) return;
   isExpanded = true;
-  activeEpisode = episode;
+  activeEpisode = { id: `operator-${row.id}`, title: `${row.label} growth page` };
   activeSourceCard = sourceCard;
+  stopOperatorNarration();
   clearTimeout(closeAudioTimer);
+  clearTimeout(ep4DrilldownTimer);
+  ep4DrilldownTimer = null;
 
   const sourceRect = sourceCard.getBoundingClientRect();
   const targetRect = viewportRect();
-  const htmlPromise = fetchMarkdownHtml(episode);
-  const timingPromise = fetchEpisodeTiming(episode);
-
   frontFace.replaceChildren();
-  const frontImage = document.createElement("img");
-  frontImage.src = episode.image;
-  frontImage.alt = `${episode.title} cover image`;
-  frontImage.decoding = "async";
-  frontFace.append(frontImage);
-  expandedTitle.textContent = episode.title;
-  expandedDate.textContent = episode.date || "";
-  expandedDate.dateTime = episode.date || "";
-  markdownBody.innerHTML = `<p>${escapeHtml(config.loadingText)}</p>`;
+  const operatorFront = document.createElement("div");
+  operatorFront.className = "operator-front";
+  operatorFront.style.setProperty("--operator-tone", EP4_OPERATOR_TONES[row.id] || "var(--secondary)");
+  operatorFront.innerHTML = `
+    ${ep4Logo(row, "ep4-logo--large operator-logo")}
+    <span>${escapeHtml(row.label)}</span>
+  `;
+  frontFace.append(operatorFront);
+  flipCard.dataset.episodeMode = "operator";
+  markdownBody.classList.add("interactive-host");
+  expandedTitle.textContent = row.label;
+  expandedDate.textContent = "2025-2030";
+  expandedDate.dateTime = "";
+  markdownBody.replaceChildren();
   markdownBody.dataset.highlighting = "false";
   pendingEstimatedHighlight = false;
   activeLine = null;
-  if (episode.audio) {
-    audio.src = assetCacheKey(episode, "audio", episode.audio);
-  } else {
-    audio.removeAttribute("src");
-    audio.load();
-  }
-  audio.volume = Number(volume.value);
+  audio.pause();
+  audio.removeAttribute("src");
+  audio.load();
   updateTime();
   setPlayState();
   setMuteState();
-  renderAvatarForSpeaker(episode);
+  stopAvatar(audio);
 
   setShellRect(sourceRect);
   flipShell.style.transform = "translate3d(0, 0, 0) scale(1)";
@@ -1875,6 +2546,76 @@ async function openEpisode(episode, sourceCard) {
   flipShell.style.transform = transformBetween(sourceRect, targetRect);
   await wait(motionDuration("expand"));
   normalizeShellTo(targetRect);
+  flipCard.classList.add("flipped");
+  renderOperatorDrilldown(markdownBody, row);
+  await wait(motionDuration("flip"));
+}
+
+async function openEpisode(episode, sourceCard) {
+  if (isExpanded || isClosing) return;
+  isExpanded = true;
+  activeEpisode = episode;
+  activeSourceCard = sourceCard;
+  clearTimeout(closeAudioTimer);
+
+  const drilldownMode = isDrilldownEpisode(episode);
+  const sourceRect = sourceCard.getBoundingClientRect();
+  const targetRect = viewportRect();
+  const htmlPromise = drilldownMode ? Promise.resolve("") : fetchMarkdownHtml(episode);
+  const timingPromise = drilldownMode ? Promise.resolve([]) : fetchEpisodeTiming(episode);
+
+  frontFace.replaceChildren();
+  const frontImage = document.createElement("img");
+  setEpisodeImageSource(frontImage, episode, `${episode.title} cover image`);
+  frontImage.decoding = "async";
+  frontFace.append(frontImage);
+  flipCard.dataset.episodeMode = drilldownMode ? "drilldown" : "reader";
+  markdownBody.classList.toggle("interactive-host", drilldownMode);
+  expandedTitle.textContent = episode.title;
+  expandedDate.textContent = episode.date || "";
+  expandedDate.dateTime = episode.date || "";
+  markdownBody.innerHTML = drilldownMode ? "" : `<p>${escapeHtml(config.loadingText)}</p>`;
+  markdownBody.dataset.highlighting = "false";
+  pendingEstimatedHighlight = false;
+  activeLine = null;
+  if (!drilldownMode && episode.audio) {
+    audio.src = assetCacheKey(episode, "audio", episode.audio);
+  } else {
+    audio.removeAttribute("src");
+    audio.load();
+  }
+  audio.volume = Number(volume.value);
+  updateTime();
+  setPlayState();
+  setMuteState();
+  if (drilldownMode) {
+    stopAvatar(audio);
+  } else {
+    renderAvatarForSpeaker(episode);
+  }
+
+  setShellRect(sourceRect);
+  flipShell.style.transform = "translate3d(0, 0, 0) scale(1)";
+  flipCard.classList.remove("flipped");
+  flipLayer.classList.add("active");
+  flipLayer.setAttribute("aria-hidden", "false");
+  document.body.classList.add("modal-lock");
+  setBackgroundInert(true);
+  sourceCard.style.visibility = "hidden";
+  flipCard.focus({ preventScroll: true });
+
+  await wait(motionDuration("startDelay"));
+  flipLayer.classList.add("shaded");
+  flipShell.style.transform = transformBetween(sourceRect, targetRect);
+  await wait(motionDuration("expand"));
+  normalizeShellTo(targetRect);
+  if (drilldownMode) {
+    await waitForEp4ImageClick(episode);
+    flipCard.classList.add("flipped");
+    renderEpisodeDrilldown(markdownBody);
+    await wait(motionDuration("flip"));
+    return;
+  }
   flipCard.classList.add("flipped");
   markdownBody.innerHTML = await htmlPromise;
   const timing = await timingPromise;
@@ -1894,6 +2635,9 @@ async function openEpisode(episode, sourceCard) {
 async function closeEpisode(restoreFocus = true) {
   if (!isExpanded || isClosing || !activeSourceCard) return;
   isClosing = true;
+  hideOperatorInsight(markdownBody, false);
+  clearTimeout(ep4DrilldownTimer);
+  ep4DrilldownTimer = null;
   clearTimeout(closeAudioTimer);
   audio.pause();
   audio.currentTime = 0;
@@ -1919,13 +2663,21 @@ async function closeEpisode(restoreFocus = true) {
 
   activeSourceCard.style.visibility = "";
   if (restoreFocus) {
-    activeSourceCard.querySelector(".image-button").focus({ preventScroll: true });
+    const focusTarget = activeSourceCard.querySelector(".image-button") || activeSourceCard;
+    focusTarget.focus({ preventScroll: true });
     activeSourceCard.scrollIntoView({ behavior: reduceMotion.matches ? "auto" : "smooth", block: "center" });
   }
   flipLayer.classList.remove("active");
   flipLayer.setAttribute("aria-hidden", "true");
   document.body.classList.remove("modal-lock");
   setBackgroundInert(false);
+  flipCard.dataset.episodeMode = "";
+  frontFace.classList.remove("is-awaiting-click");
+  frontFace.removeAttribute("role");
+  frontFace.removeAttribute("tabindex");
+  frontFace.removeAttribute("aria-label");
+  markdownBody.classList.remove("interactive-host");
+  markdownBody.replaceChildren();
   frontFace.replaceChildren();
   audio.removeAttribute("src");
   audio.load();
@@ -1941,8 +2693,7 @@ async function closeEpisode(restoreFocus = true) {
 function openQuickView(episode) {
   closeQuickView(false);
   previousFocus = document.activeElement;
-  lightboxImage.src = episode.image;
-  lightboxImage.alt = `${episode.title} cover image`;
+  setEpisodeImageSource(lightboxImage, episode, `${episode.title} cover image`);
   lightbox.classList.add("active");
   lightbox.setAttribute("aria-hidden", "false");
   lightbox.setAttribute("aria-label", `${config.quickViewTooltip}: ${episode.title}`);
@@ -2078,10 +2829,14 @@ document.addEventListener("keydown", (event) => {
       closeQuickView();
       return;
     }
+    if (markdownBody.querySelector(".operator-insight-popup.is-visible")) {
+      hideOperatorInsight(markdownBody);
+      return;
+    }
     if (isExpanded) closeEpisode();
   }
 
-  if (event.code === "Space" && isExpanded) {
+  if (event.code === "Space" && isExpanded && flipCard.dataset.episodeMode !== "drilldown" && flipCard.dataset.episodeMode !== "operator") {
     event.preventDefault();
     playBtn.click();
   }

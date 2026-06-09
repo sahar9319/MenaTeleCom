@@ -46,5 +46,16 @@
     "avatarMode": "photo",
     "timing": "episodes/ep3/timing.json",
     "timingUpdated": 1780778098000
+  },
+  {
+    "id": "ep4",
+    "title": "MENA Telecom YoY Growth",
+    "date": "2025-06-04",
+    "image": "episodes/ep4/mena_yoy_clay.svg",
+    "text": "episodes/ep4/text.md",
+    "textUpdated": 1780907596148.9353,
+    "mode": "drilldown",
+    "imageUpdated": 1780871382170.6023,
+    "voice": "male"
   }
 ]

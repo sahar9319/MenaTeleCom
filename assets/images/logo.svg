@@ -1,4 +1,28 @@
-<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M24 42V20M16 42h16M24 20 15 8M24 20l9-12" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-  <path d="M10 15c-5 8-5 16 0 24M38 15c5 8 5 16 0 24M5 9c-8 12-8 24 0 36M43 9c8 12 8 24 0 36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="menaLogoBg" x1="8" y1="7" x2="57" y2="58" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#123A4C"/>
+      <stop offset="0.54" stop-color="#0E6B69"/>
+      <stop offset="1" stop-color="#D98E35"/>
+    </linearGradient>
+    <linearGradient id="menaLogoLine" x1="18" y1="45" x2="48" y2="18" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="0.55" stop-color="#BFF7EF"/>
+      <stop offset="1" stop-color="#FFD59B"/>
+    </linearGradient>
+    <filter id="menaLogoShadow" x="-12" y="-12" width="88" height="88" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#0B2430" flood-opacity="0.24"/>
+    </filter>
+  </defs>
+  <rect x="5" y="5" width="54" height="54" rx="15" fill="url(#menaLogoBg)" filter="url(#menaLogoShadow)"/>
+  <path class="logo-m-stroke" d="M15 42V21.5L27.4 34.3L34.1 27.3V42" stroke="url(#menaLogoLine)" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <g class="logo-mena-word" fill="#FFFFFF" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="900">
+    <text class="mena-letter mena-letter--e" x="36" y="42">E</text>
+    <text class="mena-letter mena-letter--n" x="43" y="42">N</text>
+    <text class="mena-letter mena-letter--a" x="51" y="42">A</text>
+  </g>
+  <path class="logo-pulse" d="M22 18.5C27.9 13.2 36.2 13.1 42 18.5" stroke="#D9FFF6" stroke-width="2.4" stroke-linecap="round" opacity="0.9"/>
+  <path class="logo-pulse logo-pulse--wide" d="M16 14.2C25.3 5.8 38.9 5.7 48 14.2" stroke="#FFDDAA" stroke-width="2" stroke-linecap="round" opacity="0.72"/>
+  <circle cx="34.1" cy="27.3" r="2.9" fill="#FFFFFF"/>
+  <circle cx="34.1" cy="27.3" r="5.8" stroke="#FFFFFF" stroke-opacity="0.25" stroke-width="1.5"/>
 </svg>

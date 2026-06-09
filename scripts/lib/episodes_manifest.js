@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const { sortEpisodes } = require("./episode_utils");
 
-const IMAGE_NAMES = ["image.jpg", "image.jpeg", "image.png", "image.webp"];
+const IMAGE_NAMES = ["image.jpg", "image.jpeg", "image.png", "image.webp", "image.svg"];
 const AUDIO_NAMES = ["audio.mp3", "audio.m4a", "audio.ogg", "audio.wav"];
 const AVATAR_NAMES = ["avatar.png", "avatar.jpg", "avatar.webp"];
 const SKIP_DIRS = new Set(["glossary", "reference"]);
@@ -16,6 +16,25 @@ const findFirstExisting = (folder, names) => {
       return candidate;
     }
   }
+  return null;
+};
+
+const resolveMetaAsset = (rootDir, folder, assetPath) => {
+  if (!assetPath || typeof assetPath !== "string") return null;
+
+  const normalized = assetPath.replace(/\\/g, "/").replace(/^\/+/, "");
+  const candidates = [
+    path.join(folder, normalized),
+    path.join(rootDir, normalized),
+  ];
+  const root = path.resolve(rootDir);
+
+  for (const candidate of candidates) {
+    const resolved = path.resolve(candidate);
+    if (!resolved.startsWith(root + path.sep)) continue;
+    if (fs.existsSync(resolved) && fs.statSync(resolved).isFile()) return resolved;
+  }
+
   return null;
 };
 
@@ -52,7 +71,7 @@ const buildEpisodesManifest = (rootDir) => {
       const id = entry.name;
       const folder = path.join(episodesDir, id);
       const meta = readMeta(folder);
-      const image = findFirstExisting(folder, IMAGE_NAMES);
+      const image = resolveMetaAsset(rootDir, folder, meta.image) || findFirstExisting(folder, IMAGE_NAMES);
       const audio = findFirstExisting(folder, AUDIO_NAMES);
       const avatar = findFirstExisting(folder, AVATAR_NAMES);
       const text = path.join(folder, "text.md");
@@ -68,6 +87,9 @@ const buildEpisodesManifest = (rootDir) => {
         textUpdated: fs.statSync(text).mtimeMs,
       };
 
+      if (meta.mode) {
+        episode.mode = meta.mode;
+      }
       if (image) {
         episode.imageUpdated = fs.statSync(image).mtimeMs;
       }
