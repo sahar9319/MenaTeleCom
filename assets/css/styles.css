@@ -2453,16 +2453,82 @@ body::before {
   font-size: clamp(1rem, 1.55vw, 1.17rem);
 }
 
+.market-reel-shell {
+  display: grid;
+  gap: 14px;
+  width: 100%;
+  max-width: min(720px, 100%);
+  margin-top: 26px;
+}
+
+.market-reel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.market-reel-copy {
+  display: grid;
+  gap: 5px;
+}
+
+.market-reel-kicker {
+  color: color-mix(in srgb, var(--secondary) 82%, var(--primary));
+  font-size: 0.72rem;
+  font-weight: 940;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.market-reel-copy strong {
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.market-scroll-cue {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.market-scroll-icon {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  aspect-ratio: 1;
+  border: 1px solid rgba(18, 58, 76, 0.12);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.74);
+  box-shadow: 0 10px 18px rgba(16, 37, 44, 0.08);
+}
+
+.market-scroll-icon svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+  fill: none;
+}
+
 .market-reel {
   position: relative;
   width: 100%;
-  max-width: min(660px, 100%);
-  margin-top: 24px;
-  overflow: hidden;
-  border: 1px solid rgba(18, 58, 76, 0.12);
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.58);
-  box-shadow: var(--shadow-soft);
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0 0 12px;
+  border-radius: 18px;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--secondary) 44%, white) transparent;
 }
 
 .market-reel::before,
@@ -2470,43 +2536,67 @@ body::before {
   content: "";
   position: absolute;
   top: 0;
-  bottom: 0;
+  bottom: 12px;
   z-index: 2;
-  width: 54px;
+  width: 64px;
   pointer-events: none;
 }
 
 .market-reel::before {
   left: 0;
-  background: linear-gradient(90deg, rgba(251, 252, 247, 0.95), transparent);
+  background: linear-gradient(90deg, rgba(243, 247, 244, 0.96), transparent);
 }
 
 .market-reel::after {
   right: 0;
-  background: linear-gradient(270deg, rgba(251, 252, 247, 0.95), transparent);
+  background: linear-gradient(270deg, rgba(243, 247, 244, 0.96), transparent);
 }
 
 .market-reel-track {
-  display: flex;
-  gap: 12px;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(220px, 1fr);
+  gap: 14px;
   width: max-content;
-  padding: 12px;
-  animation: marketReelSlide 24s linear infinite;
-}
-
-.market-reel:hover .market-reel-track {
-  animation-play-state: paused;
+  min-width: 100%;
+  padding: 14px;
+  border: 1px solid rgba(18, 58, 76, 0.1);
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.76), rgba(255, 255, 255, 0.48)),
+    linear-gradient(135deg, rgba(14, 159, 148, 0.08), rgba(217, 142, 53, 0.08));
+  box-shadow: var(--shadow-soft);
 }
 
 .market-reel-card {
   position: relative;
-  flex: 0 0 176px;
-  height: 98px;
+  width: clamp(220px, 29vw, 280px);
+  height: 176px;
   overflow: hidden;
   margin: 0;
-  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  border-radius: 16px;
   background: var(--primary);
-  box-shadow: 0 12px 24px rgba(21, 45, 54, 0.12);
+  box-shadow: 0 20px 34px rgba(21, 45, 54, 0.14);
+  scroll-snap-align: start;
+  animation: marketCardFloat 6.6s ease-in-out infinite;
+}
+
+.market-reel-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(18, 58, 76, 0.02), rgba(18, 58, 76, 0.5)),
+    linear-gradient(135deg, transparent 35%, rgba(255, 255, 255, 0.16));
+}
+
+.market-reel-card--wide {
+  width: clamp(280px, 34vw, 360px);
+}
+
+.market-reel-card--tall {
+  width: clamp(230px, 28vw, 300px);
 }
 
 .market-reel-card img {
@@ -2514,24 +2604,52 @@ body::before {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: saturate(1.08) contrast(1.04);
-  transform: scale(1.03);
+  filter: saturate(1.06) contrast(1.04);
+  transform: scale(1.04);
+  transition: transform 220ms ease, filter 220ms ease;
 }
 
 .market-reel-card figcaption {
   position: absolute;
-  left: 10px;
-  right: 10px;
-  bottom: 8px;
+  left: 14px;
+  right: 14px;
+  bottom: 14px;
+  z-index: 1;
   color: #fff;
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   font-weight: 900;
+  letter-spacing: 0.01em;
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
 }
 
-@keyframes marketReelSlide {
-  from { transform: translate3d(0, 0, 0); }
-  to { transform: translate3d(calc(-50% - 12px), 0, 0); }
+.market-reel-card:hover img,
+.market-reel-card:focus-within img {
+  filter: saturate(1.12) contrast(1.08);
+  transform: scale(1.08);
+}
+
+.market-reel::-webkit-scrollbar {
+  height: 10px;
+}
+
+.market-reel::-webkit-scrollbar-track {
+  background: rgba(18, 58, 76, 0.08);
+  border-radius: 999px;
+}
+
+.market-reel::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--secondary), var(--tertiary));
+}
+
+.market-reel:focus-visible {
+  outline: 2px solid rgba(14, 159, 148, 0.36);
+  outline-offset: 4px;
+}
+
+@keyframes marketCardFloat {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -6px, 0); }
 }
 
 .icon-row {
@@ -3863,6 +3981,21 @@ body::before {
     max-width: 11ch;
   }
 
+  .market-reel-head {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .market-scroll-cue {
+    margin-left: auto;
+  }
+
+  .market-reel-card,
+  .market-reel-card--wide,
+  .market-reel-card--tall {
+    width: clamp(240px, 58vw, 320px);
+  }
+
   .icon-row {
     width: 100%;
     max-width: 100%;
@@ -3939,6 +4072,52 @@ body::before {
 
   .hero h1 {
     font-size: clamp(2.45rem, 14vw, 4.2rem);
+  }
+
+  .market-reel-shell {
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .market-reel-head {
+    gap: 12px;
+  }
+
+  .market-reel-copy strong {
+    font-size: 0.92rem;
+  }
+
+  .market-scroll-cue {
+    gap: 8px;
+    font-size: 0.7rem;
+  }
+
+  .market-scroll-icon {
+    width: 30px;
+  }
+
+  .market-reel {
+    padding-bottom: 10px;
+  }
+
+  .market-reel-track {
+    gap: 12px;
+    padding: 12px;
+    border-radius: 16px;
+  }
+
+  .market-reel-card,
+  .market-reel-card--wide,
+  .market-reel-card--tall {
+    width: clamp(210px, 76vw, 280px);
+    height: 152px;
+  }
+
+  .market-reel-card figcaption {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    font-size: 0.74rem;
   }
 
   .icon-row {

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Telecom Research Log</title>
     <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="assets/css/styles.css?v=23">
+    <link rel="stylesheet" href="assets/css/styles.css?v=24">
   </head>
   <body>
     <div class="app-shell">
@@ -16,7 +16,6 @@
             <p class="brand-title" id="brandTitle">Telecom Research Log</p>
             <p class="brand-tagline" id="brandTagline">Signal Diaries</p>
           </div>
-          <div class="flag-wrap hidden" id="flagWrap" aria-hidden="true"></div>
         </div>
         <nav class="nav-actions" aria-label="Primary">
           <button class="clay-button home-button" id="homeBtn" type="button" aria-label="Home">
@@ -35,40 +34,50 @@
               <p class="eyebrow" id="heroEyebrow">Research Broadcast</p>
               <h1 id="heroTitle">Telecom Research Log</h1>
               <p id="heroDescription">Soft, focused research episodes on telecom operators, market signals, AI, and infrastructure shifts across the region.</p>
-              <div class="market-reel" aria-label="MENA telecom market imagery">
-                <div class="market-reel-track">
-                  <figure class="market-reel-card">
-                    <img src="episodes/ep1/image.png" alt="">
-                    <figcaption>Infrastructure shift</figcaption>
-                  </figure>
-                  <figure class="market-reel-card">
-                    <img src="episodes/ep2/image.png" alt="">
-                    <figcaption>Regional operators</figcaption>
-                  </figure>
-                  <figure class="market-reel-card">
-                    <img src="episodes/ep3/image.png" alt="">
-                    <figcaption>Network intelligence</figcaption>
-                  </figure>
-                  <figure class="market-reel-card">
-                    <img src="episodes/ep4/mena_yoy_clay.svg" alt="">
-                    <figcaption>Growth forecast</figcaption>
-                  </figure>
-                  <figure class="market-reel-card" aria-hidden="true">
-                    <img src="episodes/ep1/image.png" alt="">
-                    <figcaption>Infrastructure shift</figcaption>
-                  </figure>
-                  <figure class="market-reel-card" aria-hidden="true">
-                    <img src="episodes/ep2/image.png" alt="">
-                    <figcaption>Regional operators</figcaption>
-                  </figure>
-                  <figure class="market-reel-card" aria-hidden="true">
-                    <img src="episodes/ep3/image.png" alt="">
-                    <figcaption>Network intelligence</figcaption>
-                  </figure>
-                  <figure class="market-reel-card" aria-hidden="true">
-                    <img src="episodes/ep4/mena_yoy_clay.svg" alt="">
-                    <figcaption>Growth forecast</figcaption>
-                  </figure>
+              <div class="market-reel-shell">
+                <div class="market-reel-head">
+                  <div class="market-reel-copy">
+                    <span class="market-reel-kicker">Signal Strip</span>
+                    <strong>Regional telecom scenes and market context</strong>
+                  </div>
+                  <div class="market-scroll-cue" aria-hidden="true">
+                    <span class="market-scroll-icon">
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <rect x="7" y="2.5" width="10" height="19" rx="5"></rect>
+                        <path d="M12 6.5v4.5"></path>
+                        <path d="m9 16.5 3 3 3-3"></path>
+                      </svg>
+                    </span>
+                    <span>Scroll</span>
+                  </div>
+                </div>
+                <div class="market-reel" aria-label="MENA telecom market imagery" tabindex="0">
+                  <div class="market-reel-track">
+                    <figure class="market-reel-card market-reel-card--wide">
+                      <img src="episodes/ep2/image.png" alt="Regional telecom operators and market structure">
+                      <figcaption>Regional operator landscape</figcaption>
+                    </figure>
+                    <figure class="market-reel-card">
+                      <img src="episodes/ep1/image.png" alt="Telecom infrastructure and network buildout">
+                      <figcaption>Infrastructure buildout</figcaption>
+                    </figure>
+                    <figure class="market-reel-card">
+                      <img src="episodes/ep3/image.png" alt="AI and telecom network intelligence systems">
+                      <figcaption>AI and network intelligence</figcaption>
+                    </figure>
+                    <figure class="market-reel-card market-reel-card--tall">
+                      <img src="episodes/ep1/image.png" alt="Fiber, transport, and coverage expansion across the region">
+                      <figcaption>Fiber and coverage expansion</figcaption>
+                    </figure>
+                    <figure class="market-reel-card">
+                      <img src="episodes/ep2/image.png" alt="Competition and revenue pressure across MENA telecom markets">
+                      <figcaption>Competition and revenue pressure</figcaption>
+                    </figure>
+                    <figure class="market-reel-card">
+                      <img src="episodes/ep3/image.png" alt="Digital services, cloud, and telecom platform growth">
+                      <figcaption>Digital service acceleration</figcaption>
+                    </figure>
+                  </div>
                 </div>
               </div>
             </div>
@@ -148,6 +157,6 @@
 
     <div class="floating-avatar" id="avatarHost" aria-hidden="true"></div>
 
-    <script src="assets/js/app.js?v=23" defer></script>
+    <script src="assets/js/app.js?v=24" defer></script>
   </body>
 </html>

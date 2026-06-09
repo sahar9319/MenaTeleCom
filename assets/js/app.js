@@ -452,7 +452,7 @@ const applyAssets = () => {
     setElementIcon(logoWrap, logoUrl);
   }
 
-  if (flagUrl) {
+  if (flagUrl && flagWrap) {
     flagWrap.classList.remove("hidden");
     setElementIcon(flagWrap, flagUrl);
   }
