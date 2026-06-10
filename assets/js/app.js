@@ -477,6 +477,22 @@ const setBackgroundInert = (inert) => {
   appShell.inert = inert;
 };
 
+const scrollToSiteTarget = async (hash) => {
+  const target = document.querySelector(hash);
+  if (!target) return;
+  if (currentView !== "episodes") {
+    await switchView("episodes");
+  }
+  const offset = hash === "#top" ? 0 : 96;
+  const top = Math.max(0, target.getBoundingClientRect().top + window.scrollY - offset);
+  const previousScrollBehavior = document.documentElement.style.scrollBehavior;
+  document.documentElement.style.scrollBehavior = "auto";
+  window.scrollTo(0, top);
+  requestAnimationFrame(() => {
+    document.documentElement.style.scrollBehavior = previousScrollBehavior;
+  });
+};
+
 const switchView = async (view) => {
   if (currentView === view) return;
   const leaving = currentView === "glossary" ? glossaryView : episodesView;
@@ -2750,6 +2766,15 @@ backBtn.addEventListener("click", async () => {
 readerHomeBtn.addEventListener("click", goHome);
 homeBtn.addEventListener("click", goHome);
 glossaryBtn.addEventListener("click", showGlossary);
+document.querySelectorAll('a[href="#market"], a[href="#episodes"], a[href="#top"]').forEach((link) => {
+  link.addEventListener("click", async (event) => {
+    event.preventDefault();
+    const hash = link.getAttribute("href");
+    if (!hash) return;
+    history.replaceState(null, "", hash);
+    await scrollToSiteTarget(hash);
+  });
+});
 audio.addEventListener("play", () => {
   setPlayState();
   startAvatar(audio, activeEpisode);

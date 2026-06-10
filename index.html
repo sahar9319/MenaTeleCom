@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Telecom Research Log</title>
     <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="assets/css/styles.css?v=24">
+    <link rel="stylesheet" href="assets/css/styles.css?v=25">
   </head>
   <body>
     <div class="app-shell">
@@ -18,6 +18,8 @@
           </div>
         </div>
         <nav class="nav-actions" aria-label="Primary">
+          <a class="site-nav-link" href="#market">Market</a>
+          <a class="site-nav-link" href="#episodes">Episodes</a>
           <button class="clay-button home-button" id="homeBtn" type="button" aria-label="Home">
             <span>Home</span>
           </button>
@@ -34,6 +36,10 @@
               <p class="eyebrow" id="heroEyebrow">Research Broadcast</p>
               <h1 id="heroTitle">Telecom Research Log</h1>
               <p id="heroDescription">Soft, focused research episodes on telecom operators, market signals, AI, and infrastructure shifts across the region.</p>
+              <div class="hero-actions" aria-label="Hero navigation">
+                <a class="hero-action hero-action--primary" href="#episodes">Explore episodes</a>
+                <a class="hero-action" href="#market">View market brief</a>
+              </div>
               <div class="market-reel-shell">
                 <div class="market-reel-head">
                   <div class="market-reel-copy">
@@ -85,6 +91,63 @@
             <div class="icon-row" id="heroIcons" aria-label="Operator growth shortcuts"></div>
           </section>
 
+          <section class="website-overview" id="market" aria-labelledby="marketTitle">
+            <div class="section-copy">
+              <p class="section-kicker">Market Brief</p>
+              <h2 id="marketTitle">A sharper view of MENA telecom growth</h2>
+              <p>Follow the operators, revenue pressure, digital-service expansion, and infrastructure signals that shape the region's telecom market.</p>
+            </div>
+            <div class="market-stat-grid" aria-label="Market research highlights">
+              <article class="market-stat">
+                <span>Coverage</span>
+                <strong>MENA</strong>
+                <small>Regional operator and infrastructure lens</small>
+              </article>
+              <article class="market-stat">
+                <span>Operators</span>
+                <strong>4</strong>
+                <small>STC, e&amp;, Ooredoo, and Zain</small>
+              </article>
+              <article class="market-stat">
+                <span>Forecast</span>
+                <strong>2025-2030</strong>
+                <small>Growth, legacy, and new-service indicators</small>
+              </article>
+            </div>
+          </section>
+
+          <section class="workstream-section" aria-labelledby="workstreamTitle">
+            <div class="section-copy">
+              <p class="section-kicker">Research Streams</p>
+              <h2 id="workstreamTitle">What the site tracks</h2>
+            </div>
+            <div class="workstream-grid">
+              <article class="workstream-card">
+                <span class="workstream-icon">01</span>
+                <h3>Operator Growth</h3>
+                <p>Interactive views for total growth, legacy services, and new-service momentum by operator.</p>
+              </article>
+              <article class="workstream-card">
+                <span class="workstream-icon">02</span>
+                <h3>Digital Services</h3>
+                <p>Signals around AI, cloud, fintech, cybersecurity, and platform-led telecom revenue.</p>
+              </article>
+              <article class="workstream-card">
+                <span class="workstream-icon">03</span>
+                <h3>Infrastructure Shift</h3>
+                <p>Coverage, fiber, network intelligence, and modernization patterns across the region.</p>
+              </article>
+            </div>
+          </section>
+
+          <header class="episodes-head" id="episodes">
+            <div class="section-copy">
+              <p class="section-kicker">Episodes</p>
+              <h2>Research library</h2>
+              <p>Open any episode to read the field note, hear narration, and inspect the visual research layer.</p>
+            </div>
+          </header>
+
           <div id="status" class="status" role="status" aria-live="polite"></div>
           <section id="skeleton" class="skeleton-grid" aria-label="Loading episodes" aria-busy="true">
             <div class="skeleton-card"></div>
@@ -106,6 +169,14 @@
           <section id="glossaryGrid" class="glossary-grid" aria-label="Audio glossary"></section>
         </section>
       </main>
+
+      <footer class="site-footer">
+        <div>
+          <strong>MENA Telecom Market</strong>
+          <span>Signal Diaries for operator growth, digital services, and infrastructure change.</span>
+        </div>
+        <a href="#top">Back to top</a>
+      </footer>
     </div>
 
     <div id="flipLayer" class="flip-layer" aria-hidden="true">
@@ -157,6 +228,6 @@
 
     <div class="floating-avatar" id="avatarHost" aria-hidden="true"></div>
 
-    <script src="assets/js/app.js?v=24" defer></script>
+    <script src="assets/js/app.js?v=25" defer></script>
   </body>
 </html>
