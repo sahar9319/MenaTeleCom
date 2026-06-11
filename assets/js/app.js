@@ -166,6 +166,77 @@ const EP4_ICON_CLOSE = `
     <path d="m7 7 10 10"></path>
     <path d="M17 7 7 17"></path>
   </svg>`;
+const GSMA_REPORT_URL = "https://www.gsma.com/solutions-and-impact/connectivity-for-good/mobile-economy/the-mobile-economy-2025/";
+const GSMA_REPORT_PDF_URL = "https://www.gsma.com/solutions-and-impact/connectivity-for-good/mobile-economy/wp-content/uploads/2025/02/030325-The-Mobile-Economy-2025.pdf";
+const GSMA_INTELLIGENCE_URL = "https://www.gsmaintelligence.com/research/the-mobile-economy-2025";
+const GSMA_SOURCES = {
+  mobileEconomy2025: {
+    badge: "GSMA",
+    report: "The Mobile Economy 2025",
+    publisher: "GSMA Intelligence / GSMA",
+    fact: "Mobile technologies and services generate around 5.8% of global GDP, equal to about $6.5 trillion.",
+    note: "Used here as the macro market-sizing lens behind the MENA telecom brief.",
+    links: [
+      { label: "Report page", url: GSMA_REPORT_URL },
+      { label: "PDF", url: GSMA_REPORT_PDF_URL },
+      { label: "GSMA Intelligence", url: GSMA_INTELLIGENCE_URL },
+    ],
+  },
+  forecast2030: {
+    badge: "GSMA",
+    report: "The Mobile Economy 2025",
+    publisher: "GSMA Intelligence / GSMA",
+    fact: "GSMA forecasts mobile's economic contribution to rise to almost $11 trillion, or 8.4% of GDP, by 2030.",
+    note: "Used for the 2025-2030 outlook, forecast panels, and growth-context callouts.",
+    links: [
+      { label: "Report page", url: GSMA_REPORT_URL },
+      { label: "PDF", url: GSMA_REPORT_PDF_URL },
+      { label: "GSMA Intelligence", url: GSMA_INTELLIGENCE_URL },
+    ],
+  },
+  aiProductivity2025: {
+    badge: "GSMA",
+    report: "The Mobile Economy 2025",
+    publisher: "GSMA Intelligence / GSMA",
+    fact: "The 2030 mobile-value outlook is framed around productivity gains from 5G, IoT, and AI adoption.",
+    note: "Used for digital-services, AI, cloud, platform, and autonomous-network context.",
+    links: [
+      { label: "Report page", url: GSMA_REPORT_URL },
+      { label: "PDF", url: GSMA_REPORT_PDF_URL },
+      { label: "GSMA Intelligence", url: GSMA_INTELLIGENCE_URL },
+    ],
+  },
+  networkInvestment2025: {
+    badge: "GSMA",
+    report: "The Mobile Economy 2025",
+    publisher: "GSMA Intelligence / GSMA",
+    fact: "GSMA's forecast links mobile value growth to ongoing network investment and scaled advanced connectivity.",
+    note: "Used for infrastructure, 5G, fiber, network automation, and coverage-shift context.",
+    links: [
+      { label: "Report page", url: GSMA_REPORT_URL },
+      { label: "PDF", url: GSMA_REPORT_PDF_URL },
+      { label: "GSMA Intelligence", url: GSMA_INTELLIGENCE_URL },
+    ],
+  },
+  operatorScenario2025: {
+    badge: "GSMA context",
+    report: "The Mobile Economy 2025",
+    publisher: "GSMA Intelligence / GSMA",
+    fact: "Episode 4 operator values are prototype scenario indicators, with GSMA's 2030 mobile-value forecast used as the external macro context.",
+    note: "This distinguishes local prototype scenario values from direct GSMA operator forecasts.",
+    links: [
+      { label: "Report page", url: GSMA_REPORT_URL },
+      { label: "PDF", url: GSMA_REPORT_PDF_URL },
+      { label: "GSMA Intelligence", url: GSMA_INTELLIGENCE_URL },
+    ],
+  },
+};
+const EPISODE_GSMA_SOURCE = {
+  ep1: "networkInvestment2025",
+  ep2: "aiProductivity2025",
+  ep3: "networkInvestment2025",
+  ep4: "operatorScenario2025",
+};
 
 const root = document.documentElement;
 const appShell = document.querySelector(".app-shell");
@@ -261,6 +332,7 @@ let activeEpisode = null;
 let talkPulse = 0;
 let blinkSequence = 0;
 let ep4DrilldownTimer = null;
+let ep4ImageClickCleanup = null;
 let operatorInsightTrigger = null;
 let operatorInsightUtterance = null;
 
@@ -547,6 +619,82 @@ const sanitizeUrl = (url) => {
   return "#";
 };
 
+const gsmaSource = (sourceId) => GSMA_SOURCES[sourceId] || GSMA_SOURCES.mobileEconomy2025;
+
+const gsmaBadge = (sourceId, label) => {
+  const source = gsmaSource(sourceId);
+  return `<button class="gsma-badge" type="button" data-gsma-source="${escapeHtml(sourceId)}">${escapeHtml(label || source.badge || "GSMA")}</button>`;
+};
+
+const gsmaContextStrip = (sourceId, label = "GSMA") => {
+  const source = gsmaSource(sourceId);
+  return `
+    <div class="gsma-source-strip">
+      ${gsmaBadge(sourceId, label)}
+      <span class="gsma-derived">${escapeHtml(source.fact)}</span>
+    </div>
+  `;
+};
+
+const episodeGsmaSource = (episode) => EPISODE_GSMA_SOURCE[episode?.id] || "mobileEconomy2025";
+
+const ensureGsmaPopover = () => {
+  let popup = document.querySelector("#gsmaSourcePopover");
+  if (popup) return popup;
+
+  popup = document.createElement("div");
+  popup.id = "gsmaSourcePopover";
+  popup.className = "gsma-source-popover";
+  popup.hidden = true;
+  document.body.append(popup);
+  return popup;
+};
+
+const positionGsmaPopover = (popup, trigger) => {
+  const rect = trigger.getBoundingClientRect();
+  const popupRect = popup.getBoundingClientRect();
+  const gap = 12;
+  const left = clamp(rect.left + (rect.width / 2) - (popupRect.width / 2), 12, window.innerWidth - popupRect.width - 12);
+  const below = rect.bottom + gap;
+  const above = rect.top - popupRect.height - gap;
+  const top = below + popupRect.height <= window.innerHeight - 12 ? below : Math.max(12, above);
+
+  popup.style.left = `${left}px`;
+  popup.style.top = `${top}px`;
+};
+
+const hideGsmaSource = () => {
+  const popup = document.querySelector("#gsmaSourcePopover");
+  if (!popup) return;
+  popup.classList.remove("is-visible");
+  popup.hidden = true;
+  popup.replaceChildren();
+};
+
+const showGsmaSource = (trigger) => {
+  const sourceId = trigger.dataset.gsmaSource || "mobileEconomy2025";
+  const source = gsmaSource(sourceId);
+  const popup = ensureGsmaPopover();
+
+  popup.hidden = false;
+  popup.classList.remove("is-visible");
+  popup.innerHTML = `
+    <button class="gsma-source-close" type="button" aria-label="Close source">${EP4_ICON_CLOSE}</button>
+    <span class="gsma-source-kicker">${escapeHtml(source.publisher)}</span>
+    <strong>${escapeHtml(source.report)}</strong>
+    <p class="gsma-derived">${escapeHtml(source.fact)}</p>
+    <small class="gsma-derived">${escapeHtml(source.note)}</small>
+    <div class="gsma-source-links">
+      ${(source.links || []).map((link) => `
+        <a href="${sanitizeUrl(link.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(link.label)}</a>
+      `).join("")}
+    </div>
+  `;
+  popup.querySelector(".gsma-source-close").addEventListener("click", hideGsmaSource);
+  positionGsmaPopover(popup, trigger);
+  requestAnimationFrame(() => popup.classList.add("is-visible"));
+};
+
 const inlineMarkdown = (text) => {
   let html = escapeHtml(text);
   html = html.replace(/\[([^\]]+)]\(([^)\s]+)\)/g, (match, label, href) => {
@@ -556,8 +704,11 @@ const inlineMarkdown = (text) => {
   });
   html = html.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
   html = html.replace(/(^|[^*])\*([^*\n]+)\*/g, "$1<em>$2</em>");
+  html = html.replace(/\{\{gsma:([\w-]+)(?::([^}]+))?}}/g, (match, sourceId, label) => gsmaBadge(sourceId, label || "GSMA"));
   return html;
 };
+
+const isGsmaDerivedText = (text) => /\bGSMA\b|GSM Association|Mobile Economy/i.test(String(text || ""));
 
 const isListLine = (line) => /^[-*]\s+/.test(line.trim()) || /^\d+\.\s+/.test(line.trim());
 
@@ -575,7 +726,7 @@ function parseMarkdown(md) {
       const tag = ordered ? "ol" : "ul";
       html.push(`<${tag}>${lines.map((line) => {
         const text = line.trim().replace(/^[-*]\s+/, "").replace(/^\d+\.\s+/, "");
-        return `<li>${inlineMarkdown(text)}</li>`;
+        return `<li${isGsmaDerivedText(text) ? ' class="gsma-derived"' : ""}>${inlineMarkdown(text)}</li>`;
       }).join("")}</${tag}>`);
       return;
     }
@@ -583,11 +734,11 @@ function parseMarkdown(md) {
     const heading = trimmed.match(/^(#{1,3})\s+(.+)$/);
     if (heading && lines.length === 1) {
       const level = heading[1].length;
-      html.push(`<h${level}>${inlineMarkdown(heading[2])}</h${level}>`);
+      html.push(`<h${level}${isGsmaDerivedText(heading[2]) ? ' class="gsma-derived"' : ""}>${inlineMarkdown(heading[2])}</h${level}>`);
       return;
     }
 
-    html.push(`<p>${inlineMarkdown(lines.join("<br>"))}</p>`);
+    html.push(`<p${isGsmaDerivedText(trimmed) ? ' class="gsma-derived"' : ""}>${inlineMarkdown(lines.join("<br>"))}</p>`);
   });
 
   return html.join("");
@@ -1780,6 +1931,24 @@ const fetchMarkdownHtml = async (episode) => {
   }
 };
 
+const clearReaderSourceBadge = () => {
+  document.querySelector(".reader-source-row")?.remove();
+};
+
+const setReaderSourceBadge = (sourceId) => {
+  clearReaderSourceBadge();
+  const row = document.createElement("div");
+  row.className = "reader-source-row";
+  row.innerHTML = gsmaBadge(sourceId, "GSMA");
+  expandedDate.insertAdjacentElement("afterend", row);
+};
+
+const prependEpisodeGsmaContext = (episode) => {
+  const sourceId = episodeGsmaSource(episode);
+  if (!sourceId) return;
+  markdownBody.insertAdjacentHTML("afterbegin", gsmaContextStrip(sourceId));
+};
+
 const buildCard = (episode, index) => {
   const article = document.createElement("article");
   article.className = "episode-card";
@@ -1817,6 +1986,14 @@ const buildCard = (episode, index) => {
   cover.append(image, title);
   imageButton.append(cover);
   article.append(imageButton);
+
+  const cardSourceId = episodeGsmaSource(episode);
+  if (cardSourceId) {
+    const sourceChip = document.createElement("div");
+    sourceChip.className = "card-source";
+    sourceChip.innerHTML = gsmaBadge(cardSourceId, "GSMA");
+    article.append(sourceChip);
+  }
 
   const openFromCard = () => {
     openEpisode(episode, article);
@@ -2063,6 +2240,9 @@ const renderOperatorInsightPopup = (host, trigger, payload) => {
       </span>
     </div>
     <p>${escapeHtml(payload.explanation)}</p>
+    <div class="operator-insight-source">
+      ${gsmaBadge(payload.sourceId || "operatorScenario2025", "GSMA context")}
+    </div>
     <button class="operator-insight-replay" type="button">Replay narration</button>
   `;
 
@@ -2094,7 +2274,8 @@ const buildOperatorBarInsight = (row, metric, yearIndex) => {
     contributionLabel: `${share.toFixed(1)}% of ${year} tracked total`,
     contextLabel,
     explanation: `${ep4MetricExplanation(metric)} In ${year}, ${row.label} posts ${ep4Format(value)} for this line.`,
-    narration: `${row.label}, ${year}. ${ep4MetricLabel(metric)} is ${ep4Format(value)}. It contributes ${share.toFixed(1)} percent of the ${year} tracked total and ranks number ${rank} out of 3. ${ep4MetricExplanation(metric)}`
+    narration: `${row.label}, ${year}. ${ep4MetricLabel(metric)} is ${ep4Format(value)}. It contributes ${share.toFixed(1)} percent of the ${year} tracked total and ranks number ${rank} out of 3. ${ep4MetricExplanation(metric)}`,
+    sourceId: "operatorScenario2025"
   };
 };
 const buildOperatorSliceInsight = (row, metric) => {
@@ -2119,7 +2300,8 @@ const buildOperatorSliceInsight = (row, metric) => {
     contributionLabel: `${share.toFixed(1)}% share of 2030 combined indicators`,
     contextLabel: `#${rank} of 3 in the final-year mix · ${ep4PointDeltaLabel(ep4MetricDelta(row, metric))} vs ${EP4_YEARS[0]}`,
     explanation: `${ep4MetricExplanation(metric)} This slice shows how much of ${row.label}'s 2030 indicator mix comes from ${ep4MetricLabel(metric).toLowerCase()}.`,
-    narration: `${row.label}, 2030 composition. ${ep4MetricLabel(metric)} is ${ep4Format(value)} and holds ${share.toFixed(1)} percent of the combined final-year indicators. It ranks number ${rank} out of 3. ${ep4MetricExplanation(metric)}`
+    narration: `${row.label}, 2030 composition. ${ep4MetricLabel(metric)} is ${ep4Format(value)} and holds ${share.toFixed(1)} percent of the combined final-year indicators. It ranks number ${rank} out of 3. ${ep4MetricExplanation(metric)}`,
+    sourceId: "operatorScenario2025"
   };
 };
 const showOperatorBarInsight = (host, trigger, row, metricId, yearIndex) => {
@@ -2159,6 +2341,7 @@ const renderOperatorDrilldown = (host, row) => {
     <section class="operator-stage" style="--operator-tone:${operatorTone}">
       <button class="ep4-icon-btn operator-close" type="button" aria-label="Back">${EP4_ICON_BACK}</button>
       <div class="operator-page-shell">
+        ${gsmaContextStrip("operatorScenario2025", "GSMA context")}
         <header class="operator-page-head">
           <div class="operator-page-brand">
             ${ep4Logo(row, "ep4-logo--large operator-logo")}
@@ -2299,6 +2482,7 @@ const showEp4Popup = (chartView, button, bar, bars) => {
     <div class="ep4-popup-main">${escapeHtml(bar.row.label)} · ${escapeHtml(String(bar.year))} · ${escapeHtml(bar.metric.label)}</div>
     <div class="ep4-popup-value">${escapeHtml(ep4Format(bar.value))}</div>
     <div class="ep4-popup-meta">${escapeHtml(`${contribution.toFixed(1)}% · #${rank}`)}</div>
+    <div class="ep4-popup-source">${gsmaBadge("operatorScenario2025", "GSMA context")}</div>
   `;
   popup.querySelector(".ep4-popup-close").addEventListener("click", () => hideEp4Popup(popup));
   requestAnimationFrame(() => popup.classList.add("is-visible"));
@@ -2335,6 +2519,7 @@ const renderEp4Chart = (stage, row) => {
       <button class="ep4-action-btn ep4-back-action" type="button">${escapeHtml(config.backButtonText)}</button>
     </div>
     <div class="ep4-chart-shell">
+      ${gsmaContextStrip("operatorScenario2025", "GSMA context")}
       <div class="ep4-chart-head">
         <div class="ep4-chart-brand">
           ${ep4Logo(row, "ep4-logo--large")}
@@ -2426,6 +2611,7 @@ const renderEpisodeDrilldown = (host) => {
           <button class="ep4-action-btn ep4-back-action" type="button">${escapeHtml(config.backButtonText)}</button>
         </div>
         <div class="ep4-table-shell">
+          ${gsmaContextStrip("operatorScenario2025", "GSMA context")}
           <table class="ep4-table">
             <thead>
               <tr>
@@ -2482,15 +2668,20 @@ const renderEpisodeDrilldown = (host) => {
 
 const waitForEp4ImageClick = (episode) => new Promise((resolve) => {
   let done = false;
-  const advance = () => {
-    if (done || !isExpanded || activeEpisode !== episode) return;
-    done = true;
+  if (ep4ImageClickCleanup) ep4ImageClickCleanup();
+  const cleanup = () => {
     frontFace.removeEventListener("click", onClick);
     flipCard.removeEventListener("keydown", onKeyDown);
     frontFace.removeAttribute("role");
     frontFace.removeAttribute("tabindex");
     frontFace.removeAttribute("aria-label");
     frontFace.classList.remove("is-awaiting-click");
+    ep4ImageClickCleanup = null;
+  };
+  const advance = () => {
+    if (done || !isExpanded || activeEpisode !== episode) return;
+    done = true;
+    cleanup();
     resolve();
   };
   const onClick = () => advance();
@@ -2506,6 +2697,7 @@ const waitForEp4ImageClick = (episode) => new Promise((resolve) => {
   frontFace.setAttribute("aria-label", episode.title);
   frontFace.addEventListener("click", onClick);
   flipCard.addEventListener("keydown", onKeyDown);
+  ep4ImageClickCleanup = cleanup;
   frontFace.focus({ preventScroll: true });
 });
 
@@ -2535,6 +2727,7 @@ async function openOperatorDrilldown(row, sourceCard) {
   expandedTitle.textContent = row.label;
   expandedDate.textContent = "2025-2030";
   expandedDate.dateTime = "";
+  setReaderSourceBadge("operatorScenario2025");
   markdownBody.replaceChildren();
   markdownBody.dataset.highlighting = "false";
   pendingEstimatedHighlight = false;
@@ -2590,6 +2783,7 @@ async function openEpisode(episode, sourceCard) {
   expandedTitle.textContent = episode.title;
   expandedDate.textContent = episode.date || "";
   expandedDate.dateTime = episode.date || "";
+  setReaderSourceBadge(episodeGsmaSource(episode));
   markdownBody.innerHTML = drilldownMode ? "" : `<p>${escapeHtml(config.loadingText)}</p>`;
   markdownBody.dataset.highlighting = "false";
   pendingEstimatedHighlight = false;
@@ -2634,6 +2828,7 @@ async function openEpisode(episode, sourceCard) {
   }
   flipCard.classList.add("flipped");
   markdownBody.innerHTML = await htmlPromise;
+  prependEpisodeGsmaContext(episode);
   const timing = await timingPromise;
   await waitForAudioDuration();
   if (timing.length) {
@@ -2651,9 +2846,11 @@ async function openEpisode(episode, sourceCard) {
 async function closeEpisode(restoreFocus = true) {
   if (!isExpanded || isClosing || !activeSourceCard) return;
   isClosing = true;
+  hideGsmaSource();
   hideOperatorInsight(markdownBody, false);
   clearTimeout(ep4DrilldownTimer);
   ep4DrilldownTimer = null;
+  if (ep4ImageClickCleanup) ep4ImageClickCleanup();
   clearTimeout(closeAudioTimer);
   audio.pause();
   audio.currentTime = 0;
@@ -2688,10 +2885,7 @@ async function closeEpisode(restoreFocus = true) {
   document.body.classList.remove("modal-lock");
   setBackgroundInert(false);
   flipCard.dataset.episodeMode = "";
-  frontFace.classList.remove("is-awaiting-click");
-  frontFace.removeAttribute("role");
-  frontFace.removeAttribute("tabindex");
-  frontFace.removeAttribute("aria-label");
+  clearReaderSourceBadge();
   markdownBody.classList.remove("interactive-host");
   markdownBody.replaceChildren();
   frontFace.replaceChildren();
@@ -2850,6 +3044,11 @@ flipLayer.addEventListener("touchend", (event) => {
 
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") {
+    const gsmaPopup = document.querySelector("#gsmaSourcePopover");
+    if (gsmaPopup && !gsmaPopup.hidden) {
+      hideGsmaSource();
+      return;
+    }
     if (lightbox.classList.contains("active")) {
       closeQuickView();
       return;
@@ -2881,6 +3080,32 @@ document.addEventListener("keydown", (event) => {
     }
   }
 });
+
+document.addEventListener("click", (event) => {
+  const target = event.target instanceof Element ? event.target : event.target?.parentElement;
+  const trigger = target?.closest("[data-gsma-source]");
+  if (trigger) {
+    event.preventDefault();
+    event.stopPropagation();
+    showGsmaSource(trigger);
+    return;
+  }
+
+  const popup = document.querySelector("#gsmaSourcePopover");
+  if (popup && !popup.hidden && target && !popup.contains(target)) {
+    hideGsmaSource();
+  }
+}, true);
+
+document.addEventListener("keydown", (event) => {
+  if (event.key !== "Enter" && event.key !== " ") return;
+  const target = event.target instanceof Element ? event.target : event.target?.parentElement;
+  const trigger = target?.closest("[data-gsma-source]");
+  if (!trigger) return;
+  event.preventDefault();
+  event.stopPropagation();
+  showGsmaSource(trigger);
+}, true);
 
 const syncExpandedPosition = () => {
   resizeFrame = null;

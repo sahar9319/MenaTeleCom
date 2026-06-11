@@ -460,6 +460,236 @@ a:focus-visible {
   white-space: nowrap;
 }
 
+.gsma-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  min-height: 28px;
+  padding: 0 10px;
+  border: 1px solid color-mix(in srgb, #de002b 34%, rgba(18, 58, 76, 0.14));
+  border-radius: 999px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.94), color-mix(in srgb, #de002b 7%, white));
+  box-shadow: 0 8px 18px rgba(31, 45, 58, 0.11);
+  color: color-mix(in srgb, #ba0326 78%, var(--ink));
+  font-size: 0.68rem;
+  font-weight: 950;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.gsma-badge::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  margin-right: 7px;
+  border-radius: 999px;
+  background: #de002b;
+  box-shadow: 0 0 0 4px color-mix(in srgb, #de002b 14%, transparent);
+}
+
+.gsma-badge:hover,
+.gsma-badge:focus-visible {
+  border-color: color-mix(in srgb, #de002b 58%, rgba(18, 58, 76, 0.14));
+  box-shadow: 0 12px 24px rgba(31, 45, 58, 0.16);
+}
+
+.gsma-derived {
+  position: relative;
+  display: inline;
+  padding: 0.08em 0.22em;
+  border-radius: 0.42em;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, #de002b 10%, transparent), color-mix(in srgb, #d9a441 20%, transparent));
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  color: color-mix(in srgb, var(--ink) 88%, #ba0326);
+  outline: 1px solid color-mix(in srgb, #de002b 18%, transparent);
+  outline-offset: 2px;
+}
+
+p.gsma-derived,
+li.gsma-derived,
+h1.gsma-derived,
+h2.gsma-derived,
+h3.gsma-derived,
+small.gsma-derived,
+.gsma-source-strip .gsma-derived,
+.gsma-source-popover .gsma-derived {
+  display: block;
+}
+
+.gsma-derived::after {
+  content: "GSMA";
+  display: inline-flex;
+  align-items: center;
+  min-height: 18px;
+  margin-left: 0.48em;
+  padding: 0 0.42em;
+  border-radius: 999px;
+  background: color-mix(in srgb, #de002b 12%, white);
+  color: color-mix(in srgb, #ba0326 82%, var(--ink));
+  font-size: 0.62em;
+  font-weight: 950;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  vertical-align: 0.08em;
+}
+
+.market-stat .gsma-derived,
+.workstream-card .gsma-derived {
+  margin-top: 8px;
+}
+
+.markdown-body .gsma-derived {
+  margin: 0.65em 0;
+  padding: 0.42em 0.62em;
+  border-left: 4px solid #de002b;
+  border-radius: 0 0.58em 0.58em 0;
+  background:
+    linear-gradient(90deg, color-mix(in srgb, #de002b 12%, transparent), transparent 82%),
+    color-mix(in srgb, #d9a441 8%, white);
+}
+
+.card-source {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  z-index: 5;
+}
+
+.reader-source-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.gsma-source-strip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 14px;
+  padding: 10px 12px;
+  border: 1px solid rgba(18, 58, 76, 0.1);
+  border-radius: 12px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.84), color-mix(in srgb, var(--secondary) 7%, white));
+  box-shadow: 0 10px 24px rgba(21, 45, 54, 0.08);
+}
+
+.gsma-source-strip span {
+  min-width: 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 760;
+  line-height: 1.45;
+}
+
+.gsma-source-popover {
+  position: fixed;
+  z-index: 90;
+  width: min(370px, calc(100vw - 24px));
+  padding: 17px 17px 15px;
+  border: 1px solid rgba(18, 58, 76, 0.14);
+  border-radius: 14px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 252, 250, 0.96));
+  box-shadow: 0 24px 54px rgba(16, 37, 44, 0.24);
+  opacity: 0;
+  transform: translateY(8px) scale(0.98);
+  transition: opacity 150ms var(--ease), transform 150ms var(--ease);
+}
+
+.gsma-source-popover.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.gsma-source-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  aspect-ratio: 1;
+  border-radius: 999px;
+  background: rgba(18, 58, 76, 0.06);
+  color: var(--ink);
+}
+
+.gsma-source-close svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.3;
+}
+
+.gsma-source-kicker {
+  display: block;
+  padding-right: 38px;
+  color: #ba0326;
+  font-size: 0.72rem;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.gsma-source-popover strong {
+  display: block;
+  margin-top: 6px;
+  padding-right: 30px;
+  color: var(--ink);
+  font-size: 1.02rem;
+  font-weight: 930;
+  line-height: 1.24;
+}
+
+.gsma-source-popover p {
+  margin: 11px 0 0;
+  color: var(--ink);
+  font-size: 0.9rem;
+  font-weight: 760;
+  line-height: 1.55;
+}
+
+.gsma-source-popover small {
+  display: block;
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.gsma-source-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 13px;
+}
+
+.gsma-source-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 10px;
+  border: 1px solid rgba(18, 58, 76, 0.1);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.78);
+  color: color-mix(in srgb, var(--primary) 78%, #ba0326);
+  font-size: 0.76rem;
+  font-weight: 900;
+  text-decoration: none;
+}
+
 .view-panel {
   opacity: 1;
   transform: translate3d(0, 0, 0);
@@ -1088,6 +1318,17 @@ a:focus-visible {
   table-layout: fixed;
 }
 
+.ep4-table-shell .gsma-source-strip {
+  position: sticky;
+  left: 0;
+  width: auto;
+  min-width: 760px;
+  margin: 0;
+  border-width: 0 0 1px;
+  border-radius: 0;
+  box-shadow: none;
+}
+
 .ep4-table th,
 .ep4-table td {
   padding: 18px 20px;
@@ -1252,8 +1493,12 @@ a:focus-visible {
   height: min(720px, calc(100% - 88px));
   min-height: 420px;
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-rows: auto auto minmax(0, 1fr);
   gap: 18px;
+}
+
+.ep4-chart-shell .gsma-source-strip {
+  margin-bottom: 0;
 }
 
 .ep4-chart-head {
@@ -1464,6 +1709,20 @@ a:focus-visible {
   font-size: 0.86rem;
   font-weight: 780;
   font-variant-numeric: tabular-nums;
+}
+
+.ep4-popup-source {
+  margin-top: 9px;
+}
+
+.ep4-popup-source .gsma-badge {
+  min-height: 24px;
+  padding: 0 8px;
+  border-color: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: none;
+  color: #fff;
+  font-size: 0.62rem;
 }
 
 .ep4-popup-close {
@@ -2931,6 +3190,10 @@ body::before {
   font-variant-numeric: tabular-nums;
 }
 
+.market-stat .gsma-badge {
+  margin-top: 12px;
+}
+
 .workstream-section {
   display: grid;
   gap: 18px;
@@ -2993,6 +3256,10 @@ body::before {
   color: var(--muted);
   font-size: 0.92rem;
   line-height: 1.64;
+}
+
+.workstream-card .gsma-badge {
+  margin-top: 14px;
 }
 
 .episodes-head {
@@ -3914,6 +4181,10 @@ body::before {
   position: relative;
 }
 
+.operator-page-shell > .gsma-source-strip {
+  margin: 0 0 16px;
+}
+
 .operator-insight-popup {
   position: absolute;
   right: 18px;
@@ -4066,6 +4337,10 @@ body::before {
   color: var(--muted);
   font-size: 0.85rem;
   line-height: 1.58;
+}
+
+.operator-insight-source {
+  margin-top: 12px;
 }
 
 .operator-insight-replay {
@@ -4370,6 +4645,21 @@ body::before {
     min-height: 44px;
     padding: 0 14px;
     font-size: 0.82rem;
+  }
+
+  .card-source {
+    top: 14px;
+    left: 14px;
+  }
+
+  .gsma-source-strip {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .reader-source-row {
+    margin-top: 6px;
   }
 
   .market-reel-shell {
